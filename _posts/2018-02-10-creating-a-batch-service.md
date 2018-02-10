@@ -1,7 +1,9 @@
 ---
 layout: post
-title: Criando um serviço batch 
-image: /img/path.jpg
+title: Criando um serviço batch
+subtitle:
+image: /img/avatar.jpeg
+bigimg: /img/path.jpg
 tags: [spring, spring-framework, spring-boot, spring-batch, batch, java]
 ---
 
@@ -60,7 +62,8 @@ CREATE TABLE autobot  (
 );
 ```
 
->Spring Boot executa `schema-@@platform@@.sql` automaticamente durante a inicialização. `-all` é o padrão para todas as plataformas.
+{: .box-note}
+**Note:** Spring Boot executa `schema-@@platform@@.sql` automaticamente durante a inicialização. `-all` é o padrão para todas as plataformas.
 
 ### Criando a classe de negócio
 Agora que sabemos o formato de entrada e saída, escreveremos uma classe que represente cada linha de dados.
@@ -129,6 +132,7 @@ public class AutobotItemProcessor implements ItemProcessor<Autobot, Autobot> {
 `AutobotItemProcessor` implementa a interface `ItemProcessor` do Spring Batch. Isto torna mais fácil ligar o código à um processamento batch que iremos definir mais à frente nesse tutorial. De acordo com a interface, você recebe um objeto do tipo 
 `Autobot` e depois transforma os dados para maiúsculo retornando novamente um objeto do tipo `Autobot`.
  
->Não é obrigatório que os objetos de entrada e saída sejam do mesmo tipo. Na verdade, muitas vezes as aplicações necessitam que o objeto de saída seja diferente do de entrada.
+ {: .box-note}
+**Note:** Não é obrigatório que os objetos de entrada e saída sejam do mesmo tipo. Na verdade, muitas vezes as aplicações necessitam que o objeto de saída seja diferente do de entrada.
 
 ### Criando o processamento batch
