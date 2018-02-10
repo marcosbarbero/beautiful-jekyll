@@ -45,7 +45,7 @@ Hot Rod,Cybertronian Race Car
 Kup,Cybertronian Pickup Truck
 ```
 
-Essa planilha contém o nome do Autobot e o carro em que ele se transforma, separados por vírgula.
+Essa planilha contém o nome do [Autobot](https://ipfs.io/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/List_of_Autobots.html) e o carro em que ele se transforma, separados por vírgula.
 Este é um padrão muito comum que o [Spring Framework](https://spring.io/) consegue lidar, como você poderá ver.
 
 O próximo passo é escrever um script SQL para armazenar os dados.
