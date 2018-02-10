@@ -205,7 +205,7 @@ exclude:
   - Gemfile.lock
   - LICENSE
   - README.md
-  - Vagrantfile
+  # - Vagrantfile
 
 # prose.io config
 prose:
