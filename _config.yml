@@ -103,7 +103,7 @@ social-network-links:
 #  xing: yourname      # eg. daattali
 #  stackoverflow: yourlink  # eg. "3943160/daattali"
 #  snapchat: yourname  # eg. daattali
-  instagram: marcosbarbero # eg. daattali
+  # instagram: marcosbarbero # eg. daattali
 #  youtube: yourlink   # eg. user/daattali or channel/daattali
 #  spotify: yourname   # eg. daattali
 #  telephone: yourphone   # eg. +14159998888
@@ -205,7 +205,7 @@ exclude:
   - Gemfile.lock
   - LICENSE
   - README.md
-  # - Vagrantfile
+  - Vagrantfile
 
 # prose.io config
 prose:
