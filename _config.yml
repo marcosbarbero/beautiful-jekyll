@@ -259,8 +259,8 @@ prose:
           label: "Publish"
           help: "Check to publish post, uncheck to hide."
 
-languages: ["pt", "en"]
-exclude_from_localizations: ["javascript", "images", "css"]
+# languages: ["pt", "en"]
+# exclude_from_localizations: ["javascript", "images", "css"]
 
 plugins:
   - jekyll-paginate
