@@ -63,7 +63,7 @@ CREATE TABLE autobot  (
 ```
 
 {: .box-note}
-**Nota:** Spring Boot executa `schema-@@platform@@.sql` automaticamente durante a inicialização. `-all` é o padrão para todas as plataformas.
+Spring Boot executa `schema-@@platform@@.sql` automaticamente durante a inicialização. `-all` é o padrão para todas as plataformas.
 
 ### Criando a classe de negócio
 Agora que sabemos o formato de entrada e saída, escreveremos uma classe que represente cada linha de dados.
@@ -133,6 +133,6 @@ public class AutobotItemProcessor implements ItemProcessor<Autobot, Autobot> {
 `Autobot` e depois transforma os dados para maiúsculo retornando novamente um objeto do tipo `Autobot`.
  
  {: .box-note}
-**Nota:** Não é obrigatório que os objetos de entrada e saída sejam do mesmo tipo. Na verdade, muitas vezes as aplicações necessitam que o objeto de saída seja diferente do de entrada.
+Não é obrigatório que os objetos de entrada e saída sejam do mesmo tipo. Na verdade, muitas vezes as aplicações necessitam que o objeto de saída seja diferente do de entrada.
 
 ### Criando o processamento batch
