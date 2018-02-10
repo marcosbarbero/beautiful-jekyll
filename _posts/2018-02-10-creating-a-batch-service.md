@@ -1,9 +1,9 @@
 ---
 layout: post
 title: Criando um serviço batch
-subtitle:
-image: /img/avatar.jpeg
 bigimg: /img/path.jpg
+gh-repo: weekly-drafts/batch-service
+gh-badge: [star, fork, follow]
 tags: [spring, spring-framework, spring-boot, spring-batch, batch, java]
 ---
 
