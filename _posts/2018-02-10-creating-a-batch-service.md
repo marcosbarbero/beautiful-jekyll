@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Criando um serviço batch 
-image: /img/path.jpeg
+image: /img/path.jpg
 tags: [spring, spring-framework, spring-boot, spring-batch, batch, java]
 ---
 
