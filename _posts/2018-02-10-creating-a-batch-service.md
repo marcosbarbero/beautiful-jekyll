@@ -100,3 +100,35 @@ public class Autobot {
 ```
 
 Você pode instanciar a classe `Autobot` através do construtor adicionando nome e o carro, ou então usando os setters.
+
+### Criando um processador 
+Um paradigma comum no processamento batch é ingerir os dados, transformá-los, e então armazená-los em algum lugar. Aqui você
+escreverá um simples transformador que converte os nomes e carros para maiúsculo.
+
+`src/main/java/com/marcosbarbero/wd/batch/AutobotItemProcessor`
+
+```java
+public class AutobotItemProcessor implements ItemProcessor<Autobot, Autobot> {
+
+    private static final Logger log = LoggerFactory.getLogger(AutobotItemProcessor.class);
+
+    @Override
+    public Autobot process(Autobot autobot) throws Exception {
+        final String firstName = autobot.getName().toUpperCase();
+        final String lastName = autobot.getCar().toUpperCase();
+
+        final Autobot transformed = new Autobot(firstName, lastName);
+
+        log.info("Converting (" + autobot + ") into (" + transformed + ")");
+
+        return transformed;
+    }
+}
+```
+
+`AutobotItemProcessor` implementa a interface `ItemProcessor` do Spring Batch. Isto torna mais fácil ligar o código à um processamento batch que iremos definir mais à frente nesse tutorial. De acordo com a interface, você recebe um objeto do tipo 
+`Autobot` e depois transforma os dados para maiúsculo retornando novamente um objeto do tipo `Autobot`.
+ 
+>Não é obrigatório que os objetos de entrada e saída sejam do mesmo tipo. Na verdade, muitas vezes as aplicações necessitam que o objeto de saída seja diferente do de entrada.
+
+### Criando o processamento batch
