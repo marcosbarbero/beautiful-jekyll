@@ -7,4 +7,4 @@ gem "github-pages", '163', group: :jekyll_plugins
 gem 'jekyll-paginate'
 
 # Enable multi language
-gem 'jekyll-multiple-languages-plugin'
+gem "jekyll-polyglot"

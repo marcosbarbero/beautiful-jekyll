@@ -5,6 +5,7 @@ bigimg: /img/path.jpg
 gh-repo: weekly-drafts/batch-service
 gh-badge: [star, fork, follow]
 tags: [spring, spring-framework, spring-boot, spring-batch, batch, java]
+lang: pt
 ---
 
 Esse tutorial te guiará no processo de criação de uma solução de processamento batch.

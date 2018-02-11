@@ -2,6 +2,7 @@
 layout: page
 title: About me
 subtitle: Random information
+lang: en
 ---
 
 Hi, my name is Marcos Barbero, I'm originally from Brazil and currently I'm living in The Netherlands. 
