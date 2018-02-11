@@ -193,17 +193,13 @@ public class BatchConfiguration {
         FlatFileItemReader<Autobot> reader = new FlatFileItemReader<>();
         reader.setResource(new ClassPathResource("sample-data.csv"));
         reader.setLineMapper(new DefaultLineMapper<Autobot>() {
-            {
-            setLineTokenizer(new DelimitedLineTokenizer() {
-                {
-                setNames(new String[]{"name", "car"});
-                }
-            });
-            setFieldSetMapper(new BeanWrapperFieldSetMapper<Autobot>() {
-                {
-                setTargetType(Autobot.class);
-                }
-            });
+            { 
+                setLineTokenizer(new DelimitedLineTokenizer() {
+                    { setNames(new String[]{"name", "car"}); }
+                });
+                setFieldSetMapper(new BeanWrapperFieldSetMapper<Autobot>() {
+                    { setTargetType(Autobot.class); }
+                });
             }
         });
         return reader;
