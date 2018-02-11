@@ -32,8 +32,8 @@
 .highlight .nc { color: #445588; font-weight: bold } /* Name.Class */
 .highlight .no { color: #008080 } /* Name.Constant */
 .highlight .ni { color: #800080 } /* Name.Entity */
-.highlight .ne { color: #990000; font-weight: bold } /* Name.Exception */
-.highlight .nf { color: #990000; font-weight: bold } /* Name.Function */
+.highlight .ne { color: #606; } /* Name.Exception */
+.highlight .nf { color: #606; } /* Name.Function */
 .highlight .nn { color: #555555 } /* Name.Namespace */
 .highlight .nt { color: #000080 } /* Name.Tag */
 .highlight .nv { color: #008080 } /* Name.Variable */
@@ -59,6 +59,7 @@
 .highlight .vg { color: #008080 } /* Name.Variable.Global */
 .highlight .vi { color: #008080 } /* Name.Variable.Instance */
 .highlight .il { color: #009999 } /* Literal.Number.Integer.Long */
+.highlight .nd { color: #066 }
 code.highlighter-rouge { padding: 2px 4px; font-size: 90%; color: #305CB5; background-color: #f7f7f9; border-radius: 4px; border: 1px solid #e1e1e8; }
 
 /* Make line numbers unselectable: excludes line numbers from copy-paste user ops */
