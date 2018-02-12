@@ -4,7 +4,7 @@
 # baseurl is the website's URL without the hostname
 
 # If you are building a simple GitHub user page (http://username.github.io) then use these settings:
-url: "http://marcosbarbero.com"
+url: "http://blog.marcosbarbero.com"
 baseurl: ""
 
 # If you are building a GitHub project page then use these settings:
@@ -28,7 +28,7 @@ navbar-links:
 #    - Beautiful Jekyll: "http://deanattali.com/beautiful-jekyll/"
 #    - Learn markdown: "http://www.markdowntutorial.com/"
 #    - GitHub Pages: "https://pages.github.com/"
-  Blog: "http://marcosbarbero.com"
+  Blog: "http://blog.marcosbarbero.com"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
@@ -140,7 +140,7 @@ share-links-active:
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
-url-pretty: "marcosbarbero.com"  # eg. "deanattali.com/beautiful-jekyll"
+url-pretty: "blog.marcosbarbero.com"  # eg. "deanattali.com/beautiful-jekyll"
 
 # --- Web Statistics Section --- #
 
