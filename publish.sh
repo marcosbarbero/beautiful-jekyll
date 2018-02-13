@@ -1,7 +1,12 @@
-git checkout develop
 rm -rf _site/
 jekyll build
-git add --all
-git commit -m "`date`"
-# git push origin develop
-git subtree push --prefix  _site/ origin gh-pages
+
+cp CNAME _site/CNAME
+
+git branch -D master
+git checkout develop
+
+git subtree split --prefix _site -b master
+git push -f origin master:master
+
+git branch -D master

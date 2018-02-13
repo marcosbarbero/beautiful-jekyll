@@ -229,6 +229,7 @@ prose:
     - /css
     - /img
     - /js
+    - publish.sh
   metadata:
     _posts:
       - name: "layout"
