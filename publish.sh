@@ -2,7 +2,7 @@ rm -rf _site/
 bundle exec jekyll build
 
 git fetch --all
-git push origin --delete master
+# git push origin --delete master
 git branch -D master
 
 git checkout develop
