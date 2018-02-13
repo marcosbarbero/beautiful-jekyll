@@ -11,18 +11,18 @@ lang: en
 
 This tutorial will guide you in the process to create a batch processing solution.
 
-### O que você irá criar
-Você irá construir um serviço que importa os dados de uma planilha CSV, transforma em um objeto java e
-armazena em um banco de dados SQL.
+### What you will build
+You will build a service that imports a CSV spreadsheet, transform it in a Java object and
+stores in a SQL database.
 
-### Pré-requisitos
+### Pre-req
   
   - [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-  - Editor de texto ou tua IDE favorita.
+  - Text editor or your favorite IDE
   - [Maven 3.0+](https://maven.apache.org/download.cgi)
 
-### Dados para o processamento
-Para esse tutorial estou usando a seguinte planilha:  
+### Processing data
+For this tutorial I'm using the following spreadsheet:
 
 `src/main/resources/sample-data.csv`
 
@@ -47,10 +47,10 @@ Hot Rod,Cybertronian Race Car
 Kup,Cybertronian Pickup Truck
 ```
 
-Essa planilha contém o nome do [Autobot](https://ipfs.io/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/List_of_Autobots.html) e o carro em que ele se transforma, separados por vírgula.
-Este é um padrão muito comum que o [Spring Framework](https://spring.io/) consegue lidar, como você poderá ver.
+This spreadsheet contains the name of a [Autobot](https://ipfs.io/ipfs/QmXoypizjW3WknFiJnKLwHCnL72vedxjQkDDP1mXWo6uco/wiki/List_of_Autobots.html) and the car that it transforms itself, comma delimited.
+This is a very common pattern that [Spring Framework](https://spring.io/) handles.
 
-O próximo passo é escrever um script SQL para armazenar os dados.
+The next step you'll write a SQL script with the schema definition to store the data.
 
 `src/main/resources/schema-all.sql`
 
@@ -65,10 +65,11 @@ CREATE TABLE autobot  (
 ```
 
 {: .box-note}
-Spring Boot executa `schema-@@platform@@.sql` automaticamente durante a inicialização. `-all` é o padrão para todas as plataformas.
+Spring Boot automatically executes `schema-@@platform@@.sql` during its initialization. `-all` is the pattern for all the
+platforms.
 
-### Criando a classe de negócio
-Agora que sabemos o formato de entrada e saída, escreveremos uma classe que represente cada linha de dados.
+### Creating your business class
+Now that we now the input and output format we will write a class that represents each data line.
 
 `src/main/java/com/marcosbarbero/wd/batch/Autobot`
 
@@ -104,11 +105,11 @@ public class Autobot {
 }
 ```
 
-Você pode instanciar a classe `Autobot` através do construtor adicionando nome e o carro, ou então usando os setters.
+You can instantiate the class `Autobot` using the constructor adding `name` and the `car`, otherwise using the setters.
 
-### Criando um processador 
-Um paradigma comum no processamento batch é ingerir os dados, transformá-los, e então armazená-los em algum lugar. Aqui você
-escreverá um simples transformador que converte os nomes e carros para maiúsculo.
+### Creating a processor
+A common paradigm in batch processing is data ingest, transform, and then store it somewhere. Here you will write a
+simple transformer that converts the data to uppercase.
 
 `src/main/java/com/marcosbarbero/wd/batch/AutobotItemProcessor`
 
@@ -137,15 +138,13 @@ public class AutobotItemProcessor implements ItemProcessor<Autobot, Autobot> {
 }
 ```
 
-`AutobotItemProcessor` implementa a interface `ItemProcessor` do Spring Batch. Isto torna mais fácil ligar o código à um processamento batch que iremos definir mais à frente nesse tutorial. De acordo com a interface, você recebe um objeto do tipo 
-`Autobot` e depois transforma os dados para maiúsculo retornando novamente um objeto do tipo `Autobot`.
+`AutobotItemProcessor` implements interface `ItemProcessor` from Spring Batch. It makes easier to link the code to a batch process that we will define further in this tutorial. According to the interface, you receive an incoming `Autobot` object, after which you transform it to an upper-cased `Autobot`.
  
  {: .box-note}
-Não é obrigatório que os objetos de entrada e saída sejam do mesmo tipo. Na verdade, muitas vezes as aplicações necessitam que o objeto de saída seja diferente do de entrada.
+There is no requirement that the input and output types be the same. In fact, after one source of data is read, sometimes the application’s data flow needs a different data type.
 
 ### Criando o processamento batch
-Spring Batch provê muitas classes utilitárias que reduzem a necessidade de escrever código customizado.
-Ao invés disso você pode focar na lógica de negócio
+Spring Batch provides many utility classes that reduce the need to write custom code. Instead, you can focus on the business logic.
 
 `src/main/java/com/marcosbarbero/wd/batch/BatchConfiguration`
 
@@ -246,11 +245,9 @@ public class BatchConfiguration {
 ```
 
 {: .box-note}
-A anotação `@EnableBatchProcessing` adiciona vários beans críticos para suportar a criação dos `batch jobs` e te ajuda a não 
-escrever muitas linhas de código. Esse examplo usa um banco de dados em memória, isso quer dizer que quando o processo termina
-os dados se perdem.
+The @EnableBatchProcessing annotation adds many critical beans that support jobs and saves you a lot of leg work. This example uses a memory-based database (provided by @EnableBatchProcessing), meaning that when it’s done, the data is gone.
 
-Passo a passo:
+Step by step:
 
 `src/main/java/com/marcosbarbero/wd/batch/BatchConfiguration`
 
@@ -291,10 +288,11 @@ Passo a passo:
     }
 ```
 
-A primeira parte do código define a entrada, processamento e saída. - `reader()` cria um `ItemReader`. Ele procura por um
-arquivo chamado `sample-data.csv` e converte cada linha em um `Autobot` - `processor()` cria uma instancia do nosso 
-`AutobotItemProcessor` que foi definido anteriormente, para transformar os dados para maiúsculo. - `write(DataSource)` cria
-um `ItemWriter`. Esse tem como foco a inserção de dados JDBC.
+The first chunk of code defines the input, processor, and output. - `reader()` creates an `ItemReader`. It looks for a file called `sample-data.csv` and parses each line item with enough information to turn it into a `Autobot` - `processor()` creates an instance of our`AutobotItemProcessor` that was defined earlier, meant to uppercase the data. - `write(DataSource)` creates
+an `ItemWriter`.
+
+The next chunk focuses on the actual job configuration.
+
 
 `src/main/java/com/marcosbarbero/wd/batch/BatchConfiguration`
 
@@ -320,19 +318,15 @@ um `ItemWriter`. Esse tem como foco a inserção de dados JDBC.
     }
 ```
 
-O primeiro método define um processo (job) e o segundo define um passo (step). Processos são construídos à partir de passos,
-onde cada passo envolve um `reader`, `processor` e um `writer`.
+The first method defines the job and the second one defines a single step. Jobs are built from steps, where each step can involve a `reader`, a `processor`, and a `writer`.
 
-Na definição desse processo, você precisa de um `incrementer` porque `processos` usam um banco de dados para manter o estado
-de execução. Você então lista cada passo, esse processo tem apenas um passo. O processo termina, e a API Java produz um 
-processo perfeitamente configurado.
+In this job definition, you need an `incrementer` because jobs use a database to maintain execution state. You then list each step, of which this job has only one step. The job ends, and the Java API produces a perfectly configured job.
 
-Na definição do passo (step), você definite quantos dados quer escrever ao mesmo tempo. Nesse caso, a aplicação escreve até 10 registros ao mesmo tempo. Depois você configura o `reader`, `processor` e `writer` injetando os métodos definidos mais cedo 
-nesse tutorial.
+In the step definition, you define how much data to write at a time. In this case, it writes up to ten records at a time. Next, you configure the `reader`, `processor`, and `writer` using the injected bits from earlier.
+
 
 {: .box-note}
-`chunk()` está prefixado <Autobot, Autobot>  porque ele é um método genérico. Ele representa os tipos de entrada e saída de
-cada "chunk" de processamento, e se alinha com `ItemReader<Autobot>` e `ItemWriter<Autobot>`.
+`chunk()` is prefixed <Autobot, Autobot> because its a generic method. This represents the input and output types for each "chunk" of processing,  and lines up with `ItemReader<Autobot>` and `ItemWriter<Autobot>`.
 
 `src/main/java/com/marcosbarbero/wd/batch/JobCompletionNotificationListener`
 
@@ -377,25 +371,23 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 }
 ```	
 
-Esse código executa quando o processamento está com o status `BatchStatus.COMPLETED`, e então usa o `JdbcTemplate` para
-verificar os resultados.
 
-### Executando
-Esse projeto foi construído usando [Spring Boot](https://projects.spring.io/spring-boot/), para executá-lo basta compilar o
-código com o seguinte comando:
+This code listens for when the job has its status as `BatchStatus.COMPLETED`, and then uses `JdbcTemplate` to verify the results.
 
+### Running
+This project was built using [Spring Boot](https://projects.spring.io/spring-boot/), to run it just execute the following commands:
+
+`Build`
 ```bash
 $ ./mvnw clean package
 ```
 
-E então executá-lo com o seguinte comando:
-
+`Run`
 ```bash
 $ java -jar target/batch-service-0.0.1-SNAPSHOT.jar
 ```
 
-O processo imprime uma linha para cada autobot que é transformado. Depois que o processo termina você também pode ver a saída
-a partir da busca ao banco de dados.
+The process prints one line for each `autobo` that was tranformed.
 
 ```bash
 Converting (Autobot{name='Optimus Prime', car='Freightliner FL86 COE Semi-trailer Truck'}) into (Autobot{name='OPTIMUS PRIME', car='FREIGHTLINER FL86 COE SEMI-TRAILER TRUCK'})
@@ -418,11 +410,11 @@ Found <Autobot{name='PROWL', car='NISSAN 280ZX POLICE CAR'}> in the database.
 ```
 
 {: .box-note}
-Os dados acima estão divergentes entre `entrada` e `saída` porque eu removi alguns dados para facilitar a leitura.
+The data above is just a snapshot from the real result just to facilitate the read.
 
-### Sumário
-Parabéns! Você acabou de construir um processo batch que lê dados de uma planilha, processa e escreve no banco de dados.
+### Summary
+Congratulations! You just created a batch process that `read`, `transform` and `write` the data in a database.
 
-#### Nota de rodapé
- - Esse tutorial foi criado baseando-se no seguinte link: [Creating a Batch Service](https://spring.io/guides/gs/batch-processing/)
- - O código desse tutorial está disponível no [github](https://github.com/weekly-drafts/batch-service)
+#### Footnote
+ - This tutorial was created based in the following link: [Creating a Batch Service](https://spring.io/guides/gs/batch-processing/)
+ - The code used for this tutorial can be found on [github](https://github.com/weekly-drafts/batch-service)
