@@ -267,7 +267,7 @@ prose:
           help: "Check to publish post, uncheck to hide."
 
 languages: ["en", "pt_BR"]
-default-lang: "en"
+default_lang: "en"
 exclude_from_localization: ["javascript", "images", "css"]
 parallel_localization: true
 
