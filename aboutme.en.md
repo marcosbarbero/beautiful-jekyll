@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About me
-subtitle: I create things and I bog about it... sometimes.
+subtitle: I create things and I blog about it... sometimes.
 lang: en
 permalink: /about/
 ---
