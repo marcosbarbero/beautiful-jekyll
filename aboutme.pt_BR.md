@@ -1,12 +1,14 @@
 ---
 layout: page
-title: About me
-subtitle: Random information
+title: Sobre mim
+subtitle: Eu crio coisas e escrevo sobre isso... às vezes.
 lang: pt_BR
 permalink: /about/
 ---
 
-Hi, my name is Marcos Barbero, I'm originally from Brazil and currently I'm living in The Netherlands. 
-I'm a software engineer working mostly with Java since 2005-ish.  
+Oi, meu nome é Marcos Barbero. Sou um programador Java e atualmente vivo na Holanda.
 
-Articles published on this blog are my personal opinion and mine alone. They do in no way reflect the opinions and/or strategies of my employer and/or clients. Should you feel personally offended by an articles or wish to point out incorrect facts, feel free to contact me through a PM on [LinkedIn](https://www.linkedin.com/in/marcosbarbero/). I'd be happy to discuss it.
+Artigos publicados nesse blog são minha opinião pessoal e só minha. Eles de modo algum refletem as opiniões e/ou estratégias
+do meu empregador e/ou clients. Se você se sentiu pessoalmente ofendido por um dos artigos ou deseja apontar algum fato 
+incorreto, sinta-se livre para entrar em contato comigo através do [LinkedIn](https://www.linkedin.com/in/marcosbarbero/). 
+Ficarei feliz em discutir o assunto.
