@@ -23,11 +23,13 @@
         {% if written contains node.title %}
           {% continue %}
         {% endif %}
-        {% if node.title != null and node.title == 'About me' %}
-          {% if node.layout == "page" %}
-            <li>
-              <a href="{{site.baseurl}}{{ node.url }}">{{ node.title }}</a>
-            </li>
+        {% if node.title != null %}
+          {% if node.title == 'About me' or node.title == 'Sobre mim' %}
+            {% if node.layout == "page" %}
+              <li>
+                <a href="{{site.baseurl}}{{ node.url }}">{{ node.title }}</a>
+              </li>
+            {% endif %}
           {% endif %}
         {% endif %}
       {% endfor %}
