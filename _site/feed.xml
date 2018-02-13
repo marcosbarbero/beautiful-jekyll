@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Marcos Barbero's Blog</title>
-    <description>{&quot;en&quot;=&gt;&quot;I create things and I bog about it... sometimes.&quot;, &quot;pt_BR&quot;=&gt;&quot;Eu crio coisas e escrevo sobre isso... às vezes.&quot;}</description>
+    <description>{&quot;en&quot;=&gt;&quot;I create things and I blog about it... sometimes.&quot;, &quot;pt_BR&quot;=&gt;&quot;Eu crio coisas e escrevo sobre isso... às vezes.&quot;}</description>
     <link>http://blog.marcosbarbero.com</link>
     <atom:link href="http://blog.marcosbarbero.com/feed.xml" rel="self" type="application/rss+xml" />
     
