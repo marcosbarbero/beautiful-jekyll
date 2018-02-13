@@ -213,6 +213,7 @@ exclude:
   - LICENSE
   - README.md
   - Vagrantfile
+  - publish.sh
 
 # prose.io config
 prose:
