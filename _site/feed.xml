@@ -13,8 +13,12 @@
           This tutorial will guide you in the process to create a batch processing solution. What you will build You will build a service that imports a CSV spreadsheet, transform it in a Java object and stores in a SQL database. Pre-req JDK 1.8 Text editor or your favorite IDE Maven...
         </description>
         <pubDate>Sat, 10 Feb 2018 00:00:00 +0100</pubDate>
-        <link>http://blog.marcosbarbero.com/creating-a-batch-service/</link>
-        <guid isPermaLink="true">http://blog.marcosbarbero.com/creating-a-batch-service/</guid>
+        <link>
+          http://blog.marcosbarbero.com/creating-a-batch-service/
+        </link>
+        <guid isPermaLink="true">
+          http://blog.marcosbarbero.com/creating-a-batch-service/
+        </guid>
       </item>
     
   </channel>

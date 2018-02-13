@@ -13,8 +13,12 @@
           Esse tutorial te guiará no processo de criação de uma solução de processamento batch. O que você irá criar Você irá construir um serviço que importa os dados de uma planilha CSV, transforma em um objeto java e armazena em um banco de dados SQL. Pré-requisitos JDK 1.8 Editor de...
         </description>
         <pubDate>Sat, 10 Feb 2018 00:00:00 +0100</pubDate>
-        <link>http://blog.marcosbarbero.com/creating-a-batch-service/</link>
-        <guid isPermaLink="true">http://blog.marcosbarbero.com/creating-a-batch-service/</guid>
+        <link>
+          http://blog.marcosbarbero.com/pt_BR/creating-a-batch-service/
+        </link>
+        <guid isPermaLink="true">
+          http://blog.marcosbarbero.com/pt_BR/creating-a-batch-service/
+        </guid>
       </item>
     
   </channel>
