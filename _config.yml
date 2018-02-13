@@ -271,9 +271,9 @@ default-lang: "en"
 exclude_from_localization: ["javascript", "images", "css"]
 parallel_localization: true
 
-# plugins:
-  # - jekyll-paginate
-  # - jekyll-polyglot  
+plugins:
+  - jekyll-paginate
+  - jekyll-polyglot  
 
 # Beautiful Jekyll / Dean Attali
 # 2fc73a3a967e97599c9763d05e564189
