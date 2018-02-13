@@ -269,7 +269,7 @@ prose:
 languages: ["en", "pt_BR"]
 default_lang: "en"
 exclude_from_localization: ["javascript", "images", "css"]
-parallel_localization: false
+parallel_localization: true
 
 plugins:
   - jekyll-paginate
