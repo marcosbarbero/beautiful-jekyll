@@ -387,7 +387,7 @@ $ ./mvnw clean package
 $ java -jar target/batch-service-0.0.1-SNAPSHOT.jar
 ```
 
-The process prints one line for each `autobo` that was tranformed.
+The process prints one line for each `autobot` that was tranformed.
 
 ```bash
 Converting (Autobot{name='Optimus Prime', car='Freightliner FL86 COE Semi-trailer Truck'}) into (Autobot{name='OPTIMUS PRIME', car='FREIGHTLINER FL86 COE SEMI-TRAILER TRUCK'})
