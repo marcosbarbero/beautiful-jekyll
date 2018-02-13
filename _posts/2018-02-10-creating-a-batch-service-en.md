@@ -1,14 +1,15 @@
 ---
 layout: post
-title: Criando um serviço batch
+title: Creating a batch service
 bigimg: /img/path.jpg
 gh-repo: weekly-drafts/batch-service
 gh-badge: [star, fork, follow]
 tags: [spring, spring-framework, spring-boot, spring-batch, batch, java]
-lang: pt
+permalink: /creating-a-batch-service/
+lang: en
 ---
 
-Esse tutorial te guiará no processo de criação de uma solução de processamento batch.
+This tutorial will guide you in the process to create a batch processing solution.
 
 ### O que você irá criar
 Você irá construir um serviço que importa os dados de uma planilha CSV, transforma em um objeto java e

@@ -3,15 +3,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>{% if page.use-site-title %}{{ site.title }} {{ site.title-separator }} {{ site.description }}{% elsif page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+  {% I18n_Headers %}
+
+  <title>{% if page.use-site-title %}{{ site.title }} {{ site.title-separator }} {{ site.description[site.active_lang] }}{% elsif page.title %}{{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
+
+  <script>
+  </script>
 
   <meta name="author" content="{{ site.author.name }}" />
 
-  {% if page.subtitle %}
-  <meta name="description" content="{{ page.subtitle }}">
+  {% if site.hello[site.active_lang] %}
+  <meta name="description" content="{{ site.hello[site.active_lang] }}">
   {% endif %}
 
-  <link rel="alternate" type="application/rss+xml" title="{{ site.title }} {{ site.title-separator }} {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }} {{ site.title-separator }} {{ site.description[site.active_lang] }}" href="{{ site.baseurl }}/feed.xml" />
 
   {% include gtm_head.html %}
 
@@ -29,7 +34,7 @@
 
   {% if layout.common-googlefonts %}
     {% for font in layout.common-googlefonts %}
-      <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ font }}" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ font }}" />
     {% endfor %}
   {% endif %}
 
@@ -47,7 +52,7 @@
 
   {% if page.googlefonts %}
     {% for font in page.googlefonts %}
-      <link rel="stylesheet" href="//fonts.googleapis.com/css?family={{ font }}" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family={{ font }}" />
     {% endfor %}
   {% endif %}
 
@@ -66,8 +71,8 @@
 
    {% if page.meta-description %}
   <meta property="og:description" content="{{ page.meta-description }}">
-  {% elsif page.subtitle %}
-  <meta property="og:description" content="{{ page.subtitle }}">
+  {% elsif site.hello[site.active_lang] %}
+  <meta property="og:description" content="{{ site.hello[site.active_lang] }}">
   {% else %}
   <meta property="og:description" content="{{ page.content | strip_html | xml_escape | truncatewords: 50 }}">
   {% endif %}
@@ -105,8 +110,8 @@
 
   {% if page.meta-description %}
   <meta name="twitter:description" content="{{ page.meta-description }}">
-  {% elsif page.subtitle %}
-  <meta name="twitter:description" content="{{ page.subtitle }}">
+  {% elsif site.hello[site.active_lang] %}
+  <meta name="twitter:description" content="{{ site.hello[site.active_lang] }}">
   {% else %}
   <meta name="twitter:description" content="{{ page.content | strip_html | xml_escape | truncatewords: 50 }}">
   {% endif %}

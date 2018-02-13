@@ -16,6 +16,24 @@
 
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav navbar-right">
+
+      {% assign pages_list = site.pages %}
+        {% assign written = "" | split: '' %}
+        {% for node in pages_list %}
+        {% if written contains node.title %}
+          {% continue %}
+        {% endif %}
+        {% if node.title != null and node.title == 'About me' %}
+          {% if node.layout == "page" %}
+            <li>
+              <a href="{{site.baseurl}}{{ node.url }}">{{ node.title }}</a>
+            </li>
+          {% endif %}
+          {% assign written = written | push: node.title %}
+        {% endif %}
+      {% endfor %}
+
+
       {% for link in site.navbar-links %}
         {% if link[1].first %}
           <li class="navlinks-container">
@@ -33,6 +51,14 @@
             {% include navbarlink.html link=link %}
           </li>
         {% endif %}
+        {% endfor %}
+
+        {% for tongue in site.languages %}
+        <li>
+          <a href="{% if tongue == site.default_lang %} {{site.baseurl}}{{page.url}} {% else %} {{site.baseurl}}/{{ tongue }}{{page.url}} {% endif %}">
+            <img src="{{ site.baseurl }}/img/blank.gif" class="flag {% if tongue == 'pt_BR' %} flag-br {% else %} flag-us {% endif %}" />
+          </a>
+        </li>
         {% endfor %}
       </ul>
     </div>
