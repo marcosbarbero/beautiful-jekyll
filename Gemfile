@@ -7,5 +7,5 @@ group :jekyll_plugins do
   gem 'jekyll-paginate'
 
   # Enable multi language
-  gem "jekyll-polyglot"
+  # gem "jekyll-polyglot"
 end	
