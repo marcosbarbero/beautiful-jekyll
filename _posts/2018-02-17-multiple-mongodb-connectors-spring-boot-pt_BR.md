@@ -148,7 +148,7 @@ anteriormente.
 No passo anterior nós criamos dois `MongoTemplate`s, `primaryMongoTemplate` e `secondaryMongoTemplate`. Nessa sessão nós
 criaremos alguns modelos de dados e faremos tudo funcionar.
 
-### Creating the data model and repositories
+### Criando os modelos de dados e os repositórios
 Primeiro nós precisamos criar dois modelos de dados para acessar duas `collections` diferentes.
 
 `src/main/java/com/marcosbarbero/wd/multiplemongo/repository/primary/PrimaryModel`
