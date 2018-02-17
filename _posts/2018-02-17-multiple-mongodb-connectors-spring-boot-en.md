@@ -185,7 +185,7 @@ public class PrimaryModel {
 
 `src/main/java/com/marcosbarbero/wd/multiplemongo/repository/secondary/SecondaryModel`
 
-```
+```java
 package com.marcosbarbero.wd.multiplemongo.repository.secondary;
 
 import org.springframework.data.annotation.Id;
