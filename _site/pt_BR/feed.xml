@@ -10,7 +10,7 @@
         <title>Conectando multiplos MongoDBs usando Spring Boot</title>
         <description>
           
-          Esse tutorial te guiará no processo de conectar uma aplicação com multiplos MongoDBs. What you will build Você construirá uma aplicação que se conecta à multiplos MongoDBs. Pre-req JDK 1.8 Editor de texto ou sua IDE favorita Maven 3.0+ MongoDB O projeto de examplo usa Project Lombok para gerar getters,...
+          Esse tutorial te guiará no processo de conectar uma aplicação com multiplos MongoDBs. O que você construirá Você construirá uma aplicação que se conecta à multiplos MongoDBs. Pre-req JDK 1.8 Editor de texto ou sua IDE favorita Maven 3.0+ MongoDB O projeto de examplo usa Project Lombok para gerar getters,...
         </description>
         <pubDate>Sat, 17 Feb 2018 00:00:00 +0100</pubDate>
         <link>

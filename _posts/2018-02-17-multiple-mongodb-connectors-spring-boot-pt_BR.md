@@ -11,7 +11,7 @@ lang: pt_BR
 
 Esse tutorial te guiará no processo de conectar uma aplicação com multiplos [`MongoDBs`](https://www.mongodb.com/).
 
-### What you will build
+### O que você construirá
 Você construirá uma aplicação que se conecta à multiplos `MongoDB`s.
 
 ### Pre-req
