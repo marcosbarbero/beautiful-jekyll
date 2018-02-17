@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="pt_BR">
-<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/"/>
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/"/>
 
 
   <title>Conectando multiplos MongoDBs usando Spring Boot</title>
@@ -73,12 +73,12 @@
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/" />
-  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/" />
   
 
   
-  <meta property="og:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
+  <meta property="og:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
   
 
 
@@ -96,7 +96,7 @@
   
 
   
-  <meta name="twitter:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
+  <meta name="twitter:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -183,7 +183,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://blog.marcosbarbero.com/pt_BR/">
+	    <a href="http://0.0.0.0:4000/pt_BR/">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -304,7 +304,7 @@
 </blockquote>
 
 <h3 id="spring-boot---conexão-com-mongodb">Spring Boot - Conexão com MongoDB</h3>
-<p>Para criar uma instância do <code class="highlighter-rouge">MongoTemplate</code>através do Spring Boot nós só precisamos adicionar algumas propriedades específicas
+<p>Para criar uma instância do <code class="highlighter-rouge">MongoTemplate</code> através do Spring Boot nós só precisamos adicionar algumas propriedades específicas
 que o <code class="highlighter-rouge">AutoConfiguration</code> do Spring Boot se encarregará de criar tudo automaticamente.</p>
 
 <p>Abaixo estão as propriedades básicas obrigatórias para criação de um <code class="highlighter-rouge">MongoTemplate</code>.</p>
@@ -318,7 +318,7 @@ que o <code class="highlighter-rouge">AutoConfiguration</code> do Spring Boot se
 </code></pre>
 </div>
 
-<p>Spring Boot tem uma class chamada <code class="highlighter-rouge">MongoProperties.java</code> que define os campos obrigatórios com o prefixo <code class="highlighter-rouge">spring.data.mongodb</code>. (acima). A classe <code class="highlighter-rouge">MongoProperties.java</code> armazena todas as propriedades que nós escrevemos no <code class="highlighter-rouge">application.yml</code>. Então, exist outra classe chamada <code class="highlighter-rouge">MongoDataAutoConfiguration.java</code> que usa a anterior para criar um <code class="highlighter-rouge">MongoTemplate</code>.</p>
+<p>Spring Boot tem uma classe chamada <code class="highlighter-rouge">MongoProperties.java</code> que define os campos obrigatórios com o prefixo <code class="highlighter-rouge">spring.data.mongodb</code>. (acima). A classe <code class="highlighter-rouge">MongoProperties.java</code> armazena todas as propriedades que nós escrevemos no <code class="highlighter-rouge">application.yml</code>. Então, exist outra classe chamada <code class="highlighter-rouge">MongoDataAutoConfiguration.java</code> que usa a anterior para criar um <code class="highlighter-rouge">MongoTemplate</code>.</p>
 
 <p>Para conectar em dois diferentes servidores de <code class="highlighter-rouge">MongoDB</code> é necessário sobreescrever todas essas classes e comportamento.</p>
 
@@ -693,7 +693,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=Conectando+multiplos+MongoDBs+usando+Spring+Boot+http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://twitter.com/intent/tweet?text=Conectando+multiplos+MongoDBs+usando+Spring+Boot+http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -702,7 +702,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -711,7 +711,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -720,7 +720,7 @@ Ended printing mongo objects
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -814,7 +814,7 @@ Ended printing mongo objects
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
+      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
       
 
       

@@ -24,7 +24,7 @@ Você construirá uma aplicação que se conecta à multiplos `MongoDB`s.
 >O projeto de examplo usa [Project Lombok](https://projectlombok.org/) para gerar getters, setters, contructors, etc.
 
 ### Spring Boot - Conexão com MongoDB
-Para criar uma instância do `MongoTemplate`através do Spring Boot nós só precisamos adicionar algumas propriedades específicas
+Para criar uma instância do `MongoTemplate` através do Spring Boot nós só precisamos adicionar algumas propriedades específicas
 que o `AutoConfiguration` do Spring Boot se encarregará de criar tudo automaticamente.
 
 Abaixo estão as propriedades básicas obrigatórias para criação de um `MongoTemplate`.
@@ -38,7 +38,7 @@ spring:
     database: #db
 ```
 
-Spring Boot tem uma class chamada `MongoProperties.java` que define os campos obrigatórios com o prefixo `spring.data.mongodb`. (acima). A classe `MongoProperties.java` armazena todas as propriedades que nós escrevemos no `application.yml`. Então, exist outra classe chamada `MongoDataAutoConfiguration.java` que usa a anterior para criar um `MongoTemplate`.
+Spring Boot tem uma classe chamada `MongoProperties.java` que define os campos obrigatórios com o prefixo `spring.data.mongodb`. (acima). A classe `MongoProperties.java` armazena todas as propriedades que nós escrevemos no `application.yml`. Então, exist outra classe chamada `MongoDataAutoConfiguration.java` que usa a anterior para criar um `MongoTemplate`.
 
 Para conectar em dois diferentes servidores de `MongoDB` é necessário sobreescrever todas essas classes e comportamento.
 
