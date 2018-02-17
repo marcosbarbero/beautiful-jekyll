@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="pt_BR">
-<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/"/>
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/"/>
 
 
   <title>Conectando multiplos MongoDBs usando Spring Boot</title>
@@ -73,12 +73,12 @@
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/" />
-  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/" />
   
 
   
-  <meta property="og:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
+  <meta property="og:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
   
 
 
@@ -96,7 +96,7 @@
   
 
   
-  <meta name="twitter:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
+  <meta name="twitter:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -183,7 +183,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://blog.marcosbarbero.com/pt_BR/">
+	    <a href="http://0.0.0.0:4000/pt_BR/">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -464,32 +464,32 @@ criaremos alguns modelos de dados e faremos tudo funcionar.</p>
 
 <p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/repository/secondary/SecondaryModel</code></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>package com.marcosbarbero.wd.multiplemongo.repository.secondary;
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">secondary</span><span class="o">;</span>
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+<span class="kn">import</span> <span class="nn">org.springframework.data.annotation.Id</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.core.mapping.Document</span><span class="o">;</span>
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.NoArgsConstructor</span><span class="o">;</span>
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Document(collection = "second_mongo")
-public class SecondaryModel {
+<span class="nd">@Data</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@Document</span><span class="o">(</span><span class="n">collection</span> <span class="o">=</span> <span class="s">"second_mongo"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecondaryModel</span> <span class="o">{</span>
 
-    @Id
-    private String id;
+    <span class="nd">@Id</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
 
-    private String value;
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">value</span><span class="o">;</span>
 
-    @Override
-    public String toString() {
-        return "SecondaryModel{" + "id='" + id + '\'' + ", value='" + value + '\''
-                + '}';
-    }
-}
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"SecondaryModel{"</span> <span class="o">+</span> <span class="s">"id='"</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span> <span class="s">", value='"</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="sc">'\''</span>
+                <span class="o">+</span> <span class="sc">'}'</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 
 </code></pre>
 </div>
@@ -693,7 +693,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=Conectando+multiplos+MongoDBs+usando+Spring+Boot+http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://twitter.com/intent/tweet?text=Conectando+multiplos+MongoDBs+usando+Spring+Boot+http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -702,7 +702,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -711,7 +711,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -720,7 +720,7 @@ Ended printing mongo objects
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -814,7 +814,7 @@ Ended printing mongo objects
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
+      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
       
 
       
