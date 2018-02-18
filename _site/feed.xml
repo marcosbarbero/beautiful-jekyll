@@ -3,8 +3,8 @@
   <channel>
     <title>Marcos Barbero's Blog</title>
     <description>I create things and I blog about it... sometimes.</description>
-    <link>http://0.0.0.0:4000</link>
-    <atom:link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://blog.marcosbarbero.com</link>
+    <atom:link href="http://blog.marcosbarbero.com/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Multiple MongoDB connectors with Spring Boot</title>
@@ -14,10 +14,10 @@
         </description>
         <pubDate>Sat, 17 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/
+          http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/
+          http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/
         </guid>
       </item>
     
@@ -29,10 +29,10 @@
         </description>
         <pubDate>Sat, 10 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://0.0.0.0:4000/creating-a-batch-service/
+          http://blog.marcosbarbero.com/creating-a-batch-service/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/creating-a-batch-service/
+          http://blog.marcosbarbero.com/creating-a-batch-service/
         </guid>
       </item>
     
