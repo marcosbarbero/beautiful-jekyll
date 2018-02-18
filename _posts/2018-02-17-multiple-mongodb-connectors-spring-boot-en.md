@@ -24,7 +24,7 @@ You will build an application that connects to multiple `MongoDBs`.
 >The sample project uses [Project Lombok](https://projectlombok.org/) to generate getters, setters, contructors, etc.
 
 ### Spring Boot MongoDB connection
-To create a `MongoTemplate` instance through Spring Boot we only need to provide Mongo Server details in Spring Boot specific property keys and Spring Boot on startup automatically creates a Mongo Connection with Mongo Template wrapper and let's us Auto wire wherever we want to use.
+To create a `MongoTemplate` instance through Spring Boot we only need to provide Mongo Server details in Spring Boot specific property keys and Spring Boot on startup automatically creates a Mongo Connection with `MongoTemplate` wrapper and let's us auto wire wherever we want to use.
 
 Below are the basic properties required for creating a `MongoTemplate`.
 
@@ -43,7 +43,7 @@ Spring Boot has a class called as `MongoProperties.java` which defines the manda
 To connect to two different mongo server it's required to override all these classes and their behaviors.
 
 ### Disabling Spring Boot AutoConfig
-To be able to create multiple `MongoTemplate` objects it's necessary to disable the Sring Boot autoconfig for mongodb. It can
+To be able to create multiple `MongoTemplate` objects it's necessary to disable the Spring Boot autoconfig for mongodb. It can
 be achieved just by adding the following property in the `application.yml` file.
 
 ```yml

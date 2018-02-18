@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="en">
-<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/"/>
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/"/>
 
 
   <title>Multiple MongoDB connectors with Spring Boot</title>
@@ -73,12 +73,12 @@
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/" />
-  <link rel="canonical" href="http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/" />
   
 
   
-  <meta property="og:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
+  <meta property="og:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
   
 
 
@@ -96,7 +96,7 @@
   
 
   
-  <meta name="twitter:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
+  <meta name="twitter:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://blog.marcosbarbero.com">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://0.0.0.0:4000">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -186,7 +186,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://blog.marcosbarbero.com">
+	    <a href="http://0.0.0.0:4000">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -307,7 +307,7 @@
 </blockquote>
 
 <h3 id="spring-boot-mongodb-connection">Spring Boot MongoDB connection</h3>
-<p>To create a <code class="highlighter-rouge">MongoTemplate</code> instance through Spring Boot we only need to provide Mongo Server details in Spring Boot specific property keys and Spring Boot on startup automatically creates a Mongo Connection with Mongo Template wrapper and let’s us Auto wire wherever we want to use.</p>
+<p>To create a <code class="highlighter-rouge">MongoTemplate</code> instance through Spring Boot we only need to provide Mongo Server details in Spring Boot specific property keys and Spring Boot on startup automatically creates a Mongo Connection with <code class="highlighter-rouge">MongoTemplate</code> wrapper and let’s us auto wire wherever we want to use.</p>
 
 <p>Below are the basic properties required for creating a <code class="highlighter-rouge">MongoTemplate</code>.</p>
 
@@ -326,7 +326,7 @@
 <p>To connect to two different mongo server it’s required to override all these classes and their behaviors.</p>
 
 <h3 id="disabling-spring-boot-autoconfig">Disabling Spring Boot AutoConfig</h3>
-<p>To be able to create multiple <code class="highlighter-rouge">MongoTemplate</code> objects it’s necessary to disable the Sring Boot autoconfig for mongodb. It can
+<p>To be able to create multiple <code class="highlighter-rouge">MongoTemplate</code> objects it’s necessary to disable the Spring Boot autoconfig for mongodb. It can
 be achieved just by adding the following property in the <code class="highlighter-rouge">application.yml</code> file.</p>
 
 <div class="language-yml highlighter-rouge"><pre class="highlight"><code><span class="s">spring</span><span class="pi">:</span>
@@ -696,7 +696,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=Multiple+MongoDB+connectors+with+Spring+Boot+http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://twitter.com/intent/tweet?text=Multiple+MongoDB+connectors+with+Spring+Boot+http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -705,7 +705,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -714,7 +714,7 @@ Ended printing mongo objects
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -723,7 +723,7 @@ Ended printing mongo objects
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -817,7 +817,7 @@ Ended printing mongo objects
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://blog.marcosbarbero.com">blog.marcosbarbero.com</a>
+      <a href="http://0.0.0.0:4000">blog.marcosbarbero.com</a>
       
 
       
