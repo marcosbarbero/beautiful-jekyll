@@ -4,7 +4,7 @@ title: Conectando multiplos MongoDBs usando Spring Boot
 bigimg: /img/mongodb-leaf.jpeg
 gh-repo: weekly-drafts/spring-boot-multi-mongo
 gh-badge: [star, fork, follow]
-tags: [spring, spring-framework, spring-boot, spring-data, spring-data-mongodb, java]
+tags: [spring-framework, spring-boot, spring-data, spring-data-mongodb, java]
 permalink: /multiple-mongodb-connectors-in-spring-boot/
 lang: pt_BR
 ---

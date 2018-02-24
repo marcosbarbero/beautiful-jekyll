@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <meta http-equiv="Content-Language" content="pt_BR">
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/"/>
+
+
+  <title>Configurando mutiplos DataSources comSpring Boot e Spring Data - PCF</title>
+
+  <script>
+  </script>
+
+  <meta name="author" content="Marcos Barbero" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Marcos Barbero's Blog - Eu crio coisas e escrevo sobre isso... às vezes." href="/pt_BR/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+      <link rel="stylesheet" href="/css/flags.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Configurando mutiplos DataSources comSpring Boot e Spring Data - PCF" />
+  
+
+   
+  <meta property="og:description" content="Esse tutorial te guiará no processo de configurar Spring Data para acessar múltiplos serviços SQL na PCF. O que você irá construir Você construirá uma aplicação que conecta com vários serviços MySQL na PCF. Pre-req JDK 1.8 Editor de texto ou sua IDE favorita Maven 3.0+ PCF Nesse tutorial eu...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/" />
+  
+
+  
+  <meta property="og:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Configurando mutiplos DataSources comSpring Boot e Spring Data - PCF" />
+  
+
+  
+  <meta name="twitter:description" content="Esse tutorial te guiará no processo de configurar Spring Data para acessar múltiplos serviços SQL na PCF. O que você irá construir Você construirá uma aplicação que conecta com vários serviços MySQL na PCF. Pre-req JDK 1.8 Editor de texto ou sua IDE favorita Maven 3.0+ PCF Nesse tutorial eu...">
+  
+
+  
+  <meta name="twitter:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+
+      
+        
+        
+        
+        
+          
+        
+      
+        
+        
+          
+            
+              <li>
+                <a href="/pt_BR/about/">Sobre mim</a>
+              </li>
+            
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+          
+        
+      
+        
+        
+      
+
+
+      
+
+        
+        <li>
+          <a href=" /setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/ ">
+            <img src="/img/blank.gif" class="flag  flag-us " />
+          </a>
+        </li>
+        
+        <li>
+          <a href=" /pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/ ">
+            <img src="/img/blank.gif" class="flag  flag-br " />
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://0.0.0.0:4000/pt_BR/">
+	      <img class="avatar-img" src="/img/avatar.jpeg" />
+		  </a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+  <div id="header-big-imgs" data-num-img=1
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/cloud-lamp-bulb.jpg"
+		
+	  
+    
+  ></div>
+
+
+
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Configurando mutiplos DataSources comSpring Boot e Spring Data - PCF</h1>          
+
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 24, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Configurando mutiplos DataSources comSpring Boot e Spring Data - PCF</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 24, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+        
+        
+        
+
+        <div id="header-gh-btns">
+          
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&repo=pcf-spring-boot-multiple-datasources&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&repo=pcf-spring-boot-multiple-datasources&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+              
+            
+          
+        </div>
+      
+
+      <article role="main" class="blog-post">
+        <p>Esse tutorial te guiará no processo de configurar Spring Data para acessar múltiplos serviços SQL
+na PCF.</p>
+
+<h3 id="o-que-você-irá-construir">O que você irá construir</h3>
+<p>Você construirá uma aplicação que conecta com vários serviços MySQL na PCF.</p>
+
+<h3 id="pre-req">Pre-req</h3>
+
+<ul>
+  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 1.8</a></li>
+  <li>Editor de texto ou sua IDE favorita</li>
+  <li><a href="https://maven.apache.org/download.cgi">Maven 3.0+</a></li>
+  <li><a href="https://pivotal.io/pcf-dev">PCF</a></li>
+</ul>
+
+<blockquote>
+  <p>Nesse tutorial eu estou usando a instalação <a href="https://pivotal.io/pcf-dev">PCF Dev</a>.</p>
+</blockquote>
+
+<h3 id="spring-boot-com-spring-data">Spring Boot com Spring Data</h3>
+
+<p><a href="https://projects.spring.io/spring-boot/">Spring Boot</a> com 
+<a href="http://projects.spring.io/spring-data/">Spring Data</a>
+torna fácil acessar bancos de dados através de <a href="https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#repositories">Repositórios</a> e <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-auto-configuration.html">Spring Boot auto-configuration</a>. Entretando, if a tua aplicação precisa acessar multiplos bancos de dados, isso não é algo
+provido pelas auto-configurações.</p>
+
+<h3 id="pcf-services">PCF Services</h3>
+
+<p>PCF oferece um <a href="http://docs.pivotal.io/pivotalcf/1-12/devguide/services/">marketplace de serviços</a> que são
+provisionados por demanda. Para conectar uma <code class="highlighter-rouge">aplicação spring</code> em um serviço PCF existe
+<a href="https://cloud.spring.io/spring-cloud-connectors/">Spring Cloud Connectors</a> no qual usa os chamados
+<a href="https://docs.run.pivotal.io/buildpacks/java/configuring-service-connections/spring-service-bindings.html#auto-reconfiguration">Auto-Reconfiguration</a>. Entretando, o <code class="highlighter-rouge">Auto-Reconfiguration</code> não funciona no caso em que
+você tem que conectar com vários serviços do mesmo tipo, por exemplo, vários serviços de banco de dados SQL. E para isso
+existe a necessidade de fazer uma <a href="https://docs.run.pivotal.io/buildpacks/java/configuring-service-connections/spring-service-bindings.html#manual-configuration">configuração manual</a>.</p>
+
+<h3 id="configurando-vários-datasources">Configurando vários DataSources</h3>
+
+<p>Para conectar com multiplos <code class="highlighter-rouge">DataSources</code> na <code class="highlighter-rouge">PCF</code> nós precisaremos usar a 
+<a href="https://docs.run.pivotal.io/buildpacks/java/configuring-service-connections/spring-service-bindings.html#manual-configuration">Configuração Manual</a>.</p>
+
+<p>Primeiro adicione a seguinte dependencia ao <code class="highlighter-rouge">pom.xml</code>.</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-cloud-connectors<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre>
+</div>
+
+<h4 id="configuração-java">Configuração Java</h4>
+
+<p>Para conectar com vários DataSources nós precisamos criar uma nova classe que <code class="highlighter-rouge">extends</code> a <code class="highlighter-rouge">AbstractCloudConfig</code> 
+do <code class="highlighter-rouge">Spring Cloud Connectors</code> e então criar dois <code class="highlighter-rouge">@Bean</code>s, um para cada <code class="highlighter-rouge">serviço PCF</code>.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/pcf/multidatasources/config</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.cloud.config.java.AbstractCloudConfig</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">CloudConfig</span> <span class="kd">extends</span> <span class="n">AbstractCloudConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Primary</span>
+    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"first-db"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">firstDataSource</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">connectionFactory</span><span class="o">().</span><span class="na">dataSource</span><span class="o">(</span><span class="s">"first-db"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"second-db"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">DataSource</span> <span class="nf">secondDataSource</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">connectionFactory</span><span class="o">().</span><span class="na">dataSource</span><span class="o">(</span><span class="s">"second-db"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h4 id="java-package">Java package</h4>
+
+<p>Crie um pacote java para cada <code class="highlighter-rouge">DataSource</code>, com dois pacotes internos: <code class="highlighter-rouge">domain</code> e <code class="highlighter-rouge">repository</code></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>── com
+    └── marcosbarbero
+        └── wd
+            └── pcf
+                └── multidatasources
+                    ├── first
+                    │   ├── domain
+                    │   └── repository
+                    └── second
+                        ├── domain
+                        └── repository
+</code></pre>
+</div>
+
+<h4 id="classes-de-configuração-por-banco-de-dados">Classes de configuração por Banco de dados</h4>
+
+<p>Como nós temos dois <code class="highlighter-rouge">DataSource</code>s, é necessário ter uma classe de configuração por conexão. No nosso exemplo serão duas
+classes de configuração.</p>
+
+<p>Para a primeira conexão com banco de dados crie a seguinte classe.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/pcf/multidatasources/config</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Qualifier</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Primary</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.config.EnableJpaRepositories</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.JpaTransactionManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.PlatformTransactionManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.annotation.EnableTransactionManagement</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.EntityManagerFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Collections</span><span class="o">.</span><span class="na">singletonMap</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableJpaRepositories</span><span class="o">(</span>
+        <span class="n">entityManagerFactoryRef</span> <span class="o">=</span> <span class="s">"firstEntityManagerFactory"</span><span class="o">,</span>
+        <span class="n">transactionManagerRef</span> <span class="o">=</span> <span class="s">"firstTransactionManager"</span><span class="o">,</span>
+        <span class="n">basePackages</span> <span class="o">=</span> <span class="s">"com.marcosbarbero.wd.pcf.multidatasources.first.repository"</span>
+<span class="o">)</span>
+<span class="nd">@EnableTransactionManagement</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FirstDsConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Primary</span>
+    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"firstEntityManagerFactory"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="nf">firstEntityManagerFactory</span><span class="o">(</span><span class="kd">final</span> <span class="n">EntityManagerFactoryBuilder</span> <span class="n">builder</span><span class="o">,</span>
+                                                                            <span class="kd">final</span> <span class="nd">@Qualifier</span><span class="o">(</span><span class="s">"first-db"</span><span class="o">)</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">builder</span>
+                <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">packages</span><span class="o">(</span><span class="s">"com.marcosbarbero.wd.pcf.multidatasources.first.domain"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">persistenceUnit</span><span class="o">(</span><span class="s">"firstDb"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">properties</span><span class="o">(</span><span class="n">singletonMap</span><span class="o">(</span><span class="s">"hibernate.hbm2ddl.auto"</span><span class="o">,</span> <span class="s">"create-drop"</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Primary</span>
+    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"firstTransactionManager"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">PlatformTransactionManager</span> <span class="nf">firstTransactionManager</span><span class="o">(</span><span class="nd">@Qualifier</span><span class="o">(</span><span class="s">"firstEntityManagerFactory"</span><span class="o">)</span>
+                                                              <span class="n">EntityManagerFactory</span> <span class="n">firstEntityManagerFactory</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">JpaTransactionManager</span><span class="o">(</span><span class="n">firstEntityManagerFactory</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p>Para a segunda conexão com banco de dados, crie a seguinte classe.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/pcf/multidatasources/config</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Qualifier</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.config.EnableJpaRepositories</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.JpaTransactionManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.PlatformTransactionManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.transaction.annotation.EnableTransactionManagement</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.persistence.EntityManagerFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">static</span> <span class="n">java</span><span class="o">.</span><span class="na">util</span><span class="o">.</span><span class="na">Collections</span><span class="o">.</span><span class="na">singletonMap</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableJpaRepositories</span><span class="o">(</span>
+        <span class="n">entityManagerFactoryRef</span> <span class="o">=</span> <span class="s">"secondEntityManagerFactory"</span><span class="o">,</span>
+        <span class="n">transactionManagerRef</span> <span class="o">=</span> <span class="s">"secondTransactionManager"</span><span class="o">,</span>
+        <span class="n">basePackages</span> <span class="o">=</span> <span class="s">"com.marcosbarbero.wd.pcf.multidatasources.second.repository"</span>
+<span class="o">)</span>
+<span class="nd">@EnableTransactionManagement</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecondDsConfig</span> <span class="o">{</span>
+
+    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"secondEntityManagerFactory"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">LocalContainerEntityManagerFactoryBean</span> <span class="nf">secondEntityManagerFactory</span><span class="o">(</span><span class="kd">final</span> <span class="n">EntityManagerFactoryBuilder</span> <span class="n">builder</span><span class="o">,</span>
+                                                                             <span class="kd">final</span> <span class="nd">@Qualifier</span><span class="o">(</span><span class="s">"second-db"</span><span class="o">)</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">builder</span>
+                <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">packages</span><span class="o">(</span><span class="s">"com.marcosbarbero.wd.pcf.multidatasources.second.domain"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">persistenceUnit</span><span class="o">(</span><span class="s">"secondDb"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">properties</span><span class="o">(</span><span class="n">singletonMap</span><span class="o">(</span><span class="s">"hibernate.hbm2ddl.auto"</span><span class="o">,</span> <span class="s">"create-drop"</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"secondTransactionManager"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">PlatformTransactionManager</span> <span class="nf">secondTransactionManager</span><span class="o">(</span><span class="nd">@Qualifier</span><span class="o">(</span><span class="s">"secondEntityManagerFactory"</span><span class="o">)</span>
+                                                               <span class="n">EntityManagerFactory</span> <span class="n">secondEntityManagerFactory</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">JpaTransactionManager</span><span class="o">(</span><span class="n">secondEntityManagerFactory</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p class="box-note">Para esse tutorial eu estou usando a propriedade <code class="highlighter-rouge">hibernate.hbm2ddl.auto=create-drop</code> somente para deixar as coisas
+mais fáceis, numa aplicação real esse valor não deve ser usado e deve-se usar algum método ou framework mais apropriado
+para inicialização dos dados e <code class="highlighter-rouge">schemas</code> dos banco de dados.</p>
+
+<h4 id="modelo-e-repositórios">Modelo e Repositórios</h4>
+
+<p>Agora é hora de criar as classes <code class="highlighter-rouge">model</code> e <code class="highlighter-rouge">repository</code> que farão conexão com cada class de configuração descrita acima.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/pcf/multidatasources/first/domain</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.GeneratedValue</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.GenerationType</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Id</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Table</span><span class="o">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"first"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">First</span> <span class="o">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">text</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">First</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">First</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Long</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getText</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">text</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setText</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"First{"</span> <span class="o">+</span>
+                <span class="s">"id="</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span>
+                <span class="s">", text='"</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span>
+                <span class="sc">'}'</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/pcf/multidatasources/first/repository</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.pcf.multidatasources.first.domain.First</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">FirstRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">First</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/pcf/multidatasources/second/domain</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.GeneratedValue</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.GenerationType</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Id</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.persistence.Table</span><span class="o">;</span>
+
+<span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"second"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Second</span> <span class="o">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="n">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Long</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">text</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Second</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nf">Second</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Long</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="n">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getText</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">text</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setText</span><span class="o">(</span><span class="n">String</span> <span class="n">text</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"Second{"</span> <span class="o">+</span>
+                <span class="s">"id="</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span>
+                <span class="s">", text='"</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span>
+                <span class="sc">'}'</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/pcf/multidatasources/second/repository</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.pcf.multidatasources.second.domain.Second</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.JpaRepository</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SecondRepository</span> <span class="kd">extends</span> <span class="n">JpaRepository</span><span class="o">&lt;</span><span class="n">Second</span><span class="o">,</span> <span class="n">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="executando">Executando</h3>
+
+<p>Para testar a aplicação eu adicionei o seguinte código na classe principal do projeto.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/pcf/multidatasources</code></p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.pcf.multidatasources.first.domain.First</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.pcf.multidatasources.first.repository.FirstRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.pcf.multidatasources.second.domain.Second</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.pcf.multidatasources.second.repository.SecondRepository</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.slf4j.LoggerFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.CommandLineRunner</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="kd">implements</span> <span class="n">CommandLineRunner</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">logger</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">FirstRepository</span> <span class="n">firstRepository</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">SecondRepository</span> <span class="n">secondRepository</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="n">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">First</span> <span class="n">firstSaved</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">firstRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="k">new</span> <span class="n">First</span><span class="o">(</span><span class="s">"first database"</span><span class="o">));</span>
+        <span class="n">Second</span> <span class="n">secondSaved</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">secondRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="k">new</span> <span class="n">Second</span><span class="o">(</span><span class="s">"second database"</span><span class="o">));</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">firstSaved</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="n">logger</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">secondSaved</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="deploying-to-pcf">Deploying to PCF</h3>
+
+<p>Para fazer o deploy da aplicação na PCF eu estou usando um arquivo <code class="highlighter-rouge">manifest.yml</code>.</p>
+
+<div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">applications</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s">name</span><span class="pi">:</span> <span class="s">multiple-db</span>
+  <span class="s">memory</span><span class="pi">:</span> <span class="s">512MB</span>
+  <span class="s">instance</span><span class="pi">:</span> <span class="s">1</span>
+  <span class="s">path</span><span class="pi">:</span> <span class="s">./target/your-jar-name.jar</span>
+  <span class="s">services</span><span class="pi">:</span>
+   <span class="pi">-</span> <span class="s">first-db</span>
+   <span class="pi">-</span> <span class="s">second-db</span>
+</code></pre>
+</div>
+
+<p class="box-note">Para esse exemplo eu criei dois serviços <code class="highlighter-rouge">p-mysql</code> chamados <code class="highlighter-rouge">first-db</code> e <code class="highlighter-rouge">second-db</code>.</p>
+
+<p><code class="highlighter-rouge">Build</code></p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>./mvnw clean package
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">Deploy</code></p>
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>cf push
+</code></pre>
+</div>
+
+<p>Quando terminar o deploy da aplicação, ela irá imprimir a seguinte saída:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>First<span class="o">{</span><span class="nv">id</span><span class="o">=</span>1, <span class="nv">text</span><span class="o">=</span><span class="s1">'first database'</span><span class="o">}</span>
+Second<span class="o">{</span><span class="nv">id</span><span class="o">=</span>1, <span class="nv">text</span><span class="o">=</span><span class="s1">'second database'</span><span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="summary">Summary</h3>
+<p>Parabéns! Você criou uma aplicação Spring Boot que conecta com vários bancos de dados na PCF usando Spring Data.</p>
+
+<h3 id="nota-de-rodapé">Nota de rodapé</h3>
+<ul>
+  <li>O código desse tutorial pode ser encontrado no <a href="https://github.com/weekly-drafts/pcf-spring-boot-multiple-datasources">github</a></li>
+</ul>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+          
+            <a href="/tags#spring-framework">spring-framework</a>
+          
+            <a href="/tags#spring-boot">spring-boot</a>
+          
+            <a href="/tags#spring-data">spring-data</a>
+          
+            <a href="/tags#pcf">pcf</a>
+          
+            <a href="/tags#java">java</a>
+          
+            <a href="/tags#pivotal">pivotal</a>
+          
+            <a href="/tags#cloud">cloud</a>
+          
+            <a href="/tags#cloud-foundry">cloud-foundry</a>
+          
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Configurando+mutiplos+DataSources+comSpring+Boot+e+Spring+Data+-+PCF+http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+  <!--- Share on Google Plus -->
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/"
+      class="btn btn-social-icon btn-google" title="Share on Google+">
+      <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
+      <span class="sr-only">Google+</span>
+    </a>
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/pt_BR/multiple-mongodb-connectors-in-spring-boot/" data-toggle="tooltip" data-placement="top" title="Conectando multiplos MongoDBs usando Spring Boot">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'marcosbarbero';
+        /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/pt_BR/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:marcos.hgb@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/marcosbarbero" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/marcosbarbero_" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/marcosbarbero" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Marcos Barbero
+      &nbsp;&bull;&nbsp;
+      2018
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-54888300-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  
+  </body>
+</html>

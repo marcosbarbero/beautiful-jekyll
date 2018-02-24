@@ -3,8 +3,23 @@
   <channel>
     <title>Marcos Barbero's Blog</title>
     <description>I create things and I blog about it... sometimes.</description>
-    <link>http://blog.marcosbarbero.com</link>
-    <atom:link href="http://blog.marcosbarbero.com/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://0.0.0.0:4000</link>
+    <atom:link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Setup multiple DataSources with Spring Boot and Spring Data in PCF</title>
+        <description>
+          
+          This tutorial will guide you in the process to setup Spring Data to access multiple SQL services in PCF. What you will build You will build an application that connects to multiple MySQL services in PCF. Pre-req JDK 1.8 Text editor or your favorite IDE Maven 3.0+ PCF For this...
+        </description>
+        <pubDate>Sat, 24 Feb 2018 00:00:00 +0100</pubDate>
+        <link>
+          http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
+        </guid>
+      </item>
     
       <item>
         <title>Multiple MongoDB connectors with Spring Boot</title>
@@ -14,10 +29,10 @@
         </description>
         <pubDate>Sat, 17 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/
+          http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/
         </link>
         <guid isPermaLink="true">
-          http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/
+          http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/
         </guid>
       </item>
     
@@ -29,10 +44,10 @@
         </description>
         <pubDate>Sat, 10 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://blog.marcosbarbero.com/creating-a-batch-service/
+          http://0.0.0.0:4000/creating-a-batch-service/
         </link>
         <guid isPermaLink="true">
-          http://blog.marcosbarbero.com/creating-a-batch-service/
+          http://0.0.0.0:4000/creating-a-batch-service/
         </guid>
       </item>
     
