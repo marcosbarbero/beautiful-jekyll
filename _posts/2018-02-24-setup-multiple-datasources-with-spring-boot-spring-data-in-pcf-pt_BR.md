@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Configurando mutiplos DataSources comSpring Boot e Spring Data - PCF
+title: Configurando mutiplos DataSources com Spring Boot e Spring Data - PCF
 bigimg: /img/cloud-lamp-bulb.jpg
 gh-repo: weekly-drafts/pcf-spring-boot-multiple-datasources
 gh-badge: [star, fork, follow]
