@@ -73,7 +73,7 @@ GEM
     html-pipeline (2.7.1)
       activesupport (>= 2)
       nokogiri (>= 1.4)
-    i18n (0.9.4)
+    i18n (0.9.5)
       concurrent-ruby (~> 1.0)
     jekyll (3.5.2)
       addressable (~> 2.4)
@@ -221,4 +221,4 @@ DEPENDENCIES
   jekyll-polyglot
 
 BUNDLED WITH
-   1.16.1
+   1.16.2
