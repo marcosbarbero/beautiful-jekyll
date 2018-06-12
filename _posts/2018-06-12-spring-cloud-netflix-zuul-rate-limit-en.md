@@ -19,17 +19,17 @@ limiting in this layer suits perfectly.
 ### Spring Cloud Netflix Zuul
 
 [Spring Cloud Netflix Zuul](https://github.com/spring-cloud/spring-cloud-netflix) is an Open Source API Gateway that 
-wraps [Netflix Zuul](https://github.com/Netflix/zuul) and add quite few funcionalities, sadly rate limiting is something
+wraps [Netflix Zuul](https://github.com/Netflix/zuul) and adds quite a few functionalities, sadly rate limiting is something
 that's not provided out of the box.
 
 ### Adding Rate Limit on Zuul
 
 To fix that problem it's possible to use [this OSS Rate Limit library](https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit)
-along with `Spring Cloud Netflix Zuul` in which will add an out of the box support for rate limiting the requests.
+along with `Spring Cloud Netflix Zuul` in which will add an out of the box support for rate-limiting the requests.
 
 ### Supported Limiters
 
-The current implementation supports a list of rate limit policies per service as well as an default configuration for every other
+The current implementation supports a list of rate limit policies per service as well as a default configuration for every other
 service if necessary.
 
 | Rate Limit Type     | Description                                    |
@@ -53,7 +53,7 @@ service if necessary.
 
 ### Implementation 
 
-All the rate limiting implementation is done using [Zuul Filters](https://github.com/Netflix/zuul/wiki/Filters) and 
+All the rate-limiting implementation is done using [Zuul Filters](https://github.com/Netflix/zuul/wiki/Filters) and 
 applying the validations based on the configuration set per service, in case there's no policy set then the rate 
 limit filters are not triggered.
 
@@ -61,9 +61,9 @@ When a limit is reached the API Gateway returns `429 Too Many Requests` status c
 
 ### Configuration
 
-Everything described above can be [configured using properties or yaml files](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html)
+Everything described above can be [configured using properties or YAML files](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html)
 and there's no need to add any custom code to make it work.
 
 ### Further Details
 
-For further details in the implementation and usage, please go to the [project repo](https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit).
+For further details on the implementation and usage, please go to the [project repo](https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit).

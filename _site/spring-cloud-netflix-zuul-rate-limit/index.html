@@ -298,17 +298,17 @@ limiting in this layer suits perfectly.</p>
 <h3 id="spring-cloud-netflix-zuul">Spring Cloud Netflix Zuul</h3>
 
 <p><a href="https://github.com/spring-cloud/spring-cloud-netflix">Spring Cloud Netflix Zuul</a> is an Open Source API Gateway that 
-wraps <a href="https://github.com/Netflix/zuul">Netflix Zuul</a> and add quite few funcionalities, sadly rate limiting is something
+wraps <a href="https://github.com/Netflix/zuul">Netflix Zuul</a> and adds quite a few functionalities, sadly rate limiting is something
 that’s not provided out of the box.</p>
 
 <h3 id="adding-rate-limit-on-zuul">Adding Rate Limit on Zuul</h3>
 
 <p>To fix that problem it’s possible to use <a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">this OSS Rate Limit library</a>
-along with <code class="highlighter-rouge">Spring Cloud Netflix Zuul</code> in which will add an out of the box support for rate limiting the requests.</p>
+along with <code class="highlighter-rouge">Spring Cloud Netflix Zuul</code> in which will add an out of the box support for rate-limiting the requests.</p>
 
 <h3 id="supported-limiters">Supported Limiters</h3>
 
-<p>The current implementation supports a list of rate limit policies per service as well as an default configuration for every other
+<p>The current implementation supports a list of rate limit policies per service as well as a default configuration for every other
 service if necessary.</p>
 
 <table>
@@ -357,7 +357,7 @@ service if necessary.</p>
 
 <h3 id="implementation">Implementation</h3>
 
-<p>All the rate limiting implementation is done using <a href="https://github.com/Netflix/zuul/wiki/Filters">Zuul Filters</a> and 
+<p>All the rate-limiting implementation is done using <a href="https://github.com/Netflix/zuul/wiki/Filters">Zuul Filters</a> and 
 applying the validations based on the configuration set per service, in case there’s no policy set then the rate 
 limit filters are not triggered.</p>
 
@@ -365,12 +365,12 @@ limit filters are not triggered.</p>
 
 <h3 id="configuration">Configuration</h3>
 
-<p>Everything described above can be <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html">configured using properties or yaml files</a>
+<p>Everything described above can be <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html">configured using properties or YAML files</a>
 and there’s no need to add any custom code to make it work.</p>
 
 <h3 id="further-details">Further Details</h3>
 
-<p>For further details in the implementation and usage, please go to the <a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">project repo</a>.</p>
+<p>For further details on the implementation and usage, please go to the <a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">project repo</a>.</p>
 
       </article>
 
