@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Adding Rate Limit for Spring Cloud Netflix Zuul
-bigimg: /img/leaking-tap.jpg
+bigimg: /img/spring-cloud-ratelimit-thumb.jpg
 gh-repo: marcosbarbero/spring-cloud-zuul-ratelimit
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-cloud, netflix, rate-limit, java]
