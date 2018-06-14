@@ -76,7 +76,7 @@ Now we need to define an HTML form that's going to be used to switch the users.
 ```
 
 Here are some remarks
-  * The value defined in the `action` needs the same value defined in the `SwitchUserFilter#switchUserUrl` property.
+  * The value defined in the `action` needs the same value defined by the `SwitchUserFilter#switchUserUrl` property.
   * It can be a `GET` request.
   * The request is handled by the `SwitchUserFilter`.
 
