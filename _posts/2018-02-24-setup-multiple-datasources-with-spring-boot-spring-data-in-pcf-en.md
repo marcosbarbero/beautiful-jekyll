@@ -4,7 +4,7 @@ title: Setup multiple DataSources with Spring Boot and Spring Data in PCF
 bigimg: /img/cloud-lamp-bulb.jpg
 gh-repo: weekly-drafts/pcf-spring-boot-multiple-datasources
 gh-badge: [star, fork, follow]
-tags: [spring-framework, spring-boot, spring-data, pcf, java, pivotal, cloud, cloud-foundry]
+tags: [spring-framework, spring-boot, spring-data, pcf, java, pivotal, cloud, cloud-foundry, tutorial]
 permalink: /setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
 lang: en
 ---

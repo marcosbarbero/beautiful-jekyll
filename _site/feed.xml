@@ -7,6 +7,21 @@
     <atom:link href="http://blog.marcosbarbero.com/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>User impersonation with Spring Security</title>
+        <description>
+          
+          This guide walks through the process of creating an user impersonation from super / admin users with spring security. Overview It’s a common use-case for secured applications that the admin / super users to be able to login as any other user. It can be helpful for use cases such...
+        </description>
+        <pubDate>Thu, 14 Jun 2018 00:00:00 +0200</pubDate>
+        <link>
+          http://blog.marcosbarbero.com/user-impersonation-with-spring-security/
+        </link>
+        <guid isPermaLink="true">
+          http://blog.marcosbarbero.com/user-impersonation-with-spring-security/
+        </guid>
+      </item>
+    
+      <item>
         <title>Adding Rate Limit for Spring Cloud Netflix Zuul</title>
         <description>
           
