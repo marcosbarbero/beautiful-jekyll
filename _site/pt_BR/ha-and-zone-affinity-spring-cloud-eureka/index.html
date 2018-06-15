@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="pt_BR">
-<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/"/>
+<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/"/>
 
 
   <title>HA and Zone Affinity With Spring Cloud Netflix Eureka</title>
@@ -73,12 +73,12 @@
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/" />
-  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/" />
+  <meta property="og:url" content="http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/" />
+  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/" />
   
 
   
-  <meta property="og:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
+  <meta property="og:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
   
 
 
@@ -96,7 +96,7 @@
   
 
   
-  <meta name="twitter:image" content="http://0.0.0.0:4000/img/avatar.jpeg" />
+  <meta name="twitter:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -188,7 +188,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://0.0.0.0:4000/pt_BR/">
+	    <a href="http://blog.marcosbarbero.com/pt_BR/">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -395,6 +395,7 @@ First, add the following dependency in the pom.xml.</p>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.cloud.client.discovery.EnableDiscoveryClient</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.cloud.netflix.zuul.EnableZuulProxy</span><span class="o">;</span>
+
 <span class="nd">@EnableZuulProxy</span>
 <span class="nd">@EnableDiscoveryClient</span>
 <span class="nd">@SpringBootApplication</span>
@@ -423,6 +424,7 @@ First, add the following dependency in the pom.xml.</p>
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.cloud.netflix.eureka.server.EnableEurekaServer</span><span class="o">;</span>
+
 <span class="nd">@EnableEurekaServer</span>
 <span class="nd">@SpringBootApplication</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">ServiceDiscoveryApplication</span> <span class="o">{</span>
@@ -447,6 +449,7 @@ region will remain in the requested region. For this application, there’s noth
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">static</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">http</span><span class="o">.</span><span class="na">MediaType</span><span class="o">.</span><span class="na">APPLICATION_JSON_UTF8_VALUE</span><span class="o">;</span>
+
 <span class="nd">@EnableDiscoveryClient</span>
 <span class="nd">@SpringBootApplication</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">SimpleService</span> <span class="o">{</span>
@@ -701,7 +704,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=HA+and+Zone+Affinity+With+Spring+Cloud+Netflix+Eureka+http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"
+    <a href="https://twitter.com/intent/tweet?text=HA+and+Zone+Affinity+With+Spring+Cloud+Netflix+Eureka+http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -710,7 +713,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -719,7 +722,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"
+    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -728,7 +731,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -820,7 +823,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
+      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
       
 
       
