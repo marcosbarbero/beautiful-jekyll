@@ -7,19 +7,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="pt_BR">
-<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/about/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/about/"/>
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/pt_BR"/>
 
 
-  <title>Sobre mim</title>
+  <title>Marcos Barbero's Blog - Eu crio coisas e escrevo sobre isso... às vezes.</title>
 
   <script>
   </script>
 
   <meta name="author" content="Marcos Barbero" />
 
-  
-  <meta name="description" content="Eu crio coisas e escrevo sobre isso... às vezes.">
   
 
   <link rel="alternate" type="application/rss+xml" title="Marcos Barbero's Blog - Eu crio coisas e escrevo sobre isso... às vezes." href="/pt_BR/feed.xml" />
@@ -64,19 +62,19 @@
   
 
   
-  <meta property="og:title" content="Sobre mim" />
+  <meta property="og:title" content="Bootiful Java" />
   
 
    
-  <meta property="og:description" content="Eu crio coisas e escrevo sobre isso... às vezes.">
+  <meta property="og:description" content="{% for post in paginator.posts %} {{ post.title }} {% if post.subtitle %} {{ post.subtitle }} {% endif %} Posted on {{ post.date | date: &quot;%B %-d, %Y&quot; }} {% if post.image %} {% endif %} {{ post.excerpt | strip_html | xml_escape | truncatewords: site.excerpt_length }} {% assign excerpt_word_count =...">
   
 
 
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://0.0.0.0:4000/about/" />
-  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/about/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/page2/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/page2/" />
   
 
   
@@ -90,11 +88,11 @@
   <meta name="twitter:creator" content="@" />
 
   
-  <meta name="twitter:title" content="Sobre mim" />
+  <meta name="twitter:title" content="Bootiful Java" />
   
 
   
-  <meta name="twitter:description" content="Eu crio coisas e escrevo sobre isso... às vezes.">
+  <meta name="twitter:description" content="{% for post in paginator.posts %} {{ post.title }} {% if post.subtitle %} {{ post.subtitle }} {% endif %} Posted on {{ post.date | date: &quot;%B %-d, %Y&quot; }} {% if post.image %} {% endif %} {{ post.excerpt | strip_html | xml_escape | truncatewords: site.excerpt_length }} {% assign excerpt_word_count =...">
   
 
   
@@ -173,13 +171,13 @@
 
         
         <li>
-          <a href=" /about/ ">
+          <a href=" /page2/ ">
             <img src="/img/blank.gif" class="flag  flag-us " />
           </a>
         </li>
         
         <li>
-          <a href=" /pt_BR/about/ ">
+          <a href=" /pt_BR/page2/ ">
             <img src="/img/blank.gif" class="flag  flag-br " />
           </a>
         </li>
@@ -217,7 +215,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="page-heading">
-          <h1>Sobre mim</h1>
+          <h1>Bootiful Java</h1>
 		  
 		    
             <hr class="small">
@@ -239,12 +237,67 @@
 <div class="container" role="main">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-      <p>Oi, meu nome é Marcos Barbero. Sou um programador Java e atualmente vivo na Holanda.</p>
+      <div class="posts-list">
+  
+  <article class="post-preview">
+    <a href="/pt_BR/creating-a-batch-service/">
+	  <h2 class="post-title">Criando um serviço batch</h2>
 
-<p>Artigos publicados nesse blog são minha opinião pessoal e só minha. Eles de modo algum refletem as opiniões e/ou estratégias
-do meu empregador e/ou clients. Se você se sentiu pessoalmente ofendido por um dos artigos ou deseja apontar algum fato 
-incorreto, sinta-se livre para entrar em contato comigo através do <a href="https://www.linkedin.com/in/marcosbarbero/">LinkedIn</a>. 
-Ficarei feliz em discutir o assunto.</p>
+	  
+    </a>
+
+    <p class="post-meta">
+      Posted on February 10, 2018
+    </p>
+
+    <div class="post-entry-container">
+      
+      <div class="post-entry">
+        Esse tutorial te guiará no processo de criação de uma solução de processamento batch.
+
+
+        
+        
+          <a href="/pt_BR/creating-a-batch-service/" class="post-read-more">[Read&nbsp;More]</a>
+        
+      </div>
+    </div>
+
+    
+    <div class="blog-tags">
+      Tags:
+      
+      
+      <a href="/tags#spring-framework">spring-framework</a>
+      
+      <a href="/tags#spring-boot">spring-boot</a>
+      
+      <a href="/tags#spring-batch">spring-batch</a>
+      
+      <a href="/tags#batch">batch</a>
+      
+      <a href="/tags#java">java</a>
+      
+      <a href="/tags#tutorial">tutorial</a>
+      
+      
+    </div>
+    
+
+   </article>
+  
+</div>
+
+
+<ul class="pager main-pager">
+  
+  <li class="previous">
+    <a href="/pt_BR/">&larr; Newer Posts</a>
+  </li>
+  
+  
+</ul>
+
 
 	    
     </div>
