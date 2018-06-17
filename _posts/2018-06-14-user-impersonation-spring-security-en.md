@@ -2,6 +2,7 @@
 layout: post
 title: User impersonation with Spring Security
 bigimg: /img/caution-cone-control-compressed.jpg
+share-img: /img/caution-cone-control-compressed.jpg
 gh-repo: weekly-drafts/user-impersonation-spring-security
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-security, java, tutorial]

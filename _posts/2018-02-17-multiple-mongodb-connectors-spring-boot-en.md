@@ -2,6 +2,7 @@
 layout: post
 title: Multiple MongoDB connectors with Spring Boot
 bigimg: /img/mongodb-leaf.jpeg
+share-img: /img/mongodb-leaf.jpeg
 gh-repo: weekly-drafts/spring-boot-multi-mongo
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-boot, spring-data, spring-data-mongodb, java, tutorial]

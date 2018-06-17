@@ -2,6 +2,7 @@
 layout: post
 title: HA and Zone Affinity With Spring Cloud Netflix Eureka
 bigimg: /img/ha-discovery.jpg
+share-img: /img/ha-discovery.jpg
 gh-repo: weekly-drafts/spring-cloud-eureka-zone-affinity
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-cloud, netflix, tutorial]
@@ -14,32 +15,33 @@ This tutorial will guide you through the process to setup zone affinity in Sprin
 ### What You Will Build
 You will build three applications:
 
- * API Gateway - Spring Cloud Netflix Zuul
- * Service Registry - Spring Cloud Netflix Eureka
- * REST Service - Spring Cloud
+ * API Gateway - [Spring Cloud Netflix Zuul](https://cloud.spring.io/spring-cloud-netflix/)
+ * Service Registry - [Spring Cloud Netflix Eureka](https://cloud.spring.io/spring-cloud-netflix/)
+ * REST Service - [Spring Cloud](http://projects.spring.io/spring-cloud/)
 
 All those are necessary to make sure that our zone affinity setup is correct. Each of them will be deployed 
 twice, one per zone.
 
 ### Pre-Req
 
- * JDK 1.8
+ * [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
  * Text editor or your favorite IDE
- * Maven 3.0+
+ * [Maven 3.0+](https://maven.apache.org/download.cgi)
 
 ### Zone Affinity
 It doesn't matter which kind of architectural style the application is using, it's a common use case to have the same application deployed 
 in different regions/data centers and use some technique to keep the requests within the same zone.
 
 In microservices architecture, there's also a need to achieve the same thing but the technique needs to be applied using the 
-Service Registry Design Pattern.
+[Service Registry Design Pattern](http://microservices.io/patterns/service-registry.html).
 
 ### Spring Cloud Netflix
 [Spring Cloud Netflix](https://cloud.spring.io/spring-cloud-netflix/) 
 makes it easy to implement the necessary [patterns for microservices](http://microservices.io/patterns/).
 
 ### Creating the Applications
-In this guide, we'll create three applications, and if you're familiar with spring-cloud, it will be an easy job, all the created applications are nothing more than a simple runnable spring-boot jar.
+In this guide, we'll create three applications, and if you're familiar with spring-cloud, it will be an easy job, 
+all the created applications are nothing more than a simple runnable spring-boot jar.
 
 The main part here is the configuration files that will be shown further on.
 
@@ -93,7 +95,8 @@ Add the following dependencies for all the applications. If there's any diff for
 ```
 
 ### API Gateway
-The first application we'll create will be the API Gateway using Spring Cloud Netflix Zuul.
+The first application we'll create will be the API Gateway using 
+[Spring Cloud Netflix Zuul](https://cloud.spring.io/spring-cloud-netflix).
 First, add the following dependency in the pom.xml.
 
 ```java
@@ -123,7 +126,8 @@ public class GatewayApplication {
 ```
 
 ### Service Registry
-The second application we'll create will be the Service Registry using Spring Cloud Netflix Eureka.
+The second application we'll create will be the Service Registry using 
+[Spring Cloud Netflix Eureka](https://cloud.spring.io/spring-cloud-netflix).
 First, add the following dependency in the pom.xml.
 
 ```xml
@@ -185,7 +189,9 @@ public class SimpleService {
 ```
 
 #### Configuration Properties
-As it was previously mentioned, each application needs to run twice in order to simulate two distinct regions, to make it easier we'll create the configuration based on profiles, for each application create the following three files:
+As it was previously mentioned, each application needs to run twice in order to simulate two distinct regions, 
+to make it easier we'll create the configuration based on [profiles](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html), 
+for each application create the following three files:
 
 ```bash
 src/main/resources/application.yml
@@ -214,10 +220,10 @@ spring.profiles.active: zone1
 
 All the following properties are in eureka.client namespace.
 
-|Property     | Description    |
-|-------------|----------------|
-|region       |A String containing a name for the region where the application will be deployed |
-|service-url  |A Map containing the list of available zones for the given region                |
+|Property           | Description    |
+|-------------------|----------------|
+|region             |A String containing a name for the region where the application will be deployed |
+|service-url        |A Map containing the list of available zones for the given region                |
 |availability-zones |A Map containing a comma-separated list of zones for the given region      |
 
 

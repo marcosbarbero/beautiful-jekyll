@@ -2,6 +2,7 @@
 layout: post
 title: Creating a batch service
 bigimg: /img/path.jpg
+share-img: /img/path.jpg
 gh-repo: weekly-drafts/batch-service
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-boot, spring-batch, batch, java, tutorial]
