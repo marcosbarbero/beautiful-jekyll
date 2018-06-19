@@ -17,7 +17,7 @@ integrating with [HashiCorp Vault](https://www.vaultproject.io/).
 ### Introduction
 
 Nowadays, software is commonly delivered  as a service and doesn't matter the programming
-language that was chosen, it's always good to follow [the twelve-factor app]() methodology.
+language that was chosen, it's always good to follow [the twelve-factor app](https://12factor.net/) methodology.
 
 The first factor is about the [codebase](https://12factor.net/codebase), it starts saying:
 
