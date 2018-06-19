@@ -17,7 +17,7 @@ integrating with [HashiCorp Vault](https://www.vaultproject.io/).
 ### Introduction
 
 Nowadays, software is commonly delivered  as a service and doesn't matter the programming
-language that was chosen, it's always good to follow [the twelve-factor app](https://12factor.net/config) methodology.
+language that was chosen, it's always good to follow [the twelve-factor app]() methodology.
 
 The first factor is about the [codebase](https://12factor.net/codebase), it starts saying:
 
@@ -27,7 +27,8 @@ It means that the same codebase needs to be deployed in multiple environments wi
 configuration, which brings us to the externalized configuration.
 
 If you are working (or going to work) with microservices in an elastic environment, you probably
-noticed the need for a central place for configuration management, and that's also [one of the twelve-factors](methodology).
+noticed the need for a central place for configuration management, and that's also 
+[one of the twelve-factors](https://12factor.net/config).
 
 ### Pre-req
  
