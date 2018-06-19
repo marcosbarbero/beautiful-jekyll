@@ -402,7 +402,7 @@ sent to the client.</p>
 As with any Spring Boot configuration, you can embed <code class="highlighter-rouge">${}</code>-style environment placeholders, but remember that absolute 
 paths in Windows require an extra / (for example, <code class="highlighter-rouge">file:///${user.home}/config-repo</code>).</p>
 
-<p>For this guide I’ll create a folder named <code class="highlighter-rouge">config-repo</code> ${user.home}, this new folder is created to store the 
+<p>For this guide I’ll create a folder named <code class="highlighter-rouge">config-repo</code> in the <code class="highlighter-rouge">${user.home}</code>, this new folder is created to store the 
 configuration files for the native profile.</p>
 
 <p>Now add the following configuration to <code class="highlighter-rouge">application.yml</code>.</p>
