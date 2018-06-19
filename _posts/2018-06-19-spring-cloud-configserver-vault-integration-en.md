@@ -116,7 +116,7 @@ Remember to use the file: prefix for `file` resources (the default without a pre
 As with any Spring Boot configuration, you can embed `${}`-style environment placeholders, but remember that absolute 
 paths in Windows require an extra / (for example, `file:///${user.home}/config-repo`).
 
-For this guide I'll create a folder named `config-repo` ${user.home}, this new folder is created to store the 
+For this guide I'll create a folder named `config-repo` in the `${user.home}`, this new folder is created to store the 
 configuration files for the native profile.
 
 Now add the following configuration to `application.yml`.
