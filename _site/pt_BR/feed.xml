@@ -3,8 +3,8 @@
   <channel>
     <title>Marcos Barbero's Blog</title>
     <description>Eu crio coisas e escrevo sobre isso... às vezes.</description>
-    <link>http://0.0.0.0:4000/pt_BR</link>
-    <atom:link href="http://0.0.0.0:4000/pt_BR/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://blog.marcosbarbero.com/pt_BR</link>
+    <atom:link href="http://blog.marcosbarbero.com/pt_BR/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
         <title>Integrating Vault with Spring Cloud Config Server</title>
@@ -14,10 +14,10 @@
         </description>
         <pubDate>Tue, 19 Jun 2018 00:00:00 +0200</pubDate>
         <link>
-          http://0.0.0.0:4000/pt_BR/integrating-vault-spring-cloud-config/
+          http://blog.marcosbarbero.com/pt_BR/integrating-vault-spring-cloud-config/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/pt_BR/integrating-vault-spring-cloud-config/
+          http://blog.marcosbarbero.com/pt_BR/integrating-vault-spring-cloud-config/
         </guid>
       </item>
     
@@ -29,10 +29,10 @@
         </description>
         <pubDate>Thu, 14 Jun 2018 00:00:00 +0200</pubDate>
         <link>
-          http://0.0.0.0:4000/pt_BR/user-impersonation-with-spring-security/
+          http://blog.marcosbarbero.com/pt_BR/user-impersonation-with-spring-security/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/pt_BR/user-impersonation-with-spring-security/
+          http://blog.marcosbarbero.com/pt_BR/user-impersonation-with-spring-security/
         </guid>
       </item>
     
@@ -44,10 +44,10 @@
         </description>
         <pubDate>Tue, 12 Jun 2018 00:00:00 +0200</pubDate>
         <link>
-          http://0.0.0.0:4000/pt_BR/spring-cloud-netflix-zuul-rate-limit/
+          http://blog.marcosbarbero.com/pt_BR/spring-cloud-netflix-zuul-rate-limit/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/pt_BR/spring-cloud-netflix-zuul-rate-limit/
+          http://blog.marcosbarbero.com/pt_BR/spring-cloud-netflix-zuul-rate-limit/
         </guid>
       </item>
     
@@ -59,10 +59,10 @@
         </description>
         <pubDate>Sun, 04 Mar 2018 00:00:00 +0100</pubDate>
         <link>
-          http://0.0.0.0:4000/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/
+          http://blog.marcosbarbero.com/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/
+          http://blog.marcosbarbero.com/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/
         </guid>
       </item>
     
@@ -74,10 +74,10 @@
         </description>
         <pubDate>Sat, 24 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://0.0.0.0:4000/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
+          http://blog.marcosbarbero.com/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
+          http://blog.marcosbarbero.com/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
         </guid>
       </item>
     
@@ -89,10 +89,10 @@
         </description>
         <pubDate>Sat, 17 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/
+          http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/
+          http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/
         </guid>
       </item>
     
@@ -104,10 +104,10 @@
         </description>
         <pubDate>Sat, 10 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://0.0.0.0:4000/pt_BR/creating-a-batch-service/
+          http://blog.marcosbarbero.com/pt_BR/creating-a-batch-service/
         </link>
         <guid isPermaLink="true">
-          http://0.0.0.0:4000/pt_BR/creating-a-batch-service/
+          http://blog.marcosbarbero.com/pt_BR/creating-a-batch-service/
         </guid>
       </item>
     

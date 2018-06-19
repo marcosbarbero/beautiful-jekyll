@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="en">
-<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/integrating-vault-spring-cloud-config/"/>
+<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/integrating-vault-spring-cloud-config/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/integrating-vault-spring-cloud-config/"/>
 
 
   <title>Integrating Vault with Spring Cloud Config Server</title>
@@ -73,8 +73,8 @@
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://0.0.0.0:4000/integrating-vault-spring-cloud-config/" />
-  <link rel="canonical" href="http://0.0.0.0:4000/integrating-vault-spring-cloud-config/" />
+  <meta property="og:url" content="http://blog.marcosbarbero.com/integrating-vault-spring-cloud-config/" />
+  <link rel="canonical" href="http://blog.marcosbarbero.com/integrating-vault-spring-cloud-config/" />
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://0.0.0.0:4000">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://blog.marcosbarbero.com">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -191,7 +191,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://0.0.0.0:4000">
+	    <a href="http://blog.marcosbarbero.com">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -309,9 +309,9 @@ language that was chosen, it’s always good to follow <a href="https://12factor
 </blockquote>
 
 <p>It means that the same codebase needs to be deployed in multiple environments without any change other than the
-configuration, which brings us to externalized configuration.</p>
+configuration, which brings us to the externalized configuration.</p>
 
-<p>If you are working (or going to work) with microservices in elastic environment, you probably
+<p>If you are working (or going to work) with microservices in an elastic environment, you probably
 noticed the need for a central place for configuration management, and that’s also <a href="methodology">one of the twelve-factors</a>.</p>
 
 <h3 id="pre-req">Pre-req</h3>
@@ -326,7 +326,7 @@ noticed the need for a central place for configuration management, and that’s 
 <h3 id="spring-cloud-config">Spring Cloud Config</h3>
 
 <p><a href="https://cloud.spring.io/spring-cloud-config/">Spring Cloud Config</a> provides server and client-side support for
-externalized configuration in distributed system and it has quite few backend storage support, this guide covers
+externalized configuration in a distributed system and it has quite few backend storage support, this guide covers
 the following:</p>
 
 <ul>
@@ -337,7 +337,7 @@ the following:</p>
 
 <h4 id="setting-the-config-server">Setting the Config Server</h4>
 
-<p>The easiest way to setup a Config Server is reaching <a href="http://start.spring.io/">start.spring.io</a>, search for <code class="highlighter-rouge">Config Server</code>
+<p>The easiest way to set up a Config Server is reaching <a href="http://start.spring.io/">start.spring.io</a>, search for <code class="highlighter-rouge">Config Server</code>
 in the <code class="highlighter-rouge">dependencies</code> search box and hit the <code class="highlighter-rouge">Generate Project</code> button, it will generate a zip file containing the 
 <code class="highlighter-rouge">Config Server</code> project with all the necessary dependencies. Unzip the project, open the main class and add the 
 <code class="highlighter-rouge">@EnableConfigServer</code> on the class level.</p>
@@ -382,7 +382,7 @@ walk through some of them.</p>
 
 <h5 id="file-system-backend">File System Backend</h5>
 
-<p>There’s a <code class="highlighter-rouge">native</code> profile available where the <code class="highlighter-rouge">Config Server</code> searchs for the properties/YAML files from the local classpath
+<p>There’s a <code class="highlighter-rouge">native</code> profile available where the <code class="highlighter-rouge">Config Server</code> searches for the properties/YAML files from the local classpath
 or file system.</p>
 
 <div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="s">spring</span><span class="pi">:</span>
@@ -447,7 +447,7 @@ in this guide) named <code class="highlighter-rouge">configclient</code>, and ad
 </span></code></pre>
 </div>
 
-<p class="box-warning">The <code class="highlighter-rouge">native</code> profile is a good way to start with <code class="highlighter-rouge">Config Server</code> on local environment, but I don’t recommend 
+<p class="box-warning">The <code class="highlighter-rouge">native</code> profile is a good way to start with <code class="highlighter-rouge">Config Server</code> on the local environment, but I don’t recommend 
 anyone to go to production using a file system based storage.</p>
 
 <h5 id="git-backend">Git Backend</h5>
@@ -524,7 +524,7 @@ overrides all the previously defined.</p>
 <p class="box-note">Vault is a tool for securely accessing secrets. A secret is anything that to which you want to tightly control access, such as API keys, passwords, certificates, and other sensitive information. Vault provides a unified interface to any secret while providing tight access control and recording a detailed audit log.</p>
 
 <p>There’s also a <code class="highlighter-rouge">vault</code> profile that enables integration with <a href="https://www.vaultproject.io/">Vault</a> to securely store the application properties, 
-in this part we’ll be using <code class="highlighter-rouge">docker</code> to create a <code class="highlighter-rouge">vault</code> container.</p>
+in this part, we’ll be using <code class="highlighter-rouge">docker</code> to create a <code class="highlighter-rouge">vault</code> container.</p>
 
 <p>Create a vault container:</p>
 
@@ -602,7 +602,7 @@ content.</p>
 
 <p class="box-note">It’s important to add exactly <code class="highlighter-rouge">configclient</code> as <code class="highlighter-rouge">spring.application.name</code> because that’s the name used to bind to the external configuration.</p>
 
-<p>Now open the main class and add a <code class="highlighter-rouge">@Value</code> to recover our <code class="highlighter-rouge">pseudo</code> property and return it in a endpoint, here’s my main class for reference.</p>
+<p>Now open the main class and add a <code class="highlighter-rouge">@Value</code> to recover our <code class="highlighter-rouge">pseudo</code> property and return it to an endpoint, here’s my main class for reference.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@RestController</span>
 <span class="nd">@SpringBootApplication</span>
@@ -673,7 +673,7 @@ and secured all your secrets with <a href="https://www.vaultproject.io/">HashiCo
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=Integrating+Vault+with+Spring+Cloud+Config+Server+http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"
+    <a href="https://twitter.com/intent/tweet?text=Integrating+Vault+with+Spring+Cloud+Config+Server+http://blog.marcosbarbero.com/integrating-vault-spring-cloud-config/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -682,7 +682,7 @@ and secured all your secrets with <a href="https://www.vaultproject.io/">HashiCo
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/integrating-vault-spring-cloud-config/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -691,7 +691,7 @@ and secured all your secrets with <a href="https://www.vaultproject.io/">HashiCo
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"
+    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/integrating-vault-spring-cloud-config/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -700,7 +700,7 @@ and secured all your secrets with <a href="https://www.vaultproject.io/">HashiCo
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/integrating-vault-spring-cloud-config/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -788,7 +788,7 @@ and secured all your secrets with <a href="https://www.vaultproject.io/">HashiCo
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://0.0.0.0:4000">blog.marcosbarbero.com</a>
+      <a href="http://blog.marcosbarbero.com">blog.marcosbarbero.com</a>
       
 
       
