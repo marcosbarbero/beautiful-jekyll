@@ -280,7 +280,7 @@ spring:
           host: 127.0.01
 ```
 
-Complete configuration for referece:
+Complete configuration for reference:
 
 ```yaml
 spring:
