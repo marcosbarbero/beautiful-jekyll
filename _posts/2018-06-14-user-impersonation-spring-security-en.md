@@ -5,7 +5,7 @@ bigimg: /img/caution-cone-control-compressed.jpg
 share-img: /img/caution-cone-control-compressed.jpg
 gh-repo: weekly-drafts/user-impersonation-spring-security
 gh-badge: [star, fork, follow]
-tags: [spring-framework, spring-security, java, tutorial]
+tags: [spring-framework, spring-security, security, java, tutorial]
 permalink: /user-impersonation-with-spring-security/
 lang: en
 ---

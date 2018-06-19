@@ -3,8 +3,23 @@
   <channel>
     <title>Marcos Barbero's Blog</title>
     <description>I create things and I blog about it... sometimes.</description>
-    <link>http://blog.marcosbarbero.com</link>
-    <atom:link href="http://blog.marcosbarbero.com/feed.xml" rel="self" type="application/rss+xml" />
+    <link>http://0.0.0.0:4000</link>
+    <atom:link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Integrating Vault with Spring Cloud Config Server</title>
+        <description>
+          
+          This guide walks through the process of creating a central configuration management for microservices using Spring Cloud Config integrating with HashiCorp Vault. Introduction Nowadays, software is commonly delivered as a service and doesn’t matter the programming language that was chosen, it’s always good to follow the twelve-factor app methodology. The...
+        </description>
+        <pubDate>Tue, 19 Jun 2018 00:00:00 +0200</pubDate>
+        <link>
+          http://0.0.0.0:4000/integrating-vault-spring-cloud-config/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/integrating-vault-spring-cloud-config/
+        </guid>
+      </item>
     
       <item>
         <title>User impersonation with Spring Security</title>
@@ -14,10 +29,10 @@
         </description>
         <pubDate>Thu, 14 Jun 2018 00:00:00 +0200</pubDate>
         <link>
-          http://blog.marcosbarbero.com/user-impersonation-with-spring-security/
+          http://0.0.0.0:4000/user-impersonation-with-spring-security/
         </link>
         <guid isPermaLink="true">
-          http://blog.marcosbarbero.com/user-impersonation-with-spring-security/
+          http://0.0.0.0:4000/user-impersonation-with-spring-security/
         </guid>
       </item>
     
@@ -29,10 +44,10 @@
         </description>
         <pubDate>Tue, 12 Jun 2018 00:00:00 +0200</pubDate>
         <link>
-          http://blog.marcosbarbero.com/spring-cloud-netflix-zuul-rate-limit/
+          http://0.0.0.0:4000/spring-cloud-netflix-zuul-rate-limit/
         </link>
         <guid isPermaLink="true">
-          http://blog.marcosbarbero.com/spring-cloud-netflix-zuul-rate-limit/
+          http://0.0.0.0:4000/spring-cloud-netflix-zuul-rate-limit/
         </guid>
       </item>
     
@@ -44,10 +59,10 @@
         </description>
         <pubDate>Sun, 04 Mar 2018 00:00:00 +0100</pubDate>
         <link>
-          http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/
+          http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/
         </link>
         <guid isPermaLink="true">
-          http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/
+          http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/
         </guid>
       </item>
     
@@ -59,10 +74,10 @@
         </description>
         <pubDate>Sat, 24 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://blog.marcosbarbero.com/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
+          http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
         </link>
         <guid isPermaLink="true">
-          http://blog.marcosbarbero.com/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
+          http://0.0.0.0:4000/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
         </guid>
       </item>
     
@@ -74,10 +89,10 @@
         </description>
         <pubDate>Sat, 17 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/
+          http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/
         </link>
         <guid isPermaLink="true">
-          http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/
+          http://0.0.0.0:4000/multiple-mongodb-connectors-in-spring-boot/
         </guid>
       </item>
     
@@ -89,10 +104,10 @@
         </description>
         <pubDate>Sat, 10 Feb 2018 00:00:00 +0100</pubDate>
         <link>
-          http://blog.marcosbarbero.com/creating-a-batch-service/
+          http://0.0.0.0:4000/creating-a-batch-service/
         </link>
         <guid isPermaLink="true">
-          http://blog.marcosbarbero.com/creating-a-batch-service/
+          http://0.0.0.0:4000/creating-a-batch-service/
         </guid>
       </item>
     
