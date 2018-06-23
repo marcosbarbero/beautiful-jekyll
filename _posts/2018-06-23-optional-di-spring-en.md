@@ -17,7 +17,7 @@ There are quite a few use-cases where it's needed to make optional some of the d
 
  * Provide a default implementation whenever a required infrastructure dependency is not provided, such as `DataSource`s.
  * Prevent the usage of dependencies such as monitoring strategies depending on the `environment`.
- * If you are building your [spring-boot own auto-configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-auto-configuration.html) component, sometimes it's necessary to have optional dependencies.
+ * If you are building your [own spring-boot auto-configuration](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-auto-configuration.html) component, sometimes it's necessary to have optional dependencies.
 
 ### @Autowired
 
