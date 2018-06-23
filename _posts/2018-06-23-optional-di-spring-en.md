@@ -13,7 +13,7 @@ This guide walks through the options available to inject `optional` dependencies
 
 ### Introduction
 
-There are quite few use-cases where it's needed to make optional some of the dependencies injected, here are some of them:
+There are quite a few use-cases where it's needed to make optional some of the dependencies injected, here are some of them:
 
  * Provide a default implementation whenever a required infrastructure dependency is not provided, such as `DataSource`s.
  * Prevent the usage of dependencies such as monitoring strategies depending on the `environment`.
@@ -31,7 +31,7 @@ private HelloService helloService;
 
 It works fine and gets us to where we wanted, however, I don't recommend anyone to use field injection and one 
 of the reasons for that is the `test` layer of the application. Whenever field injection is used it's mandatory
-to use `reflaction` to inject a different implementation based on the `test case`.
+to use `reflection` to inject a different implementation based on the `test case`.
 
 ### Java 8 Optional type
 
@@ -59,7 +59,7 @@ public class HelloController {
 }
 ```
 
-The implementation above gives you an `Optional` monad where you can validate whether the implementention is present
+The implementation above gives you an `Optional` monad where you can validate whether the implementation is present
 before using it.
 
 ### Spring's ObjectProvider
@@ -99,7 +99,7 @@ public class HelloController {
 }
 ```
 
-In this example, it's not only optional but also it provides an default implementation as fallback.
+In this example, it's not only optional but also it provides a default implementation as a fallback.
 
 ### Summary
 Congratulations! You just learned few ways to optionally inject dependencies within Spring apps.
