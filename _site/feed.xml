@@ -10,7 +10,7 @@
         <title>Optional Dependency Injection with Spring</title>
         <description>
           
-          This guide walks through the options available to inject optional dependencies with Spring DI. Introduction There are quite few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them: Provide a default implementation whenever a required infrastructure dependency is not provided, such as...
+          This guide walks through the options available to inject optional dependencies with Spring DI. Introduction There are quite a few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them: Provide a default implementation whenever a required infrastructure dependency is not provided, such...
         </description>
         <pubDate>Sat, 23 Jun 2018 00:00:00 +0200</pubDate>
         <link>

@@ -66,7 +66,7 @@
   
 
    
-  <meta property="og:description" content="This guide walks through the options available to inject optional dependencies with Spring DI. Introduction There are quite few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them: Provide a default implementation whenever a required infrastructure dependency is not provided, such as...">
+  <meta property="og:description" content="This guide walks through the options available to inject optional dependencies with Spring DI. Introduction There are quite a few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them: Provide a default implementation whenever a required infrastructure dependency is not provided, such...">
   
 
 
@@ -92,7 +92,7 @@
   
 
   
-  <meta name="twitter:description" content="This guide walks through the options available to inject optional dependencies with Spring DI. Introduction There are quite few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them: Provide a default implementation whenever a required infrastructure dependency is not provided, such as...">
+  <meta name="twitter:description" content="This guide walks through the options available to inject optional dependencies with Spring DI. Introduction There are quite a few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them: Provide a default implementation whenever a required infrastructure dependency is not provided, such...">
   
 
   
@@ -265,7 +265,7 @@
 
 <h3 id="introduction">Introduction</h3>
 
-<p>There are quite few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them:</p>
+<p>There are quite a few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them:</p>
 
 <ul>
   <li>Provide a default implementation whenever a required infrastructure dependency is not provided, such as <code class="highlighter-rouge">DataSource</code>s.</li>
@@ -285,7 +285,7 @@ something like this:</p>
 
 <p>It works fine and gets us to where we wanted, however, I don’t recommend anyone to use field injection and one 
 of the reasons for that is the <code class="highlighter-rouge">test</code> layer of the application. Whenever field injection is used it’s mandatory
-to use <code class="highlighter-rouge">reflaction</code> to inject a different implementation based on the <code class="highlighter-rouge">test case</code>.</p>
+to use <code class="highlighter-rouge">reflection</code> to inject a different implementation based on the <code class="highlighter-rouge">test case</code>.</p>
 
 <h3 id="java-8-optional-type">Java 8 Optional type</h3>
 
@@ -313,7 +313,7 @@ here a sample:</p>
 </code></pre>
 </div>
 
-<p>The implementation above gives you an <code class="highlighter-rouge">Optional</code> monad where you can validate whether the implementention is present
+<p>The implementation above gives you an <code class="highlighter-rouge">Optional</code> monad where you can validate whether the implementation is present
 before using it.</p>
 
 <h3 id="springs-objectprovider">Spring’s ObjectProvider</h3>
@@ -355,7 +355,7 @@ designed specifically for injection points.</p>
 </code></pre>
 </div>
 
-<p>In this example, it’s not only optional but also it provides an default implementation as fallback.</p>
+<p>In this example, it’s not only optional but also it provides a default implementation as a fallback.</p>
 
 <h3 id="summary">Summary</h3>
 <p>Congratulations! You just learned few ways to optionally inject dependencies within Spring apps.</p>
