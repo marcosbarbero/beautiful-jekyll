@@ -52,10 +52,8 @@ public class HelloController {
 
     @GetMapping("/hello")
     public String hello() {
-        if (optionalHelloService.isPresent()) {
-            return optionalHelloService.get().hello();
-        }
-       return "default hello message";
+        return optionalHelloService.map(HelloService::hello)
+                .orElse("Hello there, fallback!");
     }
 
 }
