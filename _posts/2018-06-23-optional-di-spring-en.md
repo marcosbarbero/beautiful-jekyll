@@ -3,6 +3,8 @@ layout: post
 title: Optional Dependency Injection using Spring
 gh-repo: weekly-drafts/spring-optional-dependency-injection
 gh-badge: [star, fork, follow]
+bigimg: /img/optional-di-spring.jpg
+share-img: /img/optional-di-spring.jpg
 tags: [spring-framework, di, java, tutorial]
 permalink: /optional-di-spring/
 lang: en
