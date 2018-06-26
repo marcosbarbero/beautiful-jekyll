@@ -333,10 +333,8 @@ here a sample:</p>
 
     <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/hello"</span><span class="o">)</span>
     <span class="kd">public</span> <span class="n">String</span> <span class="nf">hello</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">optionalHelloService</span><span class="o">.</span><span class="na">isPresent</span><span class="o">())</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="n">optionalHelloService</span><span class="o">.</span><span class="na">get</span><span class="o">().</span><span class="na">hello</span><span class="o">();</span>
-        <span class="o">}</span>
-       <span class="k">return</span> <span class="s">"default hello message"</span><span class="o">;</span>
+        <span class="k">return</span> <span class="n">optionalHelloService</span><span class="o">.</span><span class="na">map</span><span class="o">(</span><span class="nl">HelloService:</span><span class="o">:</span><span class="n">hello</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">orElse</span><span class="o">(</span><span class="s">"Hello there, fallback!"</span><span class="o">);</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
