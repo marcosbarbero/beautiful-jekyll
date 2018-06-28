@@ -69,7 +69,7 @@ designed specifically for injection points.
 
 From the javadocs:
 
->A variant of {@link ObjectFactory} designed specifically for injection points, allowing for programmatic optionality and lenient not-unique handling.
+>A variant of `ObjectFactory` designed specifically for injection points, allowing for programmatic optionality and lenient not-unique handling.
 
 Using the same example from above:
 
