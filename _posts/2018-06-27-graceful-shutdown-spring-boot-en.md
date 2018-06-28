@@ -5,7 +5,7 @@ gh-repo: weekly-drafts/graceful-shutdown-spring-boot
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-boot, tomcat, java, tutorial]
 bigimg: /img/unplug.jpg
-share-img: /img/unplug.jpg
+<!-- share-img: /img/unplug.jpg -->
 permalink: /graceful-shutdown-spring-boot-apps/
 lang: en
 ---
