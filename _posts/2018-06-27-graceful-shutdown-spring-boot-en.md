@@ -111,7 +111,7 @@ public class LongProcessController {
     @RequestMapping("/long-process")
     public String pause() throws InterruptedException {
         Thread.sleep(10000);
-        return "Pause complete";
+        return "Process finished";
     }
 
 }
