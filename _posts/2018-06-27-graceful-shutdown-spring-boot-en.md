@@ -155,7 +155,7 @@ Process finished
 ```
 
 ### Summary
-Congratulations! You just learned few ways to optionally inject dependencies within Spring apps.
+Congratulations! You just learned how to graceful shutdown Spring Boot apps.
 
 ### Footnote
   - The code used for this tutorial can be found on [GitHub](https://github.com/weekly-drafts/graceful-shutdown-spring-boot)
