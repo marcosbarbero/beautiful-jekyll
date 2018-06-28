@@ -395,7 +395,7 @@ With that in place it’s now necessary to register this bean to the <code class
     <span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/long-process"</span><span class="o">)</span>
     <span class="kd">public</span> <span class="n">String</span> <span class="nf">pause</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">InterruptedException</span> <span class="o">{</span>
         <span class="n">Thread</span><span class="o">.</span><span class="na">sleep</span><span class="o">(</span><span class="mi">10000</span><span class="o">);</span>
-        <span class="k">return</span> <span class="s">"Pause complete"</span><span class="o">;</span>
+        <span class="k">return</span> <span class="s">"Process finished"</span><span class="o">;</span>
     <span class="o">}</span>
 
 <span class="o">}</span>
