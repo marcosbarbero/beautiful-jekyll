@@ -334,6 +334,8 @@ it just gracefully wait then to finish before the shutdown?</p>
 
     <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">log</span> <span class="o">=</span> <span class="n">LoggerFactory</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">GracefulShutdown</span><span class="o">.</span><span class="na">class</span><span class="o">);</span>
 
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">TIMEOUT</span> <span class="o">=</span> <span class="mi">30</span><span class="o">;</span>
+
     <span class="kd">private</span> <span class="kd">volatile</span> <span class="n">Connector</span> <span class="n">connector</span><span class="o">;</span>
 
     <span class="nd">@Override</span>
@@ -349,9 +351,15 @@ it just gracefully wait then to finish before the shutdown?</p>
             <span class="k">try</span> <span class="o">{</span>
                 <span class="n">ThreadPoolExecutor</span> <span class="n">threadPoolExecutor</span> <span class="o">=</span> <span class="o">(</span><span class="n">ThreadPoolExecutor</span><span class="o">)</span> <span class="n">executor</span><span class="o">;</span>
                 <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">shutdown</span><span class="o">();</span>
-                <span class="k">if</span> <span class="o">(!</span><span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">awaitTermination</span><span class="o">(</span><span class="mi">30</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(!</span><span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">awaitTermination</span><span class="o">(</span><span class="n">TIMEOUT</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">))</span> <span class="o">{</span>
                     <span class="n">log</span><span class="o">.</span><span class="na">warn</span><span class="o">(</span><span class="s">"Tomcat thread pool did not shut down gracefully within "</span>
-                            <span class="o">+</span> <span class="s">"30 seconds. Proceeding with forceful shutdown"</span><span class="o">);</span>
+                            <span class="o">+</span> <span class="n">TIMEOUT</span> <span class="o">+</span> <span class="s">" seconds. Proceeding with forceful shutdown"</span><span class="o">);</span>
+
+                    <span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">shutdownNow</span><span class="o">();</span>
+
+                    <span class="k">if</span> <span class="o">(!</span><span class="n">threadPoolExecutor</span><span class="o">.</span><span class="na">awaitTermination</span><span class="o">(</span><span class="n">TIMEOUT</span><span class="o">,</span> <span class="n">TimeUnit</span><span class="o">.</span><span class="na">SECONDS</span><span class="o">))</span> <span class="o">{</span>
+                        <span class="n">log</span><span class="o">.</span><span class="na">error</span><span class="o">(</span><span class="s">"Tomcat thread pool did not terminate"</span><span class="o">);</span>
+                    <span class="o">}</span>
                 <span class="o">}</span>
             <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">InterruptedException</span> <span class="n">ex</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">interrupt</span><span class="o">();</span>
