@@ -50,6 +50,8 @@ public class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationL
 
     private static final Logger log = LoggerFactory.getLogger(GracefulShutdown.class);
 
+    private static final int TIMEOUT = 30;
+
     private volatile Connector connector;
 
     @Override
@@ -65,9 +67,15 @@ public class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationL
             try {
                 ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) executor;
                 threadPoolExecutor.shutdown();
-                if (!threadPoolExecutor.awaitTermination(30, TimeUnit.SECONDS)) {
+                if (!threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.SECONDS)) {
                     log.warn("Tomcat thread pool did not shut down gracefully within "
-                            + "30 seconds. Proceeding with forceful shutdown");
+                            + TIMEOUT + " seconds. Proceeding with forceful shutdown");
+
+                    threadPoolExecutor.shutdownNow();
+
+                    if (!threadPoolExecutor.awaitTermination(TIMEOUT, TimeUnit.SECONDS)) {
+                        log.error("Tomcat thread pool did not terminate");
+                    }
                 }
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
