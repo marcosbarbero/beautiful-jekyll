@@ -5,7 +5,7 @@ bigimg: /img/ha-discovery.jpg
 share-img: /img/ha-discovery.jpg
 gh-repo: weekly-drafts/spring-cloud-eureka-zone-affinity
 gh-badge: [star, fork, follow]
-tags: [spring-framework, spring-cloud, netflix, tutorial]
+tags: [spring-framework, spring-cloud, ha, netflix, tutorial]
 permalink: /ha-and-zone-affinity-spring-cloud-eureka/
 lang: en
 ---
