@@ -10,7 +10,7 @@
         <title>Graceful Shutdown Spring Boot Applications</title>
         <description>
           
-          This guide walks through the process of graceful shutdown a Spring Boot application. The implementation of this blog post is originally created by Andy Wilkinson and it was based on this GitHub comment. Introduction A lot of developers and architects discuss about the application design, traffic load, frameworks, patterns to...
+          This guide walks through the process of graceful shutdown a Spring Boot application. The implementation of this blog post is originally created by Andy Wilkinson and adapted by me to Spring Boot 2. The code is based on this GitHub comment. Introduction A lot of developers and architects discuss about...
         </description>
         <pubDate>Wed, 27 Jun 2018 00:00:00 +0200</pubDate>
         <link>
