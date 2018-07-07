@@ -14,8 +14,9 @@ This guide walks through the process of graceful shutdown a [Spring Boot](https:
 application.
 
 {: .box-note}
-The implementation of this blog post is originally created by [Andy Wilkinson](https://twitter.com/ankinson) and it 
-was based on this [GitHub comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811).
+The implementation of this blog post is originally created by [Andy Wilkinson](https://twitter.com/ankinson) 
+and adapted by me to Spring Boot 2. The code is based on this 
+[GitHub comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811).
 
 
 ### Introduction
