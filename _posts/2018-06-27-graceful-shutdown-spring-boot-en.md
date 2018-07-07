@@ -15,7 +15,7 @@ application.
 
 {: .box-note}
 The implementation of this blog post is originally created by [Andy Wilkinson](https://twitter.com/ankinson) and it 
-was based on this [comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811)
+was based on this [GitHub comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811).
 
 
 ### Introduction
