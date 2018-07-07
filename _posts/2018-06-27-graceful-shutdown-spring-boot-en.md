@@ -13,6 +13,11 @@ lang: en
 This guide walks through the process of graceful shutdown a [Spring Boot](https://spring.io/projects/spring-boot)
 application.
 
+{: .box-note}
+The implementation of this blog post is originally created by [Andy Wilkinson](https://twitter.com/ankinson) and it 
+was based on this [comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811)
+
+
 ### Introduction
 
 A lot of developers and architects discuss about the application design, traffic load, frameworks, patterns 

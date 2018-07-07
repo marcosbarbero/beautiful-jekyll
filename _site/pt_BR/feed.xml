@@ -7,25 +7,10 @@
     <atom:link href="http://0.0.0.0:4000/pt_BR/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
-        <title>Blue-Green Deployment with Spring Cloud Netflix Stack</title>
-        <description>
-          
-          This guide walks through the process of achieving Blue Green Deployment with Spring Cloud Netflix stack. Introduction Blue-Green deployment is a technique used for CI / CD where you have two environments with different versions of your app deployed and one of the environments you use for production and the...
-        </description>
-        <pubDate>Tue, 03 Jul 2018 00:00:00 +0200</pubDate>
-        <link>
-          http://0.0.0.0:4000/pt_BR/blue-green-deployment-spring-cloud-netflix/
-        </link>
-        <guid isPermaLink="true">
-          http://0.0.0.0:4000/pt_BR/blue-green-deployment-spring-cloud-netflix/
-        </guid>
-      </item>
-    
-      <item>
         <title>Graceful Shutdown Spring Boot Applications</title>
         <description>
           
-          This guide walks through the process of graceful shutdown a Spring Boot application. Introduction A lot of developers and architects discuss about the application design, traffic load, frameworks, patterns to apply, but very few of them are discussing about the shutdown phase. Let’s considere this scenario, there’s an application in...
+          This guide walks through the process of graceful shutdown a Spring Boot application. The implementation in this blog post is originally created by Andy Wilkinson and it was based on this comment Introduction A lot of developers and architects discuss about the application design, traffic load, frameworks, patterns to apply,...
         </description>
         <pubDate>Wed, 27 Jun 2018 00:00:00 +0200</pubDate>
         <link>
