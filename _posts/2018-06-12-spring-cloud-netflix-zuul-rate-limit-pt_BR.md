@@ -7,7 +7,7 @@ gh-repo: marcosbarbero/spring-cloud-zuul-ratelimit
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-cloud, netflix, rate-limit, java]
 permalink: /spring-cloud-netflix-zuul-rate-limit/
-lang: en
+lang: pt_BR
 ---
 
 In the development of APIs sometimes it's necessary to control the rate of the traffic received by the network 

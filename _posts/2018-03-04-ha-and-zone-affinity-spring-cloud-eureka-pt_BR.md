@@ -1,6 +1,6 @@
 ---
 layout: post
-title: HA and Zone Affinity With Spring Cloud Netflix Eureka
+title: HA e Afinidade de Zonas usando Spring Cloud Netflix Eureka
 bigimg: /img/ha-discovery.jpg
 share-img: /img/ha-discovery.jpg
 gh-repo: weekly-drafts/spring-cloud-eureka-zone-affinity
