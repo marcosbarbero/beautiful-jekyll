@@ -1,54 +1,55 @@
 ---
 layout: post
-title: User impersonation with Spring Security
+title: Personificação de usuário com Spring Security
 bigimg: /img/caution-cone-control-compressed.jpg
 share-img: /img/caution-cone-control-compressed.jpg
 gh-repo: weekly-drafts/user-impersonation-spring-security
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-security, security, java, tutorial]
 permalink: /user-impersonation-with-spring-security/
-lang: en
+lang: pt_BR
 ---
 
-This guide walks through the process of creating an user impersonation from super / admin users with 
-[spring security](https://spring.io/projects/spring-security).
+Esse tutorial the guiará no processo de criação de um user impersonation a partir de super / admin usuários
+com [spring security](https://spring.io/projects/spring-security).
 
-### Overview
+### Introdução
 
-It's a common use-case for secured applications that the `admin` / `super` users to be able to login
-as any other user. It can be helpful for use cases such as customer support analysis where the analyst
-can access the system as the real user.
+É um caso de uso comum para aplicações seguras que um `admin` /  `super` usuário seja capaz de fazer login
+como qualquer outro usuário. Isso pode ser muito útil em casos como análise de suporte ao cliente onde o
+analista pode acessar o sistema como o usuário real.
 
-A possible solution for that would be asking for the customer's password or get it from the database. This
-solution is nothing else than a security breach. If the password storage is implemented correctly it should be
-[impossible to recover the customer's password](https://nakedsecurity.sophos.com/2013/11/20/serious-security-how-to-store-your-users-passwords-safely/).
+Uma possível solução para isso seria pedir a senha para o cliente ou então procurar por isso no banco de dados.
+Essa solução não é nada além de uma falha de segurança. Se o armazenamento de senhas é implementado correntamente
+deveria ser [impossível recuperar a senha de um cliente](https://nakedsecurity.sophos.com/2013/11/20/serious-security-how-to-store-your-users-passwords-safely/).
 
-To solve that problem it would be possible for `super` / `admin` users to impersonate any other specific 
-user without the need for the target user's password. With a proper user impersonation implementation in
-place, the system knows who has really logged in and it can be used to track the super user's action if
-there's an audit log in place.
+Para resolver esse problema deveria ser possível para um `super` / `admin` usuário personificar qualquer outro
+usuário específico sem a necessidade da senha do usuário final. Com uma implementação de personificação de usuário
+o sistema sabe quem estava realmente autenticado e isso pode ser usado para rastrear as ações do super usuário se
+houver um log de auditoria.
 
-It's a lot to implement from scratch, luckily this feature is present in [spring security](https://spring.io/projects/spring-security).
+Implementar uma funcionalidade de personificação de usuário é muito trabalhoso, por sorte essa funcionalidade
+está presente no [spring security](https://spring.io/projects/spring-security).
 
-### Meet SwitchUserFilter
+### Conheça o SwitchUserFilter
 
 [SwitchUserFilter](https://github.com/spring-projects/spring-security/blob/master/web/src/main/java/org/springframework/security/web/authentication/switchuser/SwitchUserFilter.java)
-is a `Filter` responsible for user context switching.
+é um filtro responsável por fazer a troca de contexto dos usuários.
 
-From the javadoc:
+Do javadoc:
 
->This filter is similar to Unix 'su' however for Spring Security-managed web
->applications. A common use-case for this feature is the ability to allow
->higher-authority users (e.g. ROLE_ADMIN) to switch to a regular user (e.g. ROLE_USER).
+>Esse filtro é similar ao Unix 'su' entretanto para aplicações web gerenciadas pelo Spring Security
+>Um caso de uso comum para essa funcionalidade é a habilidade de permitir usuários com autoridades altas
+>(ex: ROLE_ADMIN) trocar para um usuário comum (ex: ROLE_USER).
 
-This filter requires the following properties:
+Esse filtro requer as seguintes propriedades:
 
-|Property           |Description                                                  |
-|-------------------|-------------------------------------------------------------|
-|switchUserUrl      |The processing URL for the user impersonation                |
-|switchFailureUrl   |The target URL whenever the user impersonation fails         |
-|targetUrl          |The target URL whenever the user impersonation is successful |
-|userDetailsService |A reference to the `userDetailsService` `@Bean`              |
+|Propriedade        |Descrição                                                     |
+|-------------------|--------------------------------------------------------------|
+|switchUserUrl      |A URL de processamento para a personificação do usuário       |
+|switchFailureUrl   |A URL de redirecionamento caso a personificação falhe         |
+|targetUrl          |A URL de redirecionamento caso a personificação tenha sucesso |
+|userDetailsService |Uma referencia para o `@Bean` `userDetailsService`            |
 
 <br />
 
@@ -66,7 +67,7 @@ public SwitchUserFilter switchUserFilter() {
 
 ### SwitchUserFilter Form
 
-Now we need to define an HTML form that's going to be used to switch the users.
+Agora nós precisamos definir um formulário HTML que será usado para fazer a troca dos usuários.
 
 ```html
 <form method="GET" th:action="@{/impersonate}" class="form">
@@ -76,40 +77,41 @@ Now we need to define an HTML form that's going to be used to switch the users.
 </form>
 ```
 
-Here are some remarks
-  * The value defined in the `action` needs the same value defined by the `SwitchUserFilter#switchUserUrl` property.
-  * It can be a `GET` request.
-  * The request is handled by the `SwitchUserFilter`.
+Algumas observações:
+  * O valor definido na `action` do formulário precisa ser o mesmo definido na propriedade `SwitchUserFilter#switchUserUrl`.
+  * Isso pode ser um request do tipo `GET`.
+  * O request é interceptado pelo filtro `SwitchUserFilter`.
 
-### Securing the form
+### Aplicando segurança ao formulário
 
-It's necessary to make sure that only `ADMIN` users will be able to reach the `impersonate form`, otherwise, any
-user will be able to switch to another user's account without the need of the password.
+É necessário fazer com que somente usuários `ADMIN` sejam capazes de acessar o formulário de personificação, caso contrário,
+qualquer usuário será capaz de personificar outro usuário sem a necessidade de uma senha.
 
-Add the following piece of code to the security configuration.
+Adicione o seguinte código na configuração do spring security.
+
 
 ```java
 http.authorizeRequests()
         .antMatchers("/switchUser").access("hasRole('ADMIN')");
 ```
 
-Now, if any other user tries to access the `/switchUser` URL, they will get an `HTTP 403 Forbidden` response.
+Agora, se qualquer outro usuário tentar acessar o endpoint `/switchUser`, eles receberão uma resposta `HTTP 403 Forbidden`.
 
-### Who is really logged in?
+### Quem realmente está logado?
 
-This mechanism totally switches the `Authentication` object in the `SecurityContext`, it means, if you look at
-the current user's permissions or roles, you'll get the impersonated user's values, not the `ADMIN` user.
+Esse mecanismo troca totalmente o objecto `Authentication` no `SecurityContext`, isso quer dizer que se você olhar
+para as permissões e roles do usuário atual, você recebrá os valores do usuário personificado, não o usuário `ADMIN`.
 
-Spring Security by default adds a new role `ROLE_PREVIOUS_ADMINISTRATOR` to the impersonated user. So to make it
-easier to go back to the `ADMIN` user, we need to add this role to the security configuration.
+Spring Security por padrão adiciona uma nova role `ROLE_PREVIOUS_ADMINISTRATOR` para o usuário personificado. Para facilitar
+a volta para o usuário `ADMIN` nós precisamos adicionar essa role para a configuração.
 
 ```java
 http.authorizeRequests()
         .antMatchers("/switchUser").access("hasAnyRole('ADMIN', 'ROLE_PREVIOUS_ADMINISTRATOR')");
 ```
 
-### Summary
-Congratulations! You just created a user impersonation filter using spring security.
+### Sumário
+Parabéns! Você acabou de criar uma personificação de usuário usando spring security.
 
-### Footnote
-  - The code used for this tutorial can be found on [github](https://github.com/weekly-drafts/user-impersonation-spring-security)
+### Nota de rodapé
+  - O código utilizado nesse tutorial pode ser encontrado no [GitHub](https://github.com/weekly-drafts/user-impersonation-spring-security)
