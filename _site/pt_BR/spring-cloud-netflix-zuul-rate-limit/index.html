@@ -313,12 +313,32 @@ junto com <code class="highlighter-rouge">Spring Cloud Netflix Zuul</code> no qu
 <p>A implementação atual suporta uma lista de configurações por serviço assim como uma configuração padrão para todos os outros serviços
 caso seja necessário.</p>
 
-<p>| Rate Limit Type     | Descrição                                      |
-|———————|————————————————|
-|<code class="highlighter-rouge">Usuário autenticado</code> | Usa o username do usuário autenticado ou ‘anonymous’ |
-|<code class="highlighter-rouge">Origem do request    | Usa o IP de origem do usuário                  |
-|</code>URL<code class="highlighter-rouge">                | Usa o caminho do request para o downstream service|
-|</code>Configuração global por serviço` | Esse não valida origem do request, autenticação ou URI. Para usar essa abordagem basta não setar nenhum tipo |</p>
+<table>
+  <thead>
+    <tr>
+      <th>Rate Limit Type</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">Usuário autenticado</code></td>
+      <td>Usa o username do usuário autenticado ou ‘anonymous’</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">Origem do request</code></td>
+      <td>Usa o IP de origem do usuário</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">URL</code></td>
+      <td>Usa o caminho do request para o downstream service</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">Configuração global por serviço</code></td>
+      <td>Esse não valida origem do request, autenticação ou URI. Para usar essa abordagem basta não setar nenhum tipo</td>
+    </tr>
+  </tbody>
+</table>
 
 <h3 id="armazenamentos-suportados">Armazenamentos Suportados</h3>
 

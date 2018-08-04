@@ -33,11 +33,11 @@ junto com `Spring Cloud Netflix Zuul` no qual irá adicionar suporte para fazer 
 A implementação atual suporta uma lista de configurações por serviço assim como uma configuração padrão para todos os outros serviços
 caso seja necessário.
 
-| Rate Limit Type     | Descrição                                      |
-|---------------------|------------------------------------------------|
+| Rate Limit Type      | Descrição                                            |
+|----------------------|------------------------------------------------------|
 |`Usuário autenticado` | Usa o username do usuário autenticado ou 'anonymous' |
-|`Origem do request    | Usa o IP de origem do usuário                  |
-|`URL`                | Usa o caminho do request para o downstream service|
+|`Origem do request`    | Usa o IP de origem do usuário                        |
+|`URL`                 | Usa o caminho do request para o downstream service   |
 |`Configuração global por serviço` | Esse não valida origem do request, autenticação ou URI. Para usar essa abordagem basta não setar nenhum tipo |
 
 ### Armazenamentos Suportados
