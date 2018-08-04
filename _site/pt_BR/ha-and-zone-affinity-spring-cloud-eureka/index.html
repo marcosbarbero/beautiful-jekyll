@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="pt_BR">
-<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/"/>
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/"/>
 
 
   <title>HA and Zone Affinity With Spring Cloud Netflix Eureka</title>
@@ -66,15 +66,15 @@
   
 
    
-  <meta property="og:description" content="This tutorial will guide you through the process to setup zone affinity in Spring Cloud Netflix Eureka. What You Will Build You will build three applications: API Gateway - Spring Cloud Netflix Zuul Service Registry - Spring Cloud Netflix Eureka REST Service - Spring Cloud All those are necessary to...">
+  <meta property="og:description" content="Esse tutorial te guiará no processo de configurar zonas de afinidade usando Spring Cloud Netflix Eureka. O que você irá construir Você construirá três aplicações API Gateway - Spring Cloud Netflix Zuul Service Registry - Spring Cloud Netflix Eureka REST Service - Spring Cloud Todas as três aplicações são necessárias...">
   
 
 
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/" />
-  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/" />
   
 
   
@@ -92,7 +92,7 @@
   
 
   
-  <meta name="twitter:description" content="This tutorial will guide you through the process to setup zone affinity in Spring Cloud Netflix Eureka. What You Will Build You will build three applications: API Gateway - Spring Cloud Netflix Zuul Service Registry - Spring Cloud Netflix Eureka REST Service - Spring Cloud All those are necessary to...">
+  <meta name="twitter:description" content="Esse tutorial te guiará no processo de configurar zonas de afinidade usando Spring Cloud Netflix Eureka. O que você irá construir Você construirá três aplicações API Gateway - Spring Cloud Netflix Zuul Service Registry - Spring Cloud Netflix Eureka REST Service - Spring Cloud Todas as três aplicações são necessárias...">
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -188,7 +188,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://blog.marcosbarbero.com/pt_BR/">
+	    <a href="http://0.0.0.0:4000/pt_BR/">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -290,10 +290,10 @@
       
 
       <article role="main" class="blog-post">
-        <p>This tutorial will guide you through the process to setup zone affinity in Spring Cloud Netflix Eureka.</p>
+        <p>Esse tutorial te guiará no processo de configurar zonas de afinidade usando Spring Cloud Netflix Eureka.</p>
 
-<h3 id="what-you-will-build">What You Will Build</h3>
-<p>You will build three applications:</p>
+<h3 id="o-que-você-irá-construir">O que você irá construir</h3>
+<p>Você construirá três aplicações</p>
 
 <ul>
   <li>API Gateway - <a href="https://cloud.spring.io/spring-cloud-netflix/">Spring Cloud Netflix Zuul</a></li>
@@ -301,36 +301,37 @@
   <li>REST Service - <a href="http://projects.spring.io/spring-cloud/">Spring Cloud</a></li>
 </ul>
 
-<p>All those are necessary to make sure that our zone affinity setup is correct. Each of them will be deployed 
-twice, one per zone.</p>
+<p>Todas as três aplicações são necessárias para ter certeza que a nossa configuração está correta. Cada uma dela
+será deployada duas vezes, uma por zona.</p>
 
 <h3 id="pre-req">Pre-Req</h3>
 
 <ul>
   <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 1.8</a></li>
-  <li>Text editor or your favorite IDE</li>
+  <li>Editor de texto ou IDE</li>
   <li><a href="https://maven.apache.org/download.cgi">Maven 3.0+</a></li>
 </ul>
 
-<h3 id="zone-affinity">Zone Affinity</h3>
-<p>It doesn’t matter which kind of architectural style the application is using, it’s a common use case to have the same application deployed 
-in different regions/data centers and use some technique to keep the requests within the same zone.</p>
+<h3 id="afinidade-de-zonas">Afinidade de Zonas</h3>
+<p>Não importa em qual estilo de arquitetura uma aplicação está usando, é um caso de uso muito comum ter a mesma aplicação deployada
+em multiplas regiões/data centers e usar algumas técnicas para manter os requests dentro da mesma zona.</p>
 
-<p>In microservices architecture, there’s also a need to achieve the same thing but the technique needs to be applied using the 
-<a href="http://microservices.io/patterns/service-registry.html">Service Registry Design Pattern</a>.</p>
+<p>Numa arquitetura de microservices, também existe a necessidade de manter o request dentro da mesma zona e isso precisa ser aplicado
+usando o <a href="http://microservices.io/patterns/service-registry.html">Design Pattern - Service Registry</a>.</p>
 
 <h3 id="spring-cloud-netflix">Spring Cloud Netflix</h3>
-<p><a href="https://cloud.spring.io/spring-cloud-netflix/">Spring Cloud Netflix</a> 
-makes it easy to implement the necessary <a href="http://microservices.io/patterns/">patterns for microservices</a>.</p>
+<p><a href="https://cloud.spring.io/spring-cloud-netflix/">Spring Cloud Netflix</a> torna fácil a implementação dos 
+<a href="http://microservices.io/patterns/">design patterns para microservices</a>.</p>
 
-<h3 id="creating-the-applications">Creating the Applications</h3>
-<p>In this guide, we’ll create three applications, and if you’re familiar with spring-cloud, it will be an easy job, 
-all the created applications are nothing more than a simple runnable spring-boot jar.</p>
+<h3 id="criando-as-aplicações">Criando as Aplicações</h3>
+<p>Nesse tutorial nós criaremos três aplicações, se você tem familiaridade com <code class="highlighter-rouge">spring-cloud</code> isso será muito fácil,
+todas as aplicações criadas não são nada além de uma simples aplicação <code class="highlighter-rouge">spring-boot</code>.</p>
 
-<p>The main part here is the configuration files that will be shown further on.</p>
+<p>A parte principal são os arquivos de configurações que serão mostrados adiante.</p>
 
-<h3 id="base-dependencies">Base Dependencies</h3>
-<p>Add the following dependencies for all the applications. If there’s any diff for any specific application, it will be mentioned in each specific thread.</p>
+<h3 id="dependencias-base">Dependencias Base</h3>
+<p>Adicione as seguintes dependencias para todas as aplicações. Se houver alguma dependência específica para alguma aplicação isso 
+será mencionado em cada tópico específico.</p>
 
 <div class="language-xml highlighter-rouge"><pre class="highlight"><code>    <span class="nt">&lt;parent&gt;</span>
         <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
@@ -379,9 +380,9 @@ all the created applications are nothing more than a simple runnable spring-boot
 </div>
 
 <h3 id="api-gateway">API Gateway</h3>
-<p>The first application we’ll create will be the API Gateway using 
+<p>A primeira aplicação que criaremos será o API Gateway usando
 <a href="https://cloud.spring.io/spring-cloud-netflix">Spring Cloud Netflix Zuul</a>.
-First, add the following dependency in the pom.xml.</p>
+Primeiro adicione a seguinte dependencia no <code class="highlighter-rouge">pom.xml</code>.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">dependency</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">groupId</span><span class="o">&gt;</span><span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">cloud</span><span class="o">&lt;/</span><span class="n">groupId</span><span class="o">&gt;</span>
@@ -390,8 +391,8 @@ First, add the following dependency in the pom.xml.</p>
 </code></pre>
 </div>
 
-<h4 id="java-configuration">Java Configuration</h4>
-<p>Now just create the main SpringApplication class adding <code class="highlighter-rouge">@EnableZuulProxy</code>.</p>
+<h4 id="java-config">Java Config</h4>
+<p>Agora basta criar a classe principal e adicionar a anotação <code class="highlighter-rouge">@EnableZuulProxy</code>.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
@@ -410,9 +411,9 @@ First, add the following dependency in the pom.xml.</p>
 </div>
 
 <h3 id="service-registry">Service Registry</h3>
-<p>The second application we’ll create will be the Service Registry using 
+<p>A segunda aplicação que criaremos é o Service Registry usando
 <a href="https://cloud.spring.io/spring-cloud-netflix">Spring Cloud Netflix Eureka</a>.
-First, add the following dependency in the pom.xml.</p>
+Primeiro adicione a seguinte dependência ao <code class="highlighter-rouge">pom.xml</code>.</p>
 
 <div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
     <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
@@ -421,8 +422,8 @@ First, add the following dependency in the pom.xml.</p>
 </code></pre>
 </div>
 
-<h4 id="java-configuration-1">Java Configuration</h4>
-<p>Now just create the main SpringApplication class adding @EnableEurekaServer.</p>
+<h4 id="java-config-1">Java Config</h4>
+<p>Agora basta criar a classe principal e adicionar a anotação <code class="highlighter-rouge">@EnableEurekaServer</code>.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
@@ -438,12 +439,15 @@ First, add the following dependency in the pom.xml.</p>
 </code></pre>
 </div>
 
-<h3 id="simple-rest-service">Simple REST Service</h3>
-<p>The third application contains nothing more than a REST endpoint to make sure that each call from each 
-region will remain in the requested region. For this application, there’s nothing to add to the base pom.xml.</p>
+<h3 id="rest-service">REST Service</h3>
+<p>A terceira aplicação contém nada além de um endoint REST que retorna a <code class="highlighter-rouge">zona</code> onde a aplicação está rodando,
+apenas para termos certeza de que cada request se manterá na mesma região.</p>
 
-<h4 id="java-configuration-2">Java Configuration</h4>
-<p>To make things easier, I’m creating the main class with a nested RestController, the following controller returns which zone is this application deployed.</p>
+<p>Para essa aplicação não há necessidade de acrescentar nenhuma dependência específica.</p>
+
+<h4 id="java-config-2">Java Config</h4>
+<p>Para facilitar as coias eu estou criando uma classe aninhada que será nosso <code class="highlighter-rouge">RestController</code>, esse controller retornará a zona onde a 
+aplicação foi deployada.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Value</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
@@ -472,10 +476,10 @@ region will remain in the requested region. For this application, there’s noth
 </code></pre>
 </div>
 
-<h4 id="configuration-properties">Configuration Properties</h4>
-<p>As it was previously mentioned, each application needs to run twice in order to simulate two distinct regions, 
-to make it easier we’ll create the configuration based on <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html">profiles</a>, 
-for each application create the following three files:</p>
+<h4 id="properties">Properties</h4>
+<p>Como ceitei anteriormente, cada aplicação precisa ser deployada duas vezes para simular duas zonas distintas,
+para facilitar nós criaremos as configurações baseadas em <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-profiles.html">profiles</a>, 
+para cada aplicação nós criaremos os seguintes três arquivos:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code>src/main/resources/application.yml
 src/main/resources/application-zone1.yml
@@ -483,7 +487,7 @@ src/main/resources/application-zone2.yml
 </code></pre>
 </div>
 
-<p class="box-note">The suffix in the filename will be used as the profile name.</p>
+<p class="box-note">O sufixo no nome do arquivo será usado como nome do profile.</p>
 
 <h4 id="service-registry-1">Service Registry</h4>
 <div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># src/main/resources/application.yml</span>
@@ -501,7 +505,7 @@ src/main/resources/application-zone2.yml
 </code></pre>
 </div>
 
-<p>All the following properties are in eureka.client namespace.</p>
+<p>Todas as seguintes propriedades estão debaixo da propriedade <code class="highlighter-rouge">eureka.client</code>.</p>
 
 <table>
   <thead>
@@ -513,20 +517,21 @@ src/main/resources/application-zone2.yml
   <tbody>
     <tr>
       <td>region</td>
-      <td>A String containing a name for the region where the application will be deployed</td>
+      <td>Uma String contendo o nome da região onde a aplicação será deployada</td>
     </tr>
     <tr>
       <td>service-url</td>
-      <td>A Map containing the list of available zones for the given region</td>
+      <td>Um mapa contendo uma lista URLs com as zonas de disponibilidade para a região</td>
     </tr>
     <tr>
       <td>availability-zones</td>
-      <td>A Map containing a comma-separated list of zones for the given region</td>
+      <td>Um mapa contendo uma lista delimitada por vírgula contendo uma lista de zonas</td>
     </tr>
   </tbody>
 </table>
 
-<p>The properties register-with-eureka and fetch-registry are disabling the Service Registry to be added in the applications list but it’s not that important for this setup.</p>
+<p>As propriedades <code class="highlighter-rouge">register-with-eureka</code> e <code class="highlighter-rouge">fetch-registry</code> estão previnindo que o Eureka Server seja adicionado para a lista de aplicações,
+mas isso não é tão importante para esse tutorial.</p>
 
 <div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># src/main/resources/application-zone1.yml</span>
 <span class="s">server.port</span><span class="pi">:</span> <span class="s">8761</span>
@@ -546,11 +551,11 @@ src/main/resources/application-zone2.yml
 </code></pre>
 </div>
 
-<p>For the <code class="highlighter-rouge">-zone1</code> and <code class="highlighter-rouge">-zone2</code> profiles the only difference are the server.port, the actual zone 
-configured in eureka.metadataMap.zone, and in this case the hostname, each Eureka Server needs 
-to run in a different hostname; as I’m running both in the same machine I’m naming it as 127.0.01 and localhost.</p>
+<p>Para os profiles <code class="highlighter-rouge">-zone1</code> e <code class="highlighter-rouge">-zone2</code> a única diferença é o <code class="highlighter-rouge">server.port</code>, a zona está configurada em
+<code class="highlighter-rouge">eureka.metadataMap.zone</code>, e nesse caso o hostname, cada Eureka Server precisa rodar em hosts diferentes,
+como eu estou executando ambos no mesmo host eu estou nomeando como <code class="highlighter-rouge">127.0.0.1</code> e <code class="highlighter-rouge">localhost</code>.</p>
 
-<p class="box-note">It’s not necessary to add the hostname in case you are running on different machines.</p>
+<p class="box-note">Não é necessário adicionar o hostname caso você esteja rodando em hosts diferentes.</p>
 
 <h4 id="gateway">Gateway</h4>
 <div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># src/main/resources/application.yml</span>
@@ -590,10 +595,10 @@ In case there’s no available client in the same zone, it will call from anothe
 </code></pre>
 </div>
 
-<p>As before, this per profile configuration only changes the availability zone and the running port.</p>
+<p>Como antes, a única mudança entre os perfis são a zona de disponibilidade e a porta.</p>
 
-<h4 id="simple-rest-service-1">Simple REST Service</h4>
-<p>The configuration for the service itself contains the same configuration as the Gateway.</p>
+<h4 id="rest-service-1">REST Service</h4>
+<p>Esse serviço tem a mesma configuração do API Gateway.</p>
 
 <div class="language-yaml highlighter-rouge"><pre class="highlight"><code><span class="c1"># src/main/resources/application.yml</span>
 <span class="s">eureka</span><span class="pi">:</span>
@@ -628,22 +633,22 @@ In case there’s no available client in the same zone, it will call from anothe
 </div>
 
 <h3 id="build--run">Build &amp; Run</h3>
-<p>It’s time to build the applications; if you are building the application using maven (like I did), just build them executing:</p>
+<p>Agora é hora de compilar as aplicações, se (assim como eu) você está usando maven então apenas execute:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>mvn clean package
 </code></pre>
 </div>
 
-<p>Right after that just run each application adding the specific profile to the command line, e.g:</p>
+<p>Logo após isso execute cada aplicação adicionando o profile específico, por exemplo:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>java -jar target/<span class="k">*</span>.jar --spring.profiles.active<span class="o">=</span>zone1
 </code></pre>
 </div>
 
-<p class="box-note">Remember that you need to run each application twice, once each profile: zone1 and zone2.</p>
+<p class="box-note">Lembre-se que você precisará executar duas vezes cada aplicação, uma para cada profile: <code class="highlighter-rouge">zone1</code> e <code class="highlighter-rouge">zone2</code>.</p>
 
-<h3 id="validation">Validation</h3>
-<p>To validate if the requests are respecting each zone we need to make a request to the simple-service through each gateway.</p>
+<h3 id="validando">Validando</h3>
+<p>Para validar se cada request está respeitando as zonas nós faremos o request através do Gateway.</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://localhost:8080/simple-service/zone
 <span class="o">{</span><span class="s2">"zone"</span><span class="o">=</span><span class="s2">"zone1"</span><span class="o">}</span>
@@ -652,31 +657,32 @@ In case there’s no available client in the same zone, it will call from anothe
 </code></pre>
 </div>
 
-<p class="box-note">The difference between each zone here is the server.port.</p>
+<p class="box-note">A única diferença entre cada zona é a porta onde o serviço está rodando.</p>
 
-<h3 id="zone-failover-validation">Zone Failover Validation</h3>
-<p>To validate the failover between zones you just need to stop one of the instances and make a request to the opposite zone, e.g:</p>
+<h3 id="validando-o-failover-das-zonas">Validando o failover das zonas</h3>
+<p>Para validar o failover entre as zonas você so precisa parar uma das instancias e fazer o request na zona oposta, exemplo:</p>
 
 <ol>
-  <li>Stop simple-service on zone2.</li>
-  <li>Make a request to simple-service through the gateway on zone2.</li>
+  <li>Pare o serviço <code class="highlighter-rouge">simple-service</code> na zone2.</li>
+  <li>Faça um request para o <code class="highlighter-rouge">simple-service</code> na zone2 através do Gateway.</li>
 </ol>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl http://localhost:8081/simple-service/zone
 </code></pre>
 </div>
 
-<p>The expected result now will be a <code class="highlighter-rouge">JSON</code> containing <code class="highlighter-rouge"><span class="p">{</span><span class="nt">"zone"</span><span class="err">=</span><span class="nt">"zone1"</span><span class="err">}</span></code>.<br />
-Once the simple-service for zone1 is up, running and registered in Eureka Server the same curl has to respond <code class="highlighter-rouge"><span class="p">{</span><span class="nt">"zone"</span><span class="err">=</span><span class="nt">"zone2"</span><span class="err">}</span></code> again.</p>
+<p>Agora o resultado experado é um <code class="highlighter-rouge">JSON</code> contendo <code class="highlighter-rouge"><span class="p">{</span><span class="nt">"zone"</span><span class="err">=</span><span class="nt">"zone1"</span><span class="err">}</span></code>.<br />
+Uma vez que o <code class="highlighter-rouge">simple-service</code> volte a rodar e está registrado no Eureka Server o mesmo request deve voltar a responder <code class="highlighter-rouge"><span class="p">{</span><span class="nt">"zone"</span><span class="err">=</span><span class="nt">"zone2"</span><span class="err">}</span></code>.</p>
 
-<p class="box-note">It takes a while to the simple-service be available in the opposite zone, be patient and have fun!</p>
+<p class="box-note">Leva algum tempo até que o <code class="highlighter-rouge">simple-service</code> esteja disponível na zona oposta, seja paciente e divirta-se!</p>
 
-<h3 id="summary">Summary</h3>
-<p>Congratulations! You just created and configured an API Gateway, Service Registry and a Simple REST Service that respects zone affinity bringing to your microservices more resilience and HA.</p>
+<h3 id="sumário">Sumário</h3>
+<p>Parabéns! Você acabou de criar e configurar um API Gateway, Service Registry e um serviço REST que resposta zonas de afinidade
+trazendo mais resiliencia e disponibilidade para os teus microservices.</p>
 
-<h3 id="footnote">Footnote</h3>
+<h3 id="nota-de-rodapé">Nota de Rodapé</h3>
 <ul>
-  <li>The code used for this tutorial can be found on <a href="https://github.com/weekly-drafts/spring-cloud-eureka-zone-affinity">github</a></li>
+  <li>O código usado nesse tutorial pode ser encontrado no <a href="https://github.com/weekly-drafts/spring-cloud-eureka-zone-affinity">GitHub</a></li>
 </ul>
 
       </article>
@@ -711,7 +717,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=HA+and+Zone+Affinity+With+Spring+Cloud+Netflix+Eureka+http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"
+    <a href="https://twitter.com/intent/tweet?text=HA+and+Zone+Affinity+With+Spring+Cloud+Netflix+Eureka+http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -720,7 +726,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -729,7 +735,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -738,7 +744,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/ha-and-zone-affinity-spring-cloud-eureka/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/ha-and-zone-affinity-spring-cloud-eureka/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -830,7 +836,7 @@ Once the simple-service for zone1 is up, running and registered in Eureka Server
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
+      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
       
 
       
