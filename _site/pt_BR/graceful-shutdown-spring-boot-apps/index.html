@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="pt_BR">
-<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/graceful-shutdown-spring-boot-apps/"/>
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/graceful-shutdown-spring-boot-apps/"/>
 
 
   <title>Graceful Shutdown Spring Boot Applications</title>
@@ -66,19 +66,19 @@
   
 
    
-  <meta property="og:description" content="This guide walks through the process of graceful shutdown a Spring Boot application. The implementation of this blog post is originally created by Andy Wilkinson and adapted by me to Spring Boot 2. The code is based on this GitHub comment. Introduction A lot of developers and architects discuss about...">
+  <meta property="og:description" content="This guide walks through the process of graceful shutdown a Spring Boot application. The implementation of this blog post is originally created by Andy Wilkinson and adapted by me to Spring Boot 2. The code is based on this GitHub comment. Introdução A lot of developers and architects discuss about...">
   
 
 
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/" />
-  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/graceful-shutdown-spring-boot-apps/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/graceful-shutdown-spring-boot-apps/" />
   
 
   
-  <meta property="og:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
+  <meta property="og:image" content="/img/unplug.jpg" />
   
 
 
@@ -92,11 +92,11 @@
   
 
   
-  <meta name="twitter:description" content="This guide walks through the process of graceful shutdown a Spring Boot application. The implementation of this blog post is originally created by Andy Wilkinson and adapted by me to Spring Boot 2. The code is based on this GitHub comment. Introduction A lot of developers and architects discuss about...">
+  <meta name="twitter:description" content="This guide walks through the process of graceful shutdown a Spring Boot application. The implementation of this blog post is originally created by Andy Wilkinson and adapted by me to Spring Boot 2. The code is based on this GitHub comment. Introdução A lot of developers and architects discuss about...">
   
 
   
-  <meta name="twitter:image" content="http://blog.marcosbarbero.com/img/avatar.jpeg" />
+  <meta name="twitter:image" content="/img/unplug.jpg" />
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -188,7 +188,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://blog.marcosbarbero.com/pt_BR/">
+	    <a href="http://0.0.0.0:4000/pt_BR/">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -297,7 +297,7 @@ application.</p>
 and adapted by me to Spring Boot 2. The code is based on this 
 <a href="https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811">GitHub comment</a>.</p>
 
-<h3 id="introduction">Introduction</h3>
+<h3 id="introdução">Introdução</h3>
 
 <p>A lot of developers and architects discuss about the application design, traffic load, frameworks, patterns 
 to apply, but very few of them are discussing about the shutdown phase.</p>
@@ -391,7 +391,7 @@ With that in place it’s now necessary to register this bean to the <code class
 </code></pre>
 </div>
 
-<h3 id="how-to-test">How to test?</h3>
+<h3 id="como-testar">Como testar?</h3>
 
 <p>To test this implementation I just created a <code class="highlighter-rouge">LongProcessController</code> in which has a <code class="highlighter-rouge">Thread.sleep</code> of <code class="highlighter-rouge">10</code> seconds.</p>
 
@@ -414,7 +414,7 @@ With that in place it’s now necessary to register this bean to the <code class
 <p>Now it’s just a matter of run your spring boot application, make a request to the <code class="highlighter-rouge">/long-process</code> endpoint
 and in the meantime kill it with a <code class="highlighter-rouge">SIGTERM</code>.</p>
 
-<h4 id="locate-the-process-id">Locate the process id</h4>
+<h4 id="encontre-o-id-do-processo">Encontre o id do processo</h4>
 
 <p>When you start the application, you can locate the process id in the logs, in my case it’s <code class="highlighter-rouge">6578</code>.</p>
 
@@ -423,7 +423,7 @@ and in the meantime kill it with a <code class="highlighter-rouge">SIGTERM</code
 </code></pre>
 </div>
 
-<h4 id="request-and-shutdown">Request and shutdown</h4>
+<h4 id="request-e-shutdown">Request e shutdown</h4>
 
 <p>Perform a request to the <code class="highlighter-rouge">/long-process</code> endpoint, I’m using <code class="highlighter-rouge">curl</code>for that:</p>
 
@@ -448,10 +448,10 @@ Process finished
 </code></pre>
 </div>
 
-<h3 id="summary">Summary</h3>
+<h3 id="sumário">Sumário</h3>
 <p>Congratulations! You just learned how to graceful shutdown Spring Boot apps.</p>
 
-<h3 id="footnote">Footnote</h3>
+<h3 id="nota-de-rodapé">Nota de rodapé</h3>
 <ul>
   <li>The code used for this tutorial can be found on <a href="https://github.com/weekly-drafts/graceful-shutdown-spring-boot">GitHub</a></li>
   <li>This implementation was based on this <a href="https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811">comment</a></li>
@@ -489,7 +489,7 @@ Process finished
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=Graceful+Shutdown+Spring+Boot+Applications+http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"
+    <a href="https://twitter.com/intent/tweet?text=Graceful+Shutdown+Spring+Boot+Applications+http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -498,7 +498,7 @@ Process finished
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -507,7 +507,7 @@ Process finished
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -516,7 +516,7 @@ Process finished
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -532,7 +532,7 @@ Process finished
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="/pt_BR/optional-di-spring/" data-toggle="tooltip" data-placement="top" title="Optional Dependency Injection using Spring">&larr; Previous Post</a>
+          <a href="/pt_BR/optional-di-spring/" data-toggle="tooltip" data-placement="top" title="Injeção de Dependencias Opcionais usando Spring">&larr; Previous Post</a>
         </li>
         
         
@@ -604,7 +604,7 @@ Process finished
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
+      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
       
 
       

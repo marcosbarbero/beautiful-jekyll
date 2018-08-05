@@ -7,7 +7,7 @@ gh-repo: weekly-drafts/spring-cloud-configserver-vault
 gh-badge: [star, fork, follow]
 tags: [spring-framework, security, spring-cloud, vault, java, tutorial]
 permalink: /integrating-vault-spring-cloud-config/
-lang: en
+lang: pt_BR
 ---
 
 This guide walks through the process of creating a central configuration management

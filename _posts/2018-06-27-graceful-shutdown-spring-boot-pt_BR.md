@@ -5,9 +5,9 @@ gh-repo: weekly-drafts/graceful-shutdown-spring-boot
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-boot, tomcat, java, tutorial]
 bigimg: /img/unplug.jpg
-<!-- share-img: /img/unplug.jpg -->
+share-img: /img/unplug.jpg
 permalink: /graceful-shutdown-spring-boot-apps/
-lang: en
+lang: pt_BR
 ---
 
 This guide walks through the process of graceful shutdown a [Spring Boot](https://spring.io/projects/spring-boot)
@@ -18,8 +18,7 @@ The implementation of this blog post is originally created by [Andy Wilkinson](h
 and adapted by me to Spring Boot 2. The code is based on this 
 [GitHub comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811).
 
-
-### Introduction
+### Introdução
 
 A lot of developers and architects discuss about the application design, traffic load, frameworks, patterns 
 to apply, but very few of them are discussing about the shutdown phase.
@@ -111,7 +110,7 @@ public ConfigurableServletWebServerFactory webServerFactory(final GracefulShutdo
 }
 ```
 
-### How to test?
+### Como testar?
 
 To test this implementation I just created a `LongProcessController` in which has a `Thread.sleep` of `10` seconds.
 
@@ -134,7 +133,7 @@ public class LongProcessController {
 Now it's just a matter of run your spring boot application, make a request to the `/long-process` endpoint
 and in the meantime kill it with a `SIGTERM`.
 
-#### Locate the process id
+#### Encontre o id do processo
 
 When you start the application, you can locate the process id in the logs, in my case it's `6578`.
 
@@ -143,7 +142,7 @@ When you start the application, you can locate the process id in the logs, in my
 2018-06-28 20:37:28.296  INFO 6578 --- [           main] c.m.wd.gracefulshutdown.Application      : Started Application in 2.158 seconds (JVM running for 2.591)
 ```
 
-#### Request and shutdown
+#### Request e shutdown
 
 Perform a request to the `/long-process` endpoint, I'm using `curl`for that:
 
@@ -168,9 +167,9 @@ Date: Thu, 28 Jun 2018 18:39:56 GMT
 Process finished
 ```
 
-### Summary
+### Sumário
 Congratulations! You just learned how to graceful shutdown Spring Boot apps.
 
-### Footnote
+### Nota de rodapé
   - The code used for this tutorial can be found on [GitHub](https://github.com/weekly-drafts/graceful-shutdown-spring-boot)
   - This implementation was based on this [comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811)

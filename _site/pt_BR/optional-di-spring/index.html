@@ -7,11 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="pt_BR">
-<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/optional-di-spring/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/optional-di-spring/"/>
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/optional-di-spring/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/optional-di-spring/"/>
 
 
-  <title>Optional Dependency Injection using Spring</title>
+  <title>Injeção de Dependencias Opcionais usando Spring</title>
 
   <script>
   </script>
@@ -62,19 +62,19 @@
   
 
   
-  <meta property="og:title" content="Optional Dependency Injection using Spring" />
+  <meta property="og:title" content="Injeção de Dependencias Opcionais usando Spring" />
   
 
    
-  <meta property="og:description" content="This guide walks through the options available to inject optional dependencies with Spring DI. Introduction There are quite a few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them: Provide a default implementation whenever a required infrastructure dependency is not provided, such...">
+  <meta property="og:description" content="Esse tutorial mostra as opções disponíveis para injetar dependencias opcionais usando Spring DI. Introduction Existem vários casos de uso onde é necessário tornar opcional algumas das dependencias injetadas, aqui alguns exemplos: Prover uma implementação padrão sempre que uma dependencias obrigatória de infraestutura não é provida, tal como DataSources. Previnir o...">
   
 
 
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://blog.marcosbarbero.com/optional-di-spring/" />
-  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/optional-di-spring/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/optional-di-spring/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/optional-di-spring/" />
   
 
   
@@ -88,11 +88,11 @@
   <meta name="twitter:creator" content="@" />
 
   
-  <meta name="twitter:title" content="Optional Dependency Injection using Spring" />
+  <meta name="twitter:title" content="Injeção de Dependencias Opcionais usando Spring" />
   
 
   
-  <meta name="twitter:description" content="This guide walks through the options available to inject optional dependencies with Spring DI. Introduction There are quite a few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them: Provide a default implementation whenever a required infrastructure dependency is not provided, such...">
+  <meta name="twitter:description" content="Esse tutorial mostra as opções disponíveis para injetar dependencias opcionais usando Spring DI. Introduction Existem vários casos de uso onde é necessário tornar opcional algumas das dependencias injetadas, aqui alguns exemplos: Prover uma implementação padrão sempre que uma dependencias obrigatória de infraestutura não é provida, tal como DataSources. Previnir o...">
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -188,7 +188,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://blog.marcosbarbero.com/pt_BR/">
+	    <a href="http://0.0.0.0:4000/pt_BR/">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -226,7 +226,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="post-heading">
-          <h1>Optional Dependency Injection using Spring</h1>          
+          <h1>Injeção de Dependencias Opcionais usando Spring</h1>          
 
 		  
 		  
@@ -245,7 +245,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="post-heading">
-          <h1>Optional Dependency Injection using Spring</h1>
+          <h1>Injeção de Dependencias Opcionais usando Spring</h1>
 		  
 		  
 		  
@@ -290,37 +290,37 @@
       
 
       <article role="main" class="blog-post">
-        <p>This guide walks through the options available to inject <code class="highlighter-rouge">optional</code> dependencies with 
+        <p>Esse tutorial mostra as opções disponíveis para injetar dependencias opcionais usando
 <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/using-boot-spring-beans-and-dependency-injection.html">Spring DI</a>.</p>
 
 <h3 id="introduction">Introduction</h3>
 
-<p>There are quite a few use-cases where it’s needed to make optional some of the dependencies injected, here are some of them:</p>
+<p>Existem vários casos de uso onde é necessário tornar opcional algumas das dependencias injetadas, aqui alguns exemplos:</p>
 
 <ul>
-  <li>Provide a default implementation whenever a required infrastructure dependency is not provided, such as <code class="highlighter-rouge">DataSource</code>s.</li>
-  <li>Prevent the usage of dependencies such as monitoring strategies depending on the <code class="highlighter-rouge">environment</code>.</li>
-  <li>If you are building your <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-auto-configuration.html">own spring-boot auto-configuration</a> component, sometimes it’s necessary to have optional dependencies.</li>
+  <li>Prover uma implementação padrão sempre que uma dependencias obrigatória de infraestutura não é provida, tal como <code class="highlighter-rouge">DataSource</code>s.</li>
+  <li>Previnir o uso de dependencias de estratégia de monitoramento dependendo do ambiente.</li>
+  <li>Se você está construindo o seu <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-developing-auto-configuration.html">próprio component spring-boot auto-configuration</a>, algumas vezes é necessário ter dependencias opcionais.</li>
 </ul>
 
 <h3 id="autowired">@Autowired</h3>
 
-<p>The most know approach to achieve the <code class="highlighter-rouge">optional</code> injection is simply to use the <code class="highlighter-rouge">@Autowired(required = false)</code>, 
-something like this:</p>
+<p>A abordagem mais comum para conseguir uma injeção opcional é simplesmente usar o <code class="highlighter-rouge">@Autowired(required = false)</code>, 
+por exemplo:</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Autowired</span><span class="o">(</span><span class="n">required</span> <span class="o">=</span> <span class="kc">false</span><span class="o">)</span>
 <span class="kd">private</span> <span class="n">HelloService</span> <span class="n">helloService</span><span class="o">;</span>
 </code></pre>
 </div>
 
-<p>It works fine and gets us to where we wanted, however, I don’t recommend anyone to use field injection and one 
-of the reasons for that is the <code class="highlighter-rouge">test</code> layer of the application. Whenever field injection is used it’s mandatory
-to use <code class="highlighter-rouge">reflection</code> to inject a different implementation based on the <code class="highlighter-rouge">test case</code>.</p>
+<p>Isso funciona e nos leva onde queríamos, entretanto, eu não recomendo o uso de <code class="highlighter-rouge">field</code> injection e uma das razões
+para isso é a camada de <code class="highlighter-rouge">test</code> da aplicação. Sempre que field injection for usado é obrigatório o uso de <code class="highlighter-rouge">reflection</code>
+para injetar uma implementação diferente baseado no caso de teste.</p>
 
-<h3 id="java-8-optional-type">Java 8 Optional type</h3>
+<h3 id="java-8-optional">Java 8 Optional</h3>
 
-<p>You may be familiar with Java 8’s <code class="highlighter-rouge">Optional</code> type, it can also be used while injecting dependencies with Spring,
-here a sample:</p>
+<p>Você já deve estar familiarizado com o tipo <code class="highlighter-rouge">Optional</code> do Java 8, ele também pode ser usado para fazer <code class="highlighter-rouge">DI</code> no Spring,
+por exemplo:</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@RestController</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloController</span> <span class="o">{</span>
@@ -341,21 +341,21 @@ here a sample:</p>
 </code></pre>
 </div>
 
-<p>The implementation above gives you an <code class="highlighter-rouge">Optional</code> monad where you can validate whether the implementation is present
-before using it.</p>
+<p>A implementação acima te da um <code class="highlighter-rouge">Optional</code> monad onde pode-se fazer uma validação para saber se a há implementação
+antes de usá-la.</p>
 
 <h3 id="springs-objectprovider">Spring’s ObjectProvider</h3>
 
-<p>Since Spring 4.3 there’s this class named <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/ObjectProvider.html">ObjectProvider</a>
-designed specifically for injection points.</p>
+<p>Desde o Spring 4.3 existe uma classe chamada <a href="https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/beans/factory/ObjectProvider.html">ObjectProvider</a>
+criada especificamente para pontos de injeção.</p>
 
-<p>From the javadocs:</p>
+<p>Do javadoc:</p>
 
 <blockquote>
   <p>A variant of <code class="highlighter-rouge">ObjectFactory</code> designed specifically for injection points, allowing for programmatic optionality and lenient not-unique handling.</p>
 </blockquote>
 
-<p>Using the same example from above:</p>
+<p>Usando o mesmo exemplo anterior:</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@RestController</span>
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">HelloController</span> <span class="o">{</span>
@@ -383,15 +383,15 @@ designed specifically for injection points.</p>
 </code></pre>
 </div>
 
-<p>In this example, it’s not only optional but also it provides a default implementation as a fallback.</p>
+<p>Nesse exemplo, além de opcional também é provida uma implementação padrão como fallback.</p>
 
 <h3 id="summary">Summary</h3>
-<p>Congratulations! You just learned few ways to optionally inject dependencies within Spring apps.</p>
+<p>Parabéns! Você acabou de aprender algumas maneiras de fazer DI opcionais com Spring.</p>
 
 <h3 id="footnote">Footnote</h3>
 <ul>
-  <li>The code used for this tutorial can be found on <a href="https://github.com/weekly-drafts/spring-optional-dependency-injection">GitHub</a></li>
-  <li>More about <a href="http://www.baeldung.com/inversion-control-and-dependency-injection-in-spring">IoC and DI</a></li>
+  <li>O código usado nesse tutorial pode ser encontrado no <a href="https://github.com/weekly-drafts/spring-optional-dependency-injection">GitHub</a></li>
+  <li>Mais sobre <a href="http://www.baeldung.com/inversion-control-and-dependency-injection-in-spring">IoC e DI</a></li>
 </ul>
 
       </article>
@@ -424,7 +424,7 @@ designed specifically for injection points.</p>
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=Optional+Dependency+Injection+using+Spring+http://blog.marcosbarbero.com/optional-di-spring/"
+    <a href="https://twitter.com/intent/tweet?text=Inje%C3%A7%C3%A3o+de+Dependencias+Opcionais+usando+Spring+http://0.0.0.0:4000/optional-di-spring/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -433,7 +433,7 @@ designed specifically for injection points.</p>
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/optional-di-spring/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/optional-di-spring/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -442,7 +442,7 @@ designed specifically for injection points.</p>
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/optional-di-spring/"
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/optional-di-spring/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -451,7 +451,7 @@ designed specifically for injection points.</p>
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/optional-di-spring/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/optional-di-spring/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -543,7 +543,7 @@ designed specifically for injection points.</p>
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
+      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
       
 
       
