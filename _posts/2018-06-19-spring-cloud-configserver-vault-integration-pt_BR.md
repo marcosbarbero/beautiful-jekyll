@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Integrating Vault with Spring Cloud Config Server
+title: Integrando Vault com Spring Cloud Config Server
 bigimg: /img/chain-key-lock.jpg
 share-img: /img/chain-key-lock.jpg
 gh-repo: weekly-drafts/spring-cloud-configserver-vault
@@ -10,51 +10,51 @@ permalink: /integrating-vault-spring-cloud-config/
 lang: pt_BR
 ---
 
-This guide walks through the process of creating a central configuration management
-for microservices using [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/)
-integrating with [HashiCorp Vault](https://www.vaultproject.io/).
+Esse tutorial te guiará no processo de criação de um gerenciamento centralizado de configurações
+para microservices usando [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/)
+integrando com [HashiCorp Vault](https://www.vaultproject.io/).
 
 ### Introduction
 
-Nowadays, software is commonly delivered  as a service and doesn't matter the programming
-language that was chosen, it's always good to follow [the twelve-factor app](https://12factor.net/) methodology.
+Atualmente é comum que softwares sejam entregues como serviço e não importa qual linguagem de
+programação foi escolhia, é sempre uma boa pratica seguir a metodologia [dos doze fatores](https://12factor.net/).
 
-The first factor is about the [codebase](https://12factor.net/codebase), it starts saying:
+O primeiro fator fala sobre o [código](https://12factor.net/codebase), ele começa dizendo:
 
 >One codebase tracked in revision control, many deploys
 
-It means that the same codebase needs to be deployed in multiple environments without any change other than the
-configuration, which brings us to the externalized configuration.
+Se eu traduzir literalmente para português vai ficar bem estranho, mas a ideia é que
+o mesmo código deve ser deployado várias vezes em vários ambientes sem nenhuma mudança no 
+código além das configurações, e isso nos leve para configurações externalizadas.
 
-If you are working (or going to work) with microservices in an elastic environment, you probably
-noticed the need for a central place for configuration management, and that's also 
-[one of the twelve-factors](https://12factor.net/config).
+Se você está trabalhando com microservices em um ambiente elástico, você provavelmente notou a
+necessidade de um local centralizado para gerenciamento das configurações, e isso também é 
+[um dos doze fatores](https://12factor.net/config).
 
 ### Pre-req
  
  * [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
- * Text editor or your favorite IDE
+ * Editor de texto ou sua IDE favorita
  * [Maven 3.0+](https://maven.apache.org/download.cgi)
  * [Docker](https://www.docker.com/)
 
 ### Spring Cloud Config
 
-[Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/) provides server and client-side support for
-externalized configuration in a distributed system and it has quite few backend storage support, this guide covers
-the following:
+[Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/) provê server e client-side suporte para
+configurações externalizadas em sistemas distribuídos e ele tem alguns tipos de armazenamentos suportados,
+nesse tutorial nós vamos cobrir os seguintes:
 
   * [File System](http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_file_system_backend)
   * [Git](http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_git_backend)
   * [Vault](http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#vault-backend)
 
-#### Setting the Config Server 
+#### Config Server 
 
-The easiest way to set up a Config Server is reaching [start.spring.io](http://start.spring.io/), search for `Config Server`
-in the `dependencies` search box and hit the `Generate Project` button, it will generate a zip file containing the 
-`Config Server` project with all the necessary dependencies. Unzip the project, open the main class and add the 
-`@EnableConfigServer` on the class level.
+O jeito mais fácil de criar um Config Server é acessando [start.spring.io](http://start.spring.io/), procure por `Config Server`
+no campo de busca de dependências e click no botão `Generate Project`, isso irá gerar um arquivo zip contendo o projeto com todas
+as dependências necessárias. Unzip o projeto, abra a classe principal e adicione a anotação `@EnableConfigServer` na classe.
 
-You need to end up with something like this:
+Examplo:
 
 ```java
 import org.springframework.boot.SpringApplication;
@@ -73,11 +73,11 @@ public class ConfigServerApplication {
 ```
 
 {: .box-note}
-The generated project has an `application.properties` file placed at `src/main/resources`, for personal preferences 
-I renamed it to `application.yml`.
+O projeto gerado contém um arquivo `application.properties` localizado em `src/main/resources`, por preferencias
+pessoais eu renomeei esse arquivo para `application.yml`.
 
-Open the `application.yml` file and add the following configuration, as I'm running all the applications in the same
-host it's important to change the `server.port`.
+Abra o arquivo `application.yml` e adicione a seguinte configuração, como eu estou rodando todas as aplicações na
+mesma máquina é importante alterar o `server.port`.
 
 ```yaml
 server:
@@ -88,15 +88,13 @@ spring:
     name: configserver
 ```
 
-#### Profiles & Auto of the box implementations
+#### Profiles & Implementações padrão
 
-Spring Cloud Config Server uses `profiles` to provide multiple auto of the box backend storages implementations, let's
-walk through some of them.
+Spring Cloud Config Server usa `profiles` para prover multiplas estratégias de armazenamento, vamos falar de algumas delas.
 
 ##### File System Backend
 
-There's a `native` profile available where the `Config Server` searches for the properties/YAML files from the local classpath
-or file system.
+Existe um profile `native` disponível onde o `Config Server` procura por arquivos properties/YAML no classpath ou no file system.
 
 ```yaml
 spring:
@@ -105,22 +103,21 @@ spring:
 ```
 
 {: .box-note}
-The default value of the searchLocations is identical to a local Spring Boot application (that is, 
-`[classpath:/, classpath:/config, file:./, file:./config]`). This does not expose the application.properties 
-from the server to all clients, because any property sources present in the server are removed before being 
-sent to the client.
+O valor padrão do `searchLocations` é idêntico à uma aplicação Spring Boot (`[classpath:/, classpath:/config, file:./, file:./config]`). 
+Isso não expõe o `application.properties` do server para todos os clientes, porque qualquer property source presente no server é
+removido antes de ser enviado para o cliente.
 
-You can point to any location using `spring.cloud.config.server.native.searchLocations`.
+Você pode apontar para qualquer localização usando `spring.cloud.config.server.native.searchLocations`.
 
 {: .box-note}
-Remember to use the file: prefix for `file` resources (the default without a prefix is usually the classpath). 
-As with any Spring Boot configuration, you can embed `${}`-style environment placeholders, but remember that absolute 
-paths in Windows require an extra / (for example, `file:///${user.home}/config-repo`).
+Lembre-se de usar o prefixo `file:` para arquivos no file system (o padrão sem prefixo é o classpath).  
+Como em qualquer configuração Spring Boot você pode usar placeholders `${}` para o ambiente, mas lembre-se
+que caminhos absolutos no Windows requerem uma `/` extra (por exemplo, `file:///${user.home}/config-repo`).
 
-For this guide I'll create a folder named `config-repo` in the `${user.home}`, this new folder is created to store the 
-configuration files for the native profile.
+Para esse tutorial eu criarei um diretório chamado `config-repo` no `${user.home}`, esse novo diretório é
+criado para armazenar os arquivos de configuração do profile native.
 
-Now add the following configuration to `application.yml`.
+Agora adicione a seguinte configuração no `application.yml`.
 
 ```yaml
 spring:
@@ -131,8 +128,8 @@ spring:
           searchLocations: file://${user.home}/config-repo
 ```
 
-Now create the file `config-repo/configclient.yml`, this file stores the configuration for our microservice (created later 
-in this guide) named `configclient`, and add the following configuration.
+Agora crie o arquivo `config-repo/configclient.yml`, esse arquivo armazena a configuração para o nosso
+microservice (será criado adiante nesse tutorial) chamado `configclient`, e adicione a seguinte configuração:
 
 ```
 client:
@@ -140,7 +137,7 @@ client:
     property: Property value loaded from File System
 ```
 
-Now you can start the application and hit the endpoint `http://localhost:8888/configclient/default`, the response will be:
+Agora você pode iniciar a aplicação e acessar o endpoint `http://localhost:8888/configclient/default`, a resposta será:
 
 ```json
 {  
@@ -163,17 +160,17 @@ Now you can start the application and hit the endpoint `http://localhost:8888/co
 ```
 
 {: .box-warning}
-The `native` profile is a good way to start with `Config Server` on the local environment, but I don't recommend 
-anyone to go to production using a file system based storage.
+O profile `native` é um bom jeito de começar a usar o `Config Server` em um ambiente local,
+mas eu não recomendo que alguém use um armazenamento em file system para produção.
 
 ##### Git Backend
 
-There's also a `git` profile where you can point to an external git repository that contains all the configurations files
-for your microservices. To make it work you can either add the `git` profile to the active profiles or totally remove the
-`spring.profiles.active` properties. If you choose to keep this property, the last specified profile has priority and 
-overrides all the previously defined.
+Também existe um `git` profile onde você pode apontar um repositório git que contém todos os arquivos de configurações
+para os seus microservices. Para fazer isso funcionar você pode adicionar o profile `git` para os profiles ativos ou então
+remover completamente a property `spring.profiles.active`. Se você escolher manter essa propriedade, a última especificada
+tem prioridade e sobreescreve o que está definido na anterior.
 
-Add the following config:
+Adicione a seguinte configuração:
 
 ```yaml
 spring:
@@ -186,7 +183,7 @@ spring:
           uri: https://github.com/weekly-drafts/config-repo-spring-cloud-configserver-vault
 ```
 
-Here's the full configuration for reference:
+Aqui a configuração completa para referencia:
 
 ```yaml
 spring:
@@ -203,7 +200,7 @@ spring:
           uri: https://github.com/weekly-drafts/config-repo-spring-cloud-configserver-vault
 ```
 
-Now if you hit the `http://localhost:8888/configclient/default` again, there will be the following result:
+Agora se você acessar `http://localhost:8888/configclient/default`, o resultado será:
 
 ```json
 {  
@@ -232,28 +229,29 @@ Now if you hit the `http://localhost:8888/configclient/default` again, there wil
 ```
 
 {: .box-note}
-If no profile is set `git` is the default one.
+Se um profile não foi escolhido `git` é o valor padrão.
 
 ##### Vault Backend
 
-About [Vault](https://www.vaultproject.io/):
+Sobre o [Vault](https://www.vaultproject.io/):
 
 {: .box-note}
-Vault is a tool for securely accessing secrets. A secret is anything that to which you want to tightly control access, such as API keys, passwords, certificates, and other sensitive information. Vault provides a unified interface to any secret while providing tight access control and recording a detailed audit log.
+Vault é uma ferramenta para seguramente acessar _secrets_. Um _secret_ é qualquer coisa que você queira ter controle sobre o acesso, como API keys, senhas, certificados e
+qualquer outra informação sensível. Valut provê uma interface unificada para qualquer _secret_ enquanto fornece um log de autotoria detalhado e um controle de acesso.
 
-There's also a `vault` profile that enables integration with [Vault](https://www.vaultproject.io/) to securely store the application properties, 
-in this part, we'll be using `docker` to create a `vault` container.
+Também há um profile `vault` que habilita a integração com [Vault](https://www.vaultproject.io/) para seguramente armazenar as
+propriedades das aplicações, e nesse tópico nós usaremores `docker` para criar o container do `vault`.
 
-Create a vault container:
+Crie um container Vault:
 
 ```bash
 docker run -d -p 8200:8200 --name vault -e 'VAULT_DEV_ROOT_TOKEN_ID=myroot' -e 'VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200' vault
 ```
 
 {: .box-warning}
-It's specified the root token here, **do not** do that in production.
+Aqui está especificado um token root, **não** faça isso em produção.
 
-Enter in the vault container and authenticate to vault:
+Entre no container e autentique no Vault:
 
 ```bash
 docker exec -i -t vault sh
@@ -261,13 +259,14 @@ export VAULT_ADDR='http://localhost:8200'
 vault auth myroot
 ```
 
-Now it's time to write our secret property:
+Agora é hora de escrevermos nossas propriedades:
 
 ```bash
 vault write secret/configclient client.pseudo.property="Property value loaded from Vault"
 ```
 
-Now we have everything in place, it's time to configure our `Config Server` to talk to `Vault`, add the following properties:
+Agora que temos tudo configurado é hora de configurar a comunicação entre o `Config Server` e o `Vault`, adicione
+as seguintes propriedades:
 
 ```yaml
 spring:
@@ -281,7 +280,7 @@ spring:
           host: 127.0.01
 ```
 
-Complete configuration for reference:
+Configuração completa para referência:
 
 ```yaml
 spring:
@@ -302,13 +301,14 @@ spring:
 ```
 
 {: .box-note}
-You can also secure properties without vault using [encryption](http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_encryption_and_decryption).
+Você também pode armazenar as propriedades de uma maneira segura
+sem o Vault usando [encryption](http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_encryption_and_decryption).
 
-#### Setting the Config Client
+#### Config Client
 
-As before, the easiest way to create the `config client` is reaching [start.spring.io](http://start.spring.io/) and adding 
-`Config Client` and `Web` dependencies. Open the generated project, add a `resources/bootstrap.yml` with the following
-content.
+Como antes, o jeito mais fácil de criar um `config client` é acessando [start.spring.io](http://start.spring.io/) 
+e adicionando `Config Client` e `Web` nas dependencias. Abra o arquivo gerado e crie o arquivo `resources/bootstrap.yml` 
+com o seguinte conteúdo:
 
 ```yaml
 spring:
@@ -321,9 +321,11 @@ spring:
 ```
 
 {: .box-note}
-It's important to add exactly `configclient` as `spring.application.name` because that's the name used to bind to the external configuration.
+É importante adicionar exatamente `configclient` como `spring.application.name` porque esse é o nome usado para conectar com 
+as configurações externalizadas.
 
-Now open the main class and add a `@Value` to recover our `pseudo` property and return it to an endpoint, here's my main class for reference.
+Agora abra a classe principal e adicione uma anotaçõa `@Value` para recuperar nossa propriedade, aqui minha classe principal
+para referência:
 
 ```java
 @RestController
@@ -344,16 +346,17 @@ public class ConfigClientApplication {
 }
 ```
 
-After starting the project, you'll be able to reach `http://localhost:8080/property` and the expected result is:
+Depois de iniciar a aplicação será possível acessar `http://localhost:8080/property` e o resultado esperado é:
 
 ```bash
 Property value loaded from Vault
 ```
 
-### Summary
-Congratulations! You just created a central configuration management using [Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/)
-and secured all your secrets with [HashiCorp Vault](https://www.vaultproject.io/). 
+### Sumário
+Parabéns! Você acabou de criar um gerenciamento de configurações centralizado usando 
+[Spring Cloud Config](https://cloud.spring.io/spring-cloud-config/)
+e protegeu a senhas usando [HashiCorp Vault](https://www.vaultproject.io/). 
 
-### Footnote
-  - The code used for this tutorial can be found on [github](https://github.com/weekly-drafts/spring-cloud-configserver-vault)
-  - [Spring Cloud Config Docs](http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html)
+### Nota de rodapé
+  - O código usado nesse tutorial pode ser encontrado no [GitHub](https://github.com/weekly-drafts/spring-cloud-configserver-vault)
+  - [Documentação do Spring Cloud Config](http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html)
