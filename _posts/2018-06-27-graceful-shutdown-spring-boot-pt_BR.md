@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Graceful Shutdown Spring Boot Applications
+title: Graceful Shutdown em Aplicações Spring Boot
 gh-repo: weekly-drafts/graceful-shutdown-spring-boot
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-boot, tomcat, java, tutorial]
@@ -10,34 +10,33 @@ permalink: /graceful-shutdown-spring-boot-apps/
 lang: pt_BR
 ---
 
-This guide walks through the process of graceful shutdown a [Spring Boot](https://spring.io/projects/spring-boot)
-application.
+Esse tutorial te guiará no processo de desligar graciosamente uma aplicação [Spring Boot](https://spring.io/projects/spring-boot).
 
 {: .box-note}
-The implementation of this blog post is originally created by [Andy Wilkinson](https://twitter.com/ankinson) 
-and adapted by me to Spring Boot 2. The code is based on this 
-[GitHub comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811).
+A implementação nesse post foi criada originalmente por [Andy Wilkinson](https://twitter.com/ankinson) 
+e adaptada por mim para Spring Boot 2. O código é baseado nesse 
+[comentário no GitHub](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811).
 
 ### Introdução
 
-A lot of developers and architects discuss about the application design, traffic load, frameworks, patterns 
-to apply, but very few of them are discussing about the shutdown phase.
+Muitos desenvolvedores e arquitetos discutem sobre o design de uma aplicação, tráfego, frameworks, design patterns
+que serão aplicados, mas bem poucos discutem sobre a como desligar a aplicação.
 
-Let's considere this scenario, there's an application in which has a long blocking process and this app needs
-to be shutdown to be replaced with a newer version. Wouln't be nice if instead of killing all the connections
-it just gracefully wait then to finish before the shutdown?
+Vamos considerar esse cenário, há uma aplicação com um longo processo sincrono e essa aplicação precisa ser desligada
+e substituída por uma nova versão. Não seria melhor se ao invés de matar todas as conexões a aplicação esperasse os
+processos terminarem antes de desligar?
 
-That's what we are going to cover in this guide!
+É isso o que nós vamos cobrir nesse tutorial!
 
 ### Pre-req
 
  - [JDK 1.8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
- - Text editor or your favorite IDE
+ - Editor de texto ou sua IDE favorita
  - [Maven 3.0+](https://maven.apache.org/download.cgi)
 
 ### Spring Boot, Tomcat 
 
-To make this feature work, the first step is to implement `TomcatConnectorCustomizer`.
+Para fazer essa funcionalidade funcionar, o primeiro passo é implementar `TomcatConnectorCustomizer`.
 
 ```java
 import org.apache.catalina.connector.Connector;
@@ -91,10 +90,10 @@ public class GracefulShutdown implements TomcatConnectorCustomizer, ApplicationL
 }
 ```
 
-In the implementation above the `ThreadPoolExecutor` will be waiting `30` seconds prior to proceed to the shutdown, pretty simple, right?
-With that in place it's now necessary to register this bean to the `application context` and inject it to `Tomcat`.
+Na implementação acima o `ThreadPoolExecutor` esperará `30` segundos antes de prosseguir com o desligamento, simples, correto?
+Agora é necessário registrar esse bean ao `contexto da aplicação` e injetá-lo no `Tomcat`.
 
-To do that, just create the following Spring `@Bean`s.
+Para isso, apenas crie os seguintes Spring `@Bean`s.
 
 ```java
 @Bean
@@ -112,7 +111,7 @@ public ConfigurableServletWebServerFactory webServerFactory(final GracefulShutdo
 
 ### Como testar?
 
-To test this implementation I just created a `LongProcessController` in which has a `Thread.sleep` of `10` seconds.
+Para testar essa implementação eu criei um `LongProcessController` que contem uma `Thread.sleep` de `10` segundos.
 
 ```java
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -130,12 +129,12 @@ public class LongProcessController {
 }
 ```
 
-Now it's just a matter of run your spring boot application, make a request to the `/long-process` endpoint
-and in the meantime kill it with a `SIGTERM`.
+Agora é só uma questão de iniciar a aplicação, fazer um request para o endpoint `/long-process` e nesse
+meio tempo derrubar a aplicação com um `SIGTERM`.
 
 #### Encontre o id do processo
 
-When you start the application, you can locate the process id in the logs, in my case it's `6578`.
+Quando a aplicação é iniciada você pode encontrar o id do processo nos logs, no meu caso é `6578`.
 
 ```bash
 2018-06-28 20:37:28.292  INFO 6578 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
@@ -144,19 +143,19 @@ When you start the application, you can locate the process id in the logs, in my
 
 #### Request e shutdown
 
-Perform a request to the `/long-process` endpoint, I'm using `curl`for that:
+Execute um request para o endpoint `/long-process`, Eu estou usando [curl](https://curl.haxx.se/) para isso:
 
 ```bash
 $ curl -i localhost:8080/long-process
 ```
 
-Send a `SIGTERM` to the process:
+Envie um `SIGTERM` para o processo:
 
 ```bash
 $ kill 6578
 ```
 
-The `curl` request still needs to respond as below:
+O request que fizemos usando `curl` ainda precisa responder como abaixo:
 
 ```bash
 HTTP/1.1 200
@@ -168,8 +167,8 @@ Process finished
 ```
 
 ### Sumário
-Congratulations! You just learned how to graceful shutdown Spring Boot apps.
+Parabéns! Você acabou de aprender como graciosamente desligar uma aplicação spring-boot (eu sei, essa tradução é estranha).
 
 ### Nota de rodapé
-  - The code used for this tutorial can be found on [GitHub](https://github.com/weekly-drafts/graceful-shutdown-spring-boot)
-  - This implementation was based on this [comment](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811)
+  - O código usado nesse tutorial pode ser encontrado no [GitHub](https://github.com/weekly-drafts/graceful-shutdown-spring-boot)
+  - Essa implementação foi baseada nesse [comentário](https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811)

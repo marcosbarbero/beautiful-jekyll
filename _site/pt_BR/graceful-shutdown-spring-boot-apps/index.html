@@ -7,11 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
   <meta http-equiv="Content-Language" content="pt_BR">
-<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"/>
-<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/graceful-shutdown-spring-boot-apps/"/>
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/graceful-shutdown-spring-boot-apps/"/>
 
 
-  <title>Graceful Shutdown Spring Boot Applications</title>
+  <title>Graceful Shutdown em Aplicações Spring Boot</title>
 
   <script>
   </script>
@@ -62,19 +62,19 @@
   
 
   
-  <meta property="og:title" content="Graceful Shutdown Spring Boot Applications" />
+  <meta property="og:title" content="Graceful Shutdown em Aplicações Spring Boot" />
   
 
    
-  <meta property="og:description" content="This guide walks through the process of graceful shutdown a Spring Boot application. The implementation of this blog post is originally created by Andy Wilkinson and adapted by me to Spring Boot 2. The code is based on this GitHub comment. Introdução A lot of developers and architects discuss about...">
+  <meta property="og:description" content="Esse tutorial te guiará no processo de desligar graciosamente uma aplicação Spring Boot. A implementação nesse post foi criada originalmente por Andy Wilkinson e adaptada por mim para Spring Boot 2. O código é baseado nesse comentário no GitHub. Introdução Muitos desenvolvedores e arquitetos discutem sobre o design de uma...">
   
 
 
   <meta property="og:type" content="website" />
 
   
-  <meta property="og:url" content="http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/" />
-  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/graceful-shutdown-spring-boot-apps/" />
+  <meta property="og:url" content="http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/graceful-shutdown-spring-boot-apps/" />
   
 
   
@@ -88,11 +88,11 @@
   <meta name="twitter:creator" content="@" />
 
   
-  <meta name="twitter:title" content="Graceful Shutdown Spring Boot Applications" />
+  <meta name="twitter:title" content="Graceful Shutdown em Aplicações Spring Boot" />
   
 
   
-  <meta name="twitter:description" content="This guide walks through the process of graceful shutdown a Spring Boot application. The implementation of this blog post is originally created by Andy Wilkinson and adapted by me to Spring Boot 2. The code is based on this GitHub comment. Introdução A lot of developers and architects discuss about...">
+  <meta name="twitter:description" content="Esse tutorial te guiará no processo de desligar graciosamente uma aplicação Spring Boot. A implementação nesse post foi criada originalmente por Andy Wilkinson e adaptada por mim para Spring Boot 2. O código é baseado nesse comentário no GitHub. Introdução Muitos desenvolvedores e arquitetos discutem sobre o design de uma...">
   
 
   
@@ -118,7 +118,7 @@
         <span class="icon-bar"></span>
       </button>
       
-        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
+        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
       
     </div>
 
@@ -188,7 +188,7 @@
 	
 	<div class="avatar-container">
 	  <div class="avatar-img-border">
-	    <a href="http://blog.marcosbarbero.com/pt_BR/">
+	    <a href="http://0.0.0.0:4000/pt_BR/">
 	      <img class="avatar-img" src="/img/avatar.jpeg" />
 		  </a>
 	  </div>
@@ -226,7 +226,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="post-heading">
-          <h1>Graceful Shutdown Spring Boot Applications</h1>          
+          <h1>Graceful Shutdown em Aplicações Spring Boot</h1>          
 
 		  
 		  
@@ -245,7 +245,7 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="post-heading">
-          <h1>Graceful Shutdown Spring Boot Applications</h1>
+          <h1>Graceful Shutdown em Aplicações Spring Boot</h1>
 		  
 		  
 		  
@@ -290,35 +290,34 @@
       
 
       <article role="main" class="blog-post">
-        <p>This guide walks through the process of graceful shutdown a <a href="https://spring.io/projects/spring-boot">Spring Boot</a>
-application.</p>
+        <p>Esse tutorial te guiará no processo de desligar graciosamente uma aplicação <a href="https://spring.io/projects/spring-boot">Spring Boot</a>.</p>
 
-<p class="box-note">The implementation of this blog post is originally created by <a href="https://twitter.com/ankinson">Andy Wilkinson</a> 
-and adapted by me to Spring Boot 2. The code is based on this 
-<a href="https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811">GitHub comment</a>.</p>
+<p class="box-note">A implementação nesse post foi criada originalmente por <a href="https://twitter.com/ankinson">Andy Wilkinson</a> 
+e adaptada por mim para Spring Boot 2. O código é baseado nesse 
+<a href="https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811">comentário no GitHub</a>.</p>
 
 <h3 id="introdução">Introdução</h3>
 
-<p>A lot of developers and architects discuss about the application design, traffic load, frameworks, patterns 
-to apply, but very few of them are discussing about the shutdown phase.</p>
+<p>Muitos desenvolvedores e arquitetos discutem sobre o design de uma aplicação, tráfego, frameworks, design patterns
+que serão aplicados, mas bem poucos discutem sobre a como desligar a aplicação.</p>
 
-<p>Let’s considere this scenario, there’s an application in which has a long blocking process and this app needs
-to be shutdown to be replaced with a newer version. Wouln’t be nice if instead of killing all the connections
-it just gracefully wait then to finish before the shutdown?</p>
+<p>Vamos considerar esse cenário, há uma aplicação com um longo processo sincrono e essa aplicação precisa ser desligada
+e substituída por uma nova versão. Não seria melhor se ao invés de matar todas as conexões a aplicação esperasse os
+processos terminarem antes de desligar?</p>
 
-<p>That’s what we are going to cover in this guide!</p>
+<p>É isso o que nós vamos cobrir nesse tutorial!</p>
 
 <h3 id="pre-req">Pre-req</h3>
 
 <ul>
   <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 1.8</a></li>
-  <li>Text editor or your favorite IDE</li>
+  <li>Editor de texto ou sua IDE favorita</li>
   <li><a href="https://maven.apache.org/download.cgi">Maven 3.0+</a></li>
 </ul>
 
 <h3 id="spring-boot-tomcat">Spring Boot, Tomcat</h3>
 
-<p>To make this feature work, the first step is to implement <code class="highlighter-rouge">TomcatConnectorCustomizer</code>.</p>
+<p>Para fazer essa funcionalidade funcionar, o primeiro passo é implementar <code class="highlighter-rouge">TomcatConnectorCustomizer</code>.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.apache.catalina.connector.Connector</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.slf4j.Logger</span><span class="o">;</span>
@@ -372,10 +371,10 @@ it just gracefully wait then to finish before the shutdown?</p>
 </code></pre>
 </div>
 
-<p>In the implementation above the <code class="highlighter-rouge">ThreadPoolExecutor</code> will be waiting <code class="highlighter-rouge">30</code> seconds prior to proceed to the shutdown, pretty simple, right?
-With that in place it’s now necessary to register this bean to the <code class="highlighter-rouge">application context</code> and inject it to <code class="highlighter-rouge">Tomcat</code>.</p>
+<p>Na implementação acima o <code class="highlighter-rouge">ThreadPoolExecutor</code> esperará <code class="highlighter-rouge">30</code> segundos antes de prosseguir com o desligamento, simples, correto?
+Agora é necessário registrar esse bean ao <code class="highlighter-rouge">contexto da aplicação</code> e injetá-lo no <code class="highlighter-rouge">Tomcat</code>.</p>
 
-<p>To do that, just create the following Spring <code class="highlighter-rouge">@Bean</code>s.</p>
+<p>Para isso, apenas crie os seguintes Spring <code class="highlighter-rouge">@Bean</code>s.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nd">@Bean</span>
 <span class="kd">public</span> <span class="n">GracefulShutdown</span> <span class="nf">gracefulShutdown</span><span class="o">()</span> <span class="o">{</span>
@@ -393,7 +392,7 @@ With that in place it’s now necessary to register this bean to the <code class
 
 <h3 id="como-testar">Como testar?</h3>
 
-<p>To test this implementation I just created a <code class="highlighter-rouge">LongProcessController</code> in which has a <code class="highlighter-rouge">Thread.sleep</code> of <code class="highlighter-rouge">10</code> seconds.</p>
+<p>Para testar essa implementação eu criei um <code class="highlighter-rouge">LongProcessController</code> que contem uma <code class="highlighter-rouge">Thread.sleep</code> de <code class="highlighter-rouge">10</code> segundos.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
@@ -411,12 +410,12 @@ With that in place it’s now necessary to register this bean to the <code class
 </code></pre>
 </div>
 
-<p>Now it’s just a matter of run your spring boot application, make a request to the <code class="highlighter-rouge">/long-process</code> endpoint
-and in the meantime kill it with a <code class="highlighter-rouge">SIGTERM</code>.</p>
+<p>Agora é só uma questão de iniciar a aplicação, fazer um request para o endpoint <code class="highlighter-rouge">/long-process</code> e nesse
+meio tempo derrubar a aplicação com um <code class="highlighter-rouge">SIGTERM</code>.</p>
 
 <h4 id="encontre-o-id-do-processo">Encontre o id do processo</h4>
 
-<p>When you start the application, you can locate the process id in the logs, in my case it’s <code class="highlighter-rouge">6578</code>.</p>
+<p>Quando a aplicação é iniciada você pode encontrar o id do processo nos logs, no meu caso é <code class="highlighter-rouge">6578</code>.</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code>2018-06-28 20:37:28.292  INFO 6578 --- <span class="o">[</span>           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port<span class="o">(</span>s<span class="o">)</span>: 8080 <span class="o">(</span>http<span class="o">)</span> with context path <span class="s1">''</span>
 2018-06-28 20:37:28.296  INFO 6578 --- <span class="o">[</span>           main] c.m.wd.gracefulshutdown.Application      : Started Application <span class="k">in </span>2.158 seconds <span class="o">(</span>JVM running <span class="k">for </span>2.591<span class="o">)</span>
@@ -425,19 +424,19 @@ and in the meantime kill it with a <code class="highlighter-rouge">SIGTERM</code
 
 <h4 id="request-e-shutdown">Request e shutdown</h4>
 
-<p>Perform a request to the <code class="highlighter-rouge">/long-process</code> endpoint, I’m using <code class="highlighter-rouge">curl</code>for that:</p>
+<p>Execute um request para o endpoint <code class="highlighter-rouge">/long-process</code>, Eu estou usando <a href="https://curl.haxx.se/">curl</a> para isso:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span>curl -i localhost:8080/long-process
 </code></pre>
 </div>
 
-<p>Send a <code class="highlighter-rouge">SIGTERM</code> to the process:</p>
+<p>Envie um <code class="highlighter-rouge">SIGTERM</code> para o processo:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code><span class="gp">$ </span><span class="nb">kill </span>6578
 </code></pre>
 </div>
 
-<p>The <code class="highlighter-rouge">curl</code> request still needs to respond as below:</p>
+<p>O request que fizemos usando <code class="highlighter-rouge">curl</code> ainda precisa responder como abaixo:</p>
 
 <div class="language-bash highlighter-rouge"><pre class="highlight"><code>HTTP/1.1 200
 Content-Type: text/plain;charset<span class="o">=</span>UTF-8
@@ -449,12 +448,12 @@ Process finished
 </div>
 
 <h3 id="sumário">Sumário</h3>
-<p>Congratulations! You just learned how to graceful shutdown Spring Boot apps.</p>
+<p>Parabéns! Você acabou de aprender como graciosamente desligar uma aplicação spring-boot (eu sei, essa tradução é estranha).</p>
 
 <h3 id="nota-de-rodapé">Nota de rodapé</h3>
 <ul>
-  <li>The code used for this tutorial can be found on <a href="https://github.com/weekly-drafts/graceful-shutdown-spring-boot">GitHub</a></li>
-  <li>This implementation was based on this <a href="https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811">comment</a></li>
+  <li>O código usado nesse tutorial pode ser encontrado no <a href="https://github.com/weekly-drafts/graceful-shutdown-spring-boot">GitHub</a></li>
+  <li>Essa implementação foi baseada nesse <a href="https://github.com/spring-projects/spring-boot/issues/4657#issuecomment-161354811">comentário</a></li>
 </ul>
 
       </article>
@@ -489,7 +488,7 @@ Process finished
 
   
   <!--- Share on Twitter -->
-    <a href="https://twitter.com/intent/tweet?text=Graceful+Shutdown+Spring+Boot+Applications+http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"
+    <a href="https://twitter.com/intent/tweet?text=Graceful+Shutdown+em+Aplica%C3%A7%C3%B5es+Spring+Boot+http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"
       class="btn btn-social-icon btn-twitter" title="Share on Twitter">
       <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
       <span class="sr-only">Twitter</span>
@@ -498,7 +497,7 @@ Process finished
 
   
   <!--- Share on Facebook -->
-    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"
       class="btn btn-social-icon btn-facebook" title="Share on Facebook">
       <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
       <span class="sr-only">Facebook</span>
@@ -507,7 +506,7 @@ Process finished
 
   
   <!--- Share on Google Plus -->
-    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"
       class="btn btn-social-icon btn-google" title="Share on Google+">
       <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
       <span class="sr-only">Google+</span>
@@ -516,7 +515,7 @@ Process finished
 
   
   <!--- Share on LinkedIn -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/graceful-shutdown-spring-boot-apps/"
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/graceful-shutdown-spring-boot-apps/"
       class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
       <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
       <span class="sr-only">LinkedIn</span>
@@ -604,7 +603,7 @@ Process finished
 
       
       &nbsp;&bull;&nbsp;
-      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
+      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
       
 
       
