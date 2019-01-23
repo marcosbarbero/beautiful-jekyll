@@ -14,8 +14,8 @@ with [Spring Cloud Netflix](https://cloud.spring.io/spring-cloud-netflix/) stack
 ### Introduction
 
 Blue-Green deployment is a technique used for [CI](https://martinfowler.com/articles/continuousIntegration.html) /
-[CD](https://martinfowler.com/bliki/ContinuousDelivery.html) where you have two environments with different versions
-of your app deployed and one of the environments you use for production and the second one you can you for the final
+[CD](https://martinfowler.com/bliki/ContinuousDelivery.html) where there are two environments with different versions
+of the same app deployed and one of the environments is used for production and the second one can be used for the final
 test phase before sending the real traffic. This approach gives you a way for a rapid rollback if for some reason 
 anything goes wrong.
 
