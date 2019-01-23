@@ -1,5 +1,5 @@
 current directory: /Users/marcosbarbero/dev/github/marcos/marcosbarbero.github.io/vendor/bundle/ruby/2.6.0/gems/ffi-1.10.0/ext/ffi_c
-/Users/marcosbarbero/.rvm/rubies/ruby-2.6.0/bin/ruby -I /Users/marcosbarbero/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0 -r ./siteconf20190123-25473-1s18i56.rb extconf.rb
+/Users/marcosbarbero/.rvm/rubies/ruby-2.6.0/bin/ruby -I /Users/marcosbarbero/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0 -r ./siteconf20190123-44550-qymqmb.rb extconf.rb
 checking for ffi_call() in -lffi... yes
 checking for ffi_closure_alloc()... yes
 checking for ffi_raw_call()... yes
@@ -47,4 +47,4 @@ linking shared-object ffi_c.bundle
 
 current directory: /Users/marcosbarbero/dev/github/marcos/marcosbarbero.github.io/vendor/bundle/ruby/2.6.0/gems/ffi-1.10.0/ext/ffi_c
 make "DESTDIR=" install
-/usr/local/opt/coreutils/bin/ginstall -c -m 0755 ffi_c.bundle ./.gem.20190123-25473-i8it93
+/usr/local/opt/coreutils/bin/ginstall -c -m 0755 ffi_c.bundle ./.gem.20190123-44550-1nbf4l8

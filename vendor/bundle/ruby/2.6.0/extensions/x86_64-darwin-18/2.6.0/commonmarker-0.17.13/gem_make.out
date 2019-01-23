@@ -1,5 +1,5 @@
 current directory: /Users/marcosbarbero/dev/github/marcos/marcosbarbero.github.io/vendor/bundle/ruby/2.6.0/gems/commonmarker-0.17.13/ext/commonmarker
-/Users/marcosbarbero/.rvm/rubies/ruby-2.6.0/bin/ruby -I /Users/marcosbarbero/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0 -r ./siteconf20190123-25473-o3s3yw.rb extconf.rb
+/Users/marcosbarbero/.rvm/rubies/ruby-2.6.0/bin/ruby -I /Users/marcosbarbero/.rvm/rubies/ruby-2.6.0/lib/ruby/2.6.0 -r ./siteconf20190123-44550-12whxp.rb extconf.rb
 creating Makefile
 
 current directory: /Users/marcosbarbero/dev/github/marcos/marcosbarbero.github.io/vendor/bundle/ruby/2.6.0/gems/commonmarker-0.17.13/ext/commonmarker
@@ -118,4 +118,4 @@ linking shared-object commonmarker/commonmarker.bundle
 
 current directory: /Users/marcosbarbero/dev/github/marcos/marcosbarbero.github.io/vendor/bundle/ruby/2.6.0/gems/commonmarker-0.17.13/ext/commonmarker
 make "DESTDIR=" install
-/usr/local/opt/coreutils/bin/ginstall -c -m 0755 commonmarker.bundle ./.gem.20190123-25473-jmt1c9/commonmarker
+/usr/local/opt/coreutils/bin/ginstall -c -m 0755 commonmarker.bundle ./.gem.20190123-44550-ezml28/commonmarker

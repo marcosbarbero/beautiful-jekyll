@@ -214,6 +214,7 @@ exclude:
   - README.md
   - Vagrantfile
   - publish.sh
+  - vendor
 
 # prose.io config
 prose:
@@ -229,6 +230,7 @@ prose:
     - /css
     - /img
     - /js
+    - /vendor
     - publish.sh
   metadata:
     _posts:
