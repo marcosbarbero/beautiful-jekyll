@@ -23,7 +23,8 @@ commit_n_push() {
     git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
 
     git subtree split --prefix _site -b master
-    git push --quiet --set-upstream -f origin-pages master
+    # git push --quiet --set-upstream -f origin-pages master
+    git push -f origin-pages master:master
 }
 
 if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [[ "$TRAVIS_COMMIT_MESSAGE" == *"[ci deploy]"* ]]; then
