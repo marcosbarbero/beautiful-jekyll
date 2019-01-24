@@ -5,7 +5,13 @@ rvm:
 before_script:
  - chmod +x publish.sh
 
-script: publish.sh
+deploy:
+ - provider: script
+   script: bash publish.sh
+   skip_cleanup: true
+   on:
+     branch: develop
+     repo: marcosbarbero/marcosbarbero.github.io
 
 branches:
   only:
