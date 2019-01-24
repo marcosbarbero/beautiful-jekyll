@@ -6,6 +6,7 @@ setup_git() {
 
 build_site() {
 	rm -rf _site/
+	bundle install
     bundle exec jekyll build
 }
 
@@ -27,6 +28,10 @@ commit_n_push() {
 
 if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [[ "$TRAVIS_COMMIT_MESSAGE" == *"[ci deploy]"* ]]; then
 
+	echo "***************************************************"
+	echo "BUILD STARTED"
+	echo "***************************************************"
+
 	setup_git
 	build_site
 	fetch_n_checkout_branch   
@@ -35,5 +40,7 @@ if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [
 
     commit_n_push
 
-    echo "New version released"
+	echo "***************************************************"
+    echo "BLOG RELEASED"
+    echo "***************************************************"
 fi 
