@@ -13,7 +13,7 @@ build_site() {
 
 fetch_n_checkout_branch() {
 	git fetch --all
-    git push origin --delete master
+    # git push origin --delete master
     git branch -D master
 
     git checkout develop
