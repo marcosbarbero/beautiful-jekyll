@@ -2,11 +2,12 @@ language: ruby
 rvm:
   - 2.5.1
 
+before_install:
+ - gem install rubygems-bundler
+ - gem regenerate_binstubs  
+
 before_script:
  - chmod +x publish.sh
-
-script:
-  - make 
 
 deploy:
  - provider: script
