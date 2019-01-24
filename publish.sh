@@ -6,6 +6,7 @@ setup_git() {
 
 build_site() {
 	rm -rf _site/
+	bundle install
     bundle exec jekyll build
     ls -lah
 }
