@@ -3,6 +3,7 @@ _site
 .sass-cache
 .vagrant
 Gemfile.lock
+vendor
 
 # general
 .DS_Store
