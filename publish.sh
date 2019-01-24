@@ -1,14 +1,14 @@
 setup_git() {
    git config --global user.email "travis@travis-ci.org"
    git config --global user.name "Travis CI"
-   git remote add origin-pages https://${GH_TOKEN}@github.com/marcosbarbero/marcosbarbero.github.io.git > /dev/null 2>&1
+   git remote add origin https://${GH_TOKEN}@github.com/marcosbarbero/marcosbarbero.github.io.git
 }
 
 build_site() {
 	rm -rf _site/
 	bundle install
     bundle exec jekyll build
-    ls -lah
+    ls -lah _site/
 }
 
 fetch_n_checkout_branch() {
@@ -25,7 +25,7 @@ commit_n_push() {
 
     git subtree split --prefix _site -b master
     # git push --quiet --set-upstream -f origin-pages master
-    git push -f origin-pages master:master
+    git push -f origin master
 }
 
 if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [[ "$TRAVIS_COMMIT_MESSAGE" == *"[ci deploy]"* ]]; then
