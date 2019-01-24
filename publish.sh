@@ -7,39 +7,24 @@ setup_git() {
 build_site() {
 	rm -rf _site/
     bundle exec jekyll build
+    ls -lah
 }
 
 fetch_n_checkout_branch() {
-	echo "***************************************************"
-	echo "CHECKOUT BRANCH STARTED"
-	echo "***************************************************"
-
 	git fetch --all
     # git push origin --delete master
     git branch -D master
 
     git checkout develop
-
-    echo "***************************************************"
-	echo "CHECKOUT BRANCH ENDED"
-	echo "***************************************************"
 }
 
 commit_n_push() {
-	echo "***************************************************"
-	echo "COMMIT N PUSH STARTED"
-	echo "***************************************************"
-
 	git add --all
     git commit --message "Travis build: $TRAVIS_BUILD_NUMBER"
 
     git subtree split --prefix _site -b master
     # git push --quiet --set-upstream -f origin-pages master
     git push -f origin-pages master:master
-
-    echo "***************************************************"
-	echo "COMMIT N PUSH ENDED"
-	echo "***************************************************"
 }
 
 if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [[ "$TRAVIS_COMMIT_MESSAGE" == *"[ci deploy]"* ]]; then
