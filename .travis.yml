@@ -5,6 +5,9 @@ rvm:
 before_script:
  - chmod +x publish.sh
 
+script:
+  - make 
+
 deploy:
  - provider: script
    script: bash publish.sh
