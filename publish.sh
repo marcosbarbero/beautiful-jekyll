@@ -1,7 +1,8 @@
 setup_git() {
    git config --global user.email "travis@travis-ci.org"
    git config --global user.name "Travis CI"
-   git remote add origin-pages https://$GH_TOKEN@github.com/marcosbarbero/marcosbarbero.github.io.git
+   git remote rm origin
+   git remote add origin-pages https://${GH_TOKEN}@github.com/marcosbarbero/marcosbarbero.github.io.git
 }
 
 build_site() {
