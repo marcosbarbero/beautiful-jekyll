@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/integrating-vault-spring-cloud-config/"/>
+
+
+  <title>Integrating Vault with Spring Cloud Config Server</title>
+
+  <script>
+  </script>
+
+  <meta name="author" content="Marcos Barbero" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Marcos Barbero's Blog - I create things and I blog about it... sometimes." href="/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+      <link rel="stylesheet" href="/css/flags.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Integrating Vault with Spring Cloud Config Server" />
+  
+
+   
+  <meta property="og:description" content="This guide walks through the process of creating a central configuration management for microservices using Spring Cloud Config integrating with HashiCorp Vault. Introduction Nowadays, software is commonly delivered as a service and doesn’t matter the programming language that was chosen, it’s always good to follow the twelve-factor app methodology. The...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://0.0.0.0:4000/integrating-vault-spring-cloud-config/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/integrating-vault-spring-cloud-config/" />
+  
+
+  
+  <meta property="og:image" content="/img/chain-key-lock.jpg" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Integrating Vault with Spring Cloud Config Server" />
+  
+
+  
+  <meta name="twitter:description" content="This guide walks through the process of creating a central configuration management for microservices using Spring Cloud Config integrating with HashiCorp Vault. Introduction Nowadays, software is commonly delivered as a service and doesn’t matter the programming language that was chosen, it’s always good to follow the twelve-factor app methodology. The...">
+  
+
+  
+  <meta name="twitter:image" content="/img/chain-key-lock.jpg" />
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://0.0.0.0:4000">Marcos Barbero's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+
+      
+        
+        
+        
+        
+          
+        
+      
+        
+        
+          
+            
+              <li>
+                <a href="/about/">About me</a>
+              </li>
+            
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+
+
+      
+
+        
+        <li>
+          <a href=" /integrating-vault-spring-cloud-config/ ">
+            <img src="/img/blank.gif" class="flag  flag-us " />
+          </a>
+        </li>
+        
+        <li>
+          <a href=" /pt_BR/integrating-vault-spring-cloud-config/ ">
+            <img src="/img/blank.gif" class="flag  flag-br " />
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://0.0.0.0:4000">
+	      <img class="avatar-img" src="/img/avatar.jpeg" />
+		  </a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+  <div id="header-big-imgs" data-num-img=1
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/chain-key-lock.jpg"
+		
+	  
+    
+  ></div>
+
+
+
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Integrating Vault with Spring Cloud Config Server</h1>          
+
+		  
+		  
+		  
+		  <span class="post-meta">Posted on June 19, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Integrating Vault with Spring Cloud Config Server</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on June 19, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+        
+        
+        
+
+        <div id="header-gh-btns">
+          
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&repo=spring-cloud-configserver-vault&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&repo=spring-cloud-configserver-vault&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+              
+            
+          
+        </div>
+      
+
+      <article role="main" class="blog-post">
+        <p>This guide walks through the process of creating a central configuration management
+for microservices using <a href="https://cloud.spring.io/spring-cloud-config/">Spring Cloud Config</a>
+integrating with <a href="https://www.vaultproject.io/">HashiCorp Vault</a>.</p>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>Nowadays, software is commonly delivered  as a service and doesn’t matter the programming
+language that was chosen, it’s always good to follow <a href="https://12factor.net/">the twelve-factor app</a> methodology.</p>
+
+<p>The first factor is about the <a href="https://12factor.net/codebase">codebase</a>, it starts saying:</p>
+
+<blockquote>
+  <p>One codebase tracked in revision control, many deploys</p>
+</blockquote>
+
+<p>It means that the same codebase needs to be deployed in multiple environments without any change other than the
+configuration, which brings us to the externalized configuration.</p>
+
+<p>If you are working (or going to work) with microservices in an elastic environment, you probably
+noticed the need for a central place for configuration management, and that’s also 
+<a href="https://12factor.net/config">one of the twelve-factors</a>.</p>
+
+<h3 id="pre-req">Pre-req</h3>
+
+<ul>
+  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 1.8</a></li>
+  <li>Text editor or your favorite IDE</li>
+  <li><a href="https://maven.apache.org/download.cgi">Maven 3.0+</a></li>
+  <li><a href="https://www.docker.com/">Docker</a></li>
+</ul>
+
+<h3 id="spring-cloud-config">Spring Cloud Config</h3>
+
+<p><a href="https://cloud.spring.io/spring-cloud-config/">Spring Cloud Config</a> provides server and client-side support for
+externalized configuration in a distributed system and it has quite few backend storage support, this guide covers
+the following:</p>
+
+<ul>
+  <li><a href="http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_file_system_backend">File System</a></li>
+  <li><a href="http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_git_backend">Git</a></li>
+  <li><a href="http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#vault-backend">Vault</a></li>
+</ul>
+
+<h4 id="setting-the-config-server">Setting the Config Server</h4>
+
+<p>The easiest way to set up a Config Server is reaching <a href="http://start.spring.io/">start.spring.io</a>, search for <code class="highlighter-rouge">Config Server</code>
+in the <code class="highlighter-rouge">dependencies</code> search box and hit the <code class="highlighter-rouge">Generate Project</code> button, it will generate a zip file containing the 
+<code class="highlighter-rouge">Config Server</code> project with all the necessary dependencies. Unzip the project, open the main class and add the 
+<code class="highlighter-rouge">@EnableConfigServer</code> on the class level.</p>
+
+<p>You need to end up with something like this:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.config.server.EnableConfigServer</span><span class="o">;</span>
+
+<span class="nd">@EnableConfigServer</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigServerApplication</span> <span class="o">{</span>
+
+  <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">ConfigServerApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+  <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p class="box-note">The generated project has an <code class="highlighter-rouge">application.properties</code> file placed at <code class="highlighter-rouge">src/main/resources</code>, for personal preferences 
+I renamed it to <code class="highlighter-rouge">application.yml</code>.</p>
+
+<p>Open the <code class="highlighter-rouge">application.yml</code> file and add the following configuration, as I’m running all the applications in the same
+host it’s important to change the <code class="highlighter-rouge">server.port</code>.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">server</span><span class="pi">:</span>
+  <span class="na">port</span><span class="pi">:</span> <span class="s">8888</span>
+
+<span class="na">spring</span><span class="pi">:</span>
+  <span class="na">application</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">configserver</span>
+</code></pre></div></div>
+
+<h4 id="profiles--auto-of-the-box-implementations">Profiles &amp; Auto of the box implementations</h4>
+
+<p>Spring Cloud Config Server uses <code class="highlighter-rouge">profiles</code> to provide multiple auto of the box backend storages implementations, let’s
+walk through some of them.</p>
+
+<h5 id="file-system-backend">File System Backend</h5>
+
+<p>There’s a <code class="highlighter-rouge">native</code> profile available where the <code class="highlighter-rouge">Config Server</code> searches for the properties/YAML files from the local classpath
+or file system.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">profiles</span><span class="pi">:</span>
+    <span class="na">active</span><span class="pi">:</span> <span class="s">native</span>
+</code></pre></div></div>
+
+<p class="box-note">The default value of the searchLocations is identical to a local Spring Boot application (that is, 
+<code class="highlighter-rouge">[classpath:/, classpath:/config, file:./, file:./config]</code>). This does not expose the application.properties 
+from the server to all clients, because any property sources present in the server are removed before being 
+sent to the client.</p>
+
+<p>You can point to any location using <code class="highlighter-rouge">spring.cloud.config.server.native.searchLocations</code>.</p>
+
+<p class="box-note">Remember to use the file: prefix for <code class="highlighter-rouge">file</code> resources (the default without a prefix is usually the classpath). 
+As with any Spring Boot configuration, you can embed <code class="highlighter-rouge">${}</code>-style environment placeholders, but remember that absolute 
+paths in Windows require an extra / (for example, <code class="highlighter-rouge">file:///${user.home}/config-repo</code>).</p>
+
+<p>For this guide I’ll create a folder named <code class="highlighter-rouge">config-repo</code> in the <code class="highlighter-rouge">${user.home}</code>, this new folder is created to store the 
+configuration files for the native profile.</p>
+
+<p>Now add the following configuration to <code class="highlighter-rouge">application.yml</code>.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">server</span><span class="pi">:</span>
+        <span class="na">native</span><span class="pi">:</span>
+          <span class="na">searchLocations</span><span class="pi">:</span> <span class="s">file://${user.home}/config-repo</span>
+</code></pre></div></div>
+
+<p>Now create the file <code class="highlighter-rouge">config-repo/configclient.yml</code>, this file stores the configuration for our microservice (created later 
+in this guide) named <code class="highlighter-rouge">configclient</code>, and add the following configuration.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>client:
+  pseudo:
+    property: Property value loaded from File System
+</code></pre></div></div>
+
+<p>Now you can start the application and hit the endpoint <code class="highlighter-rouge">http://localhost:8888/configclient/default</code>, the response will be:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">  
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"configclient"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"profiles"</span><span class="p">:[</span><span class="w">  
+      </span><span class="s2">"default"</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="s2">"label"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"version"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"state"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"propertySources"</span><span class="p">:[</span><span class="w">  
+      </span><span class="p">{</span><span class="w">  
+         </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"file:///Users/my-user/config-repo/configclient.yml"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"source"</span><span class="p">:{</span><span class="w">  
+            </span><span class="s2">"client.pseudo.property"</span><span class="p">:</span><span class="s2">"Property value loaded from File System"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="box-warning">The <code class="highlighter-rouge">native</code> profile is a good way to start with <code class="highlighter-rouge">Config Server</code> on the local environment, but I don’t recommend 
+anyone to go to production using a file system based storage.</p>
+
+<h5 id="git-backend">Git Backend</h5>
+
+<p>There’s also a <code class="highlighter-rouge">git</code> profile where you can point to an external git repository that contains all the configurations files
+for your microservices. To make it work you can either add the <code class="highlighter-rouge">git</code> profile to the active profiles or totally remove the
+<code class="highlighter-rouge">spring.profiles.active</code> properties. If you choose to keep this property, the last specified profile has priority and 
+overrides all the previously defined.</p>
+
+<p>Add the following config:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">profiles</span><span class="pi">:</span>
+    <span class="na">active</span><span class="pi">:</span> <span class="s">native, git</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">server</span><span class="pi">:</span>
+        <span class="na">git</span><span class="pi">:</span>
+          <span class="na">uri</span><span class="pi">:</span> <span class="s">https://github.com/weekly-drafts/config-repo-spring-cloud-configserver-vault</span>
+</code></pre></div></div>
+
+<p>Here’s the full configuration for reference:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">profiles</span><span class="pi">:</span>
+    <span class="na">active</span><span class="pi">:</span> <span class="s">native, git</span>
+  <span class="na">application</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">configserver</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">server</span><span class="pi">:</span>
+        <span class="na">native</span><span class="pi">:</span>
+          <span class="na">searchLocations</span><span class="pi">:</span> <span class="s">file://${user.home}/config-repo</span>
+        <span class="na">git</span><span class="pi">:</span>
+          <span class="na">uri</span><span class="pi">:</span> <span class="s">https://github.com/weekly-drafts/config-repo-spring-cloud-configserver-vault</span>
+</code></pre></div></div>
+
+<p>Now if you hit the <code class="highlighter-rouge">http://localhost:8888/configclient/default</code> again, there will be the following result:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">  
+   </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"configclient"</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"profiles"</span><span class="p">:[</span><span class="w">  
+      </span><span class="s2">"default"</span><span class="w">
+   </span><span class="p">],</span><span class="w">
+   </span><span class="s2">"label"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"version"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"state"</span><span class="p">:</span><span class="kc">null</span><span class="p">,</span><span class="w">
+   </span><span class="s2">"propertySources"</span><span class="p">:[</span><span class="w">  
+      </span><span class="p">{</span><span class="w">  
+         </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"file:///Users/my-user/config-repo/configclient.yml"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"source"</span><span class="p">:{</span><span class="w">  
+            </span><span class="s2">"client.pseudo.property"</span><span class="p">:</span><span class="s2">"Property value loaded from File System"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">  
+         </span><span class="s2">"name"</span><span class="p">:</span><span class="s2">"https://github.com/weekly-drafts/config-repo-spring-cloud-configserver-vault/configclient.yml"</span><span class="p">,</span><span class="w">
+         </span><span class="s2">"source"</span><span class="p">:{</span><span class="w">  
+            </span><span class="s2">"client.pseudo.property"</span><span class="p">:</span><span class="s2">"Property value loaded from Git"</span><span class="w">
+         </span><span class="p">}</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+   </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p class="box-note">If no profile is set <code class="highlighter-rouge">git</code> is the default one.</p>
+
+<h5 id="vault-backend">Vault Backend</h5>
+
+<p>About <a href="https://www.vaultproject.io/">Vault</a>:</p>
+
+<p class="box-note">Vault is a tool for securely accessing secrets. A secret is anything that to which you want to tightly control access, such as API keys, passwords, certificates, and other sensitive information. Vault provides a unified interface to any secret while providing tight access control and recording a detailed audit log.</p>
+
+<p>There’s also a <code class="highlighter-rouge">vault</code> profile that enables integration with <a href="https://www.vaultproject.io/">Vault</a> to securely store the application properties, 
+in this part, we’ll be using <code class="highlighter-rouge">docker</code> to create a <code class="highlighter-rouge">vault</code> container.</p>
+
+<p>Create a vault container:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-d</span> <span class="nt">-p</span> 8200:8200 <span class="nt">--name</span> vault <span class="nt">-e</span> <span class="s1">'VAULT_DEV_ROOT_TOKEN_ID=myroot'</span> <span class="nt">-e</span> <span class="s1">'VAULT_DEV_LISTEN_ADDRESS=0.0.0.0:8200'</span> vault
+</code></pre></div></div>
+
+<p class="box-warning">It’s specified the root token here, <strong>do not</strong> do that in production.</p>
+
+<p>Enter in the vault container and authenticate to vault:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker <span class="nb">exec</span> <span class="nt">-i</span> <span class="nt">-t</span> vault sh
+<span class="nb">export </span><span class="nv">VAULT_ADDR</span><span class="o">=</span><span class="s1">'http://localhost:8200'</span>
+vault auth myroot
+</code></pre></div></div>
+
+<p>Now it’s time to write our secret property:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vault write secret/configclient client.pseudo.property<span class="o">=</span><span class="s2">"Property value loaded from Vault"</span>
+</code></pre></div></div>
+
+<p>Now we have everything in place, it’s time to configure our <code class="highlighter-rouge">Config Server</code> to talk to <code class="highlighter-rouge">Vault</code>, add the following properties:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">profiles</span><span class="pi">:</span>
+    <span class="na">active</span><span class="pi">:</span> <span class="s">vault</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">server</span><span class="pi">:</span>
+        <span class="na">vault</span><span class="pi">:</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="s">8200</span>
+          <span class="na">host</span><span class="pi">:</span> <span class="s">127.0.01</span>
+</code></pre></div></div>
+
+<p>Complete configuration for reference:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">profiles</span><span class="pi">:</span>
+    <span class="na">active</span><span class="pi">:</span> <span class="s">native, git, vault</span>
+  <span class="na">application</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">configserver</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">server</span><span class="pi">:</span>
+        <span class="na">native</span><span class="pi">:</span>
+          <span class="na">searchLocations</span><span class="pi">:</span> <span class="s">file://${user.home}/config-repo</span>
+        <span class="na">git</span><span class="pi">:</span>
+          <span class="na">uri</span><span class="pi">:</span> <span class="s">https://github.com/weekly-drafts/config-repo-spring-cloud-configserver-vault</span>
+        <span class="na">vault</span><span class="pi">:</span>
+          <span class="na">port</span><span class="pi">:</span> <span class="s">8200</span>
+          <span class="na">host</span><span class="pi">:</span> <span class="s">127.0.01</span>
+</code></pre></div></div>
+
+<p class="box-note">You can also secure properties without vault using <a href="http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html#_encryption_and_decryption">encryption</a>.</p>
+
+<h4 id="setting-the-config-client">Setting the Config Client</h4>
+
+<p>As before, the easiest way to create the <code class="highlighter-rouge">config client</code> is reaching <a href="http://start.spring.io/">start.spring.io</a> and adding 
+<code class="highlighter-rouge">Config Client</code> and <code class="highlighter-rouge">Web</code> dependencies. Open the generated project, add a <code class="highlighter-rouge">resources/bootstrap.yml</code> with the following
+content.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">application</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">configclient</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">token</span><span class="pi">:</span> <span class="s">myroot</span>
+      <span class="na">uri</span><span class="pi">:</span> <span class="s">http://localhost:8888</span>
+</code></pre></div></div>
+
+<p class="box-note">It’s important to add exactly <code class="highlighter-rouge">configclient</code> as <code class="highlighter-rouge">spring.application.name</code> because that’s the name used to bind to the external configuration.</p>
+
+<p>Now open the main class and add a <code class="highlighter-rouge">@Value</code> to recover our <code class="highlighter-rouge">pseudo</code> property and return it to an endpoint, here’s my main class for reference.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RestController</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigClientApplication</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">ConfigClientApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${client.pseudo.property}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">pseudoProperty</span><span class="o">;</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/property"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">getProperty</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">pseudoProperty</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>After starting the project, you’ll be able to reach <code class="highlighter-rouge">http://localhost:8080/property</code> and the expected result is:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Property value loaded from Vault
+</code></pre></div></div>
+
+<h3 id="summary">Summary</h3>
+<p>Congratulations! You just created a central configuration management using <a href="https://cloud.spring.io/spring-cloud-config/">Spring Cloud Config</a>
+and secured all your secrets with <a href="https://www.vaultproject.io/">HashiCorp Vault</a>.</p>
+
+<h3 id="footnote">Footnote</h3>
+<ul>
+  <li>The code used for this tutorial can be found on <a href="https://github.com/weekly-drafts/spring-cloud-configserver-vault">github</a></li>
+  <li><a href="http://cloud.spring.io/spring-cloud-config/single/spring-cloud-config.html">Spring Cloud Config Docs</a></li>
+</ul>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+          
+            <a href="/tags#spring-framework">spring-framework</a>
+          
+            <a href="/tags#security">security</a>
+          
+            <a href="/tags#spring-cloud">spring-cloud</a>
+          
+            <a href="/tags#vault">vault</a>
+          
+            <a href="/tags#java">java</a>
+          
+            <a href="/tags#tutorial">tutorial</a>
+          
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Integrating+Vault+with+Spring+Cloud+Config+Server+http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+  <!--- Share on Google Plus -->
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"
+      class="btn btn-social-icon btn-google" title="Share on Google+">
+      <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
+      <span class="sr-only">Google+</span>
+    </a>
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/integrating-vault-spring-cloud-config/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/user-impersonation-with-spring-security/" data-toggle="tooltip" data-placement="top" title="User impersonation with Spring Security">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/optional-di-spring/" data-toggle="tooltip" data-placement="top" title="Optional Dependency Injection using Spring">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'marcosbarbero';
+        /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:marcos.hgb@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/marcosbarbero" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/marcosgbarbero" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/marcosbarbero" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Marcos Barbero
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://0.0.0.0:4000">blog.marcosbarbero.com</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-54888300-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  
+  </body>
+</html>
