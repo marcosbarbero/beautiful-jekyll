@@ -49,7 +49,7 @@ might be useful.
 
 ### Authorization Server
 
-To build our `Auth Server` we'll be using [Spring Security 5.x](https://spring.io/projects/spring-security) through 
+To build our `Authorization Server` we'll be using [Spring Security 5.x](https://spring.io/projects/spring-security) through 
 [Spring Boot 2.1.x](https://spring.io/projects/spring-boot).
 
 #### Dependencies
