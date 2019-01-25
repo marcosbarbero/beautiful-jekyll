@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Marcos Barbero's Blog</title>
+    <description>Eu crio coisas e escrevo sobre isso... às vezes.</description>
+    <link>http://0.0.0.0:4000/pt_BR</link>
+    <atom:link href="http://0.0.0.0:4000/pt_BR/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Auth Server Centralizado com JWT usando Spring Boot 2</title>
+        <description>
+          
+          This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, a demo resource server will also be provided. If you’re not familiar with OAuth2 I recommend this read. Pre-req JDK 1.8 Text editor or your favorite IDE Maven 3.0+ Implementation Overview For...
+        </description>
+        <pubDate>Wed, 23 Jan 2019 00:00:00 +0100</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/centralized-authorization-jwt-spring-boot2/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/centralized-authorization-jwt-spring-boot2/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Graceful Shutdown em Aplicações Spring Boot</title>
+        <description>
+          
+          Esse tutorial te guiará no processo de desligar graciosamente uma aplicação Spring Boot. A implementação nesse post foi criada originalmente por Andy Wilkinson e adaptada por mim para Spring Boot 2. O código é baseado nesse comentário no GitHub. Introdução Muitos desenvolvedores e arquitetos discutem sobre o design de uma...
+        </description>
+        <pubDate>Wed, 27 Jun 2018 00:00:00 +0200</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/graceful-shutdown-spring-boot-apps/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/graceful-shutdown-spring-boot-apps/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Injeção de Dependencias Opcionais usando Spring</title>
+        <description>
+          
+          Esse tutorial mostra as opções disponíveis para injetar dependencias opcionais usando Spring DI. Introduction Existem vários casos de uso onde é necessário tornar opcional algumas das dependencias injetadas, aqui alguns exemplos: Prover uma implementação padrão sempre que uma dependencias obrigatória de infraestutura não é provida, tal como DataSources. Previnir o...
+        </description>
+        <pubDate>Sat, 23 Jun 2018 00:00:00 +0200</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/optional-di-spring/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/optional-di-spring/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Integrando Vault com Spring Cloud Config Server</title>
+        <description>
+          
+          Esse tutorial te guiará no processo de criação de um gerenciamento centralizado de configurações para microservices usando Spring Cloud Config integrando com HashiCorp Vault. Introduction Atualmente é comum que softwares sejam entregues como serviço e não importa qual linguagem de programação foi escolhia, é sempre uma boa pratica seguir a...
+        </description>
+        <pubDate>Tue, 19 Jun 2018 00:00:00 +0200</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/integrating-vault-spring-cloud-config/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/integrating-vault-spring-cloud-config/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Personificação de usuário com Spring Security</title>
+        <description>
+          
+          Esse tutorial the guiará no processo de criação de um user impersonation a partir de super / admin usuários com spring security. Introdução É um caso de uso comum para aplicações seguras que um admin / super usuário seja capaz de fazer login como qualquer outro usuário. Isso pode ser...
+        </description>
+        <pubDate>Thu, 14 Jun 2018 00:00:00 +0200</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/user-impersonation-with-spring-security/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/user-impersonation-with-spring-security/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Adicionando Rate Limit no Spring Cloud Netflix Zuul</title>
+        <description>
+          
+          No desenvolvimento de APIs algumas vezes é necessário controlar a taxa de trafego que é recebido pela rede para previnir ataques como DoS ou limitar o número de requests que um único usuário/origem pode fazer para um dado recurso. Numa arquitetura de microservices o API Gateway é o ponto de...
+        </description>
+        <pubDate>Tue, 12 Jun 2018 00:00:00 +0200</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/spring-cloud-netflix-zuul-rate-limit/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/spring-cloud-netflix-zuul-rate-limit/
+        </guid>
+      </item>
+    
+      <item>
+        <title>HA e Afinidade de Zonas usando Spring Cloud Netflix Eureka</title>
+        <description>
+          
+          Esse tutorial te guiará no processo de configurar zonas de afinidade usando Spring Cloud Netflix Eureka. O que você irá construir Você construirá três aplicações API Gateway - Spring Cloud Netflix Zuul Service Registry - Spring Cloud Netflix Eureka REST Service - Spring Cloud Todas as três aplicações são necessárias...
+        </description>
+        <pubDate>Sun, 04 Mar 2018 00:00:00 +0100</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Configurando mutiplos DataSources com Spring Boot e Spring Data - PCF</title>
+        <description>
+          
+          Esse tutorial te guiará no processo de configurar Spring Data para acessar múltiplos serviços SQL na PCF. O que você irá construir Você construirá uma aplicação que conecta com vários serviços MySQL na PCF. Pre-req JDK 1.8 Editor de texto ou sua IDE favorita Maven 3.0+ PCF Nesse tutorial eu...
+        </description>
+        <pubDate>Sat, 24 Feb 2018 00:00:00 +0100</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Conectando multiplos MongoDBs usando Spring Boot</title>
+        <description>
+          
+          Esse tutorial te guiará no processo de conectar uma aplicação com multiplos MongoDBs. O que você construirá Você construirá uma aplicação que se conecta à multiplos MongoDBs. Pre-req JDK 1.8 Editor de texto ou sua IDE favorita Maven 3.0+ MongoDB O projeto de examplo usa Project Lombok para gerar getters,...
+        </description>
+        <pubDate>Sat, 17 Feb 2018 00:00:00 +0100</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/multiple-mongodb-connectors-in-spring-boot/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Criando um serviço batch</title>
+        <description>
+          
+          Esse tutorial te guiará no processo de criação de uma solução de processamento batch. O que você irá criar Você irá construir um serviço que importa os dados de uma planilha CSV, transforma em um objeto java e armazena em um banco de dados SQL. Pré-requisitos JDK 1.8 Editor de...
+        </description>
+        <pubDate>Sat, 10 Feb 2018 00:00:00 +0100</pubDate>
+        <link>
+          http://0.0.0.0:4000/pt_BR/creating-a-batch-service/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/pt_BR/creating-a-batch-service/
+        </guid>
+      </item>
+    
+  </channel>
+</rss>

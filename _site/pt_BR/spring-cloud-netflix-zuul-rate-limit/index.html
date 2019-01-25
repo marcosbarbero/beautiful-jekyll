@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <meta http-equiv="Content-Language" content="pt_BR">
+<link rel="alternate" hreflang="en" href=" http://0.0.0.0:4000/spring-cloud-netflix-zuul-rate-limit/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://0.0.0.0:4000/pt_BR/spring-cloud-netflix-zuul-rate-limit/"/>
+
+
+  <title>Adicionando Rate Limit no Spring Cloud Netflix Zuul</title>
+
+  <script>
+  </script>
+
+  <meta name="author" content="Marcos Barbero" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Marcos Barbero's Blog - Eu crio coisas e escrevo sobre isso... às vezes." href="/pt_BR/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+      <link rel="stylesheet" href="/css/flags.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Adicionando Rate Limit no Spring Cloud Netflix Zuul" />
+  
+
+   
+  <meta property="og:description" content="No desenvolvimento de APIs algumas vezes é necessário controlar a taxa de trafego que é recebido pela rede para previnir ataques como DoS ou limitar o número de requests que um único usuário/origem pode fazer para um dado recurso. Numa arquitetura de microservices o API Gateway é o ponto de...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://0.0.0.0:4000/spring-cloud-netflix-zuul-rate-limit/" />
+  <link rel="canonical" href="http://0.0.0.0:4000/pt_BR/spring-cloud-netflix-zuul-rate-limit/" />
+  
+
+  
+  <meta property="og:image" content="/img/spring-cloud-ratelimit-thumb.jpg" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Adicionando Rate Limit no Spring Cloud Netflix Zuul" />
+  
+
+  
+  <meta name="twitter:description" content="No desenvolvimento de APIs algumas vezes é necessário controlar a taxa de trafego que é recebido pela rede para previnir ataques como DoS ou limitar o número de requests que um único usuário/origem pode fazer para um dado recurso. Numa arquitetura de microservices o API Gateway é o ponto de...">
+  
+
+  
+  <meta name="twitter:image" content="/img/spring-cloud-ratelimit-thumb.jpg" />
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://0.0.0.0:4000/pt_BR/">Marcos Barbero's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+
+      
+        
+        
+        
+        
+          
+        
+      
+        
+        
+          
+            
+              <li>
+                <a href="/pt_BR/about/">Sobre mim</a>
+              </li>
+            
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+
+
+      
+
+        
+        <li>
+          <a href=" /spring-cloud-netflix-zuul-rate-limit/ ">
+            <img src="/img/blank.gif" class="flag  flag-us " />
+          </a>
+        </li>
+        
+        <li>
+          <a href=" /pt_BR/spring-cloud-netflix-zuul-rate-limit/ ">
+            <img src="/img/blank.gif" class="flag  flag-br " />
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://0.0.0.0:4000/pt_BR/">
+	      <img class="avatar-img" src="/img/avatar.jpeg" />
+		  </a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+  <div id="header-big-imgs" data-num-img=1
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/spring-cloud-ratelimit-thumb.jpg"
+		
+	  
+    
+  ></div>
+
+
+
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Adicionando Rate Limit no Spring Cloud Netflix Zuul</h1>          
+
+		  
+		  
+		  
+		  <span class="post-meta">Posted on June 12, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Adicionando Rate Limit no Spring Cloud Netflix Zuul</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on June 12, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+        
+        
+        
+
+        <div id="header-gh-btns">
+          
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-cloud-zuul-ratelimit&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-cloud-zuul-ratelimit&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+              
+            
+          
+        </div>
+      
+
+      <article role="main" class="blog-post">
+        <p>No desenvolvimento de APIs algumas vezes é necessário controlar a taxa de trafego que é recebido pela rede
+para previnir ataques como <a href="https://en.wikipedia.org/wiki/Denial-of-service_attack">DoS</a> ou limitar o número
+de requests que um único usuário/origem pode fazer para um dado recurso.</p>
+
+<p>Numa arquitetura de microservices o API Gateway é o ponto de entrada para toda aplicação e aplicar regras para
+limitar o número de acessos nessa camada se encaixa perfeitamente.</p>
+
+<h3 id="spring-cloud-netflix-zuul">Spring Cloud Netflix Zuul</h3>
+
+<p><a href="https://github.com/spring-cloud/spring-cloud-netflix">Spring Cloud Netflix Zuul</a> é um API Gateway Open Source que
+encapsula <a href="https://github.com/Netflix/zuul">Netflix Zuul</a> e adiciona várias funcionalidades, infelizmente rate limiting 
+não é algo presente por padrão.</p>
+
+<h3 id="adicionando-rate-limit-no-zuul">Adicionando Rate Limit no Zuul</h3>
+
+<p>Para corrigir esse problema é possível usar <a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">essa biblioteca OSS</a>
+junto com <code class="highlighter-rouge">Spring Cloud Netflix Zuul</code> no qual irá adicionar suporte para fazer rate-limiting dos requests.</p>
+
+<h3 id="limitadores-suportados">Limitadores Suportados</h3>
+
+<p>A implementação atual suporta uma lista de configurações por serviço assim como uma configuração padrão para todos os outros serviços
+caso seja necessário.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Rate Limit Type</th>
+      <th>Descrição</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">Usuário autenticado</code></td>
+      <td>Usa o username do usuário autenticado ou ‘anonymous’</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">Origem do request</code></td>
+      <td>Usa o IP de origem do usuário</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">URL</code></td>
+      <td>Usa o caminho do request para o downstream service</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">Configuração global por serviço</code></td>
+      <td>Esse não valida origem do request, autenticação ou URI. Para usar essa abordagem basta não setar nenhum tipo</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="armazenamentos-suportados">Armazenamentos Suportados</h3>
+
+<ul>
+  <li><a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ConcurrentHashMap.html">In Memory</a></li>
+  <li><a href="https://www.consul.io/">Consul</a></li>
+  <li><a href="https://redis.io/">Redis</a></li>
+  <li>JDBC (using spring-data-jpa)</li>
+  <li><a href="https://github.com/vladimir-bukhtoyarov/bucket4j">Bucket4j</a>
+    <ul>
+      <li>JCache</li>
+      <li><a href="https://hazelcast.com/">Hazelcast</a></li>
+      <li><a href="https://ignite.apache.org/">Ignite</a></li>
+      <li><a href="http://infinispan.org/">Infinispan</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="implementação">Implementação</h3>
+
+<p>Todas as implementações de rate-limiting são feitas usando <a href="https://github.com/Netflix/zuul/wiki/Filters">Zuul Filters</a> e
+aplicando validações baseadas nas configurações por serviço, no caso de não existir uma configuração os filtros não são acionados.</p>
+
+<p>Quando um limite é alcançado o API Gateway retorna o status code <code class="highlighter-rouge">429 Too Many Requests</code> para o cliente.</p>
+
+<h3 id="configuração">Configuração</h3>
+
+<p>Tudo o que foi descrito acima pode ser 
+<a href="https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html">configurado usando arquivo properties ou YAML</a>
+e não há necessidade de adicionar nenhum código para fazer funcionar.</p>
+
+<h3 id="mais-detalhes">Mais Detalhes</h3>
+
+<p>Para mais detalhes na implementação e uso, por favor visite o <a href="https://github.com/marcosbarbero/spring-cloud-zuul-ratelimit">repositório do projeto</a>.</p>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+          
+            <a href="/tags#spring-framework">spring-framework</a>
+          
+            <a href="/tags#spring-cloud">spring-cloud</a>
+          
+            <a href="/tags#netflix">netflix</a>
+          
+            <a href="/tags#rate-limit">rate-limit</a>
+          
+            <a href="/tags#java">java</a>
+          
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Adicionando+Rate+Limit+no+Spring+Cloud+Netflix+Zuul+http://0.0.0.0:4000/spring-cloud-netflix-zuul-rate-limit/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://0.0.0.0:4000/spring-cloud-netflix-zuul-rate-limit/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+  <!--- Share on Google Plus -->
+    <a href="https://plus.google.com/share?url=http://0.0.0.0:4000/spring-cloud-netflix-zuul-rate-limit/"
+      class="btn btn-social-icon btn-google" title="Share on Google+">
+      <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
+      <span class="sr-only">Google+</span>
+    </a>
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://0.0.0.0:4000/spring-cloud-netflix-zuul-rate-limit/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/pt_BR/ha-and-zone-affinity-spring-cloud-eureka/" data-toggle="tooltip" data-placement="top" title="HA e Afinidade de Zonas usando Spring Cloud Netflix Eureka">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/pt_BR/user-impersonation-with-spring-security/" data-toggle="tooltip" data-placement="top" title="Personificação de usuário com Spring Security">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'marcosbarbero';
+        /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/pt_BR/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:marcos.hgb@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/marcosbarbero" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/marcosgbarbero" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/marcosbarbero" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Marcos Barbero
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://0.0.0.0:4000/pt_BR/">blog.marcosbarbero.com</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-54888300-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  
+  </body>
+</html>
