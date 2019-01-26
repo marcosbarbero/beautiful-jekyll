@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Centralized Authorization with JWT using Spring Boot 2
+title: Centralized Authorization with OAuth2 + JWT using Spring Boot 2
 bigimg: /img/centralized-authorization-jwt.jpg
 share-img: /img/centralized-authorization-jwt.jpg
 gh-repo: marcosbarbero/spring-boot-n-cloud-playground/tree/master/security
