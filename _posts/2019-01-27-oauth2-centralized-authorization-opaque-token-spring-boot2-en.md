@@ -13,9 +13,6 @@ lang: en
 {: .box-note}
 If you are looking for JWT implementation please follow this [link](http://blog.marcosbarbero.com/centralized-authorization-jwt-spring-boot2/)
 
-OAuth2 Centralized Authorization with Opaque Tokens using Spring Boot 2
----
-
 This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, 
 a demo resource server will also be provided.
 
