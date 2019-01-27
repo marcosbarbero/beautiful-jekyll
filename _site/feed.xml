@@ -7,7 +7,22 @@
     <atom:link href="http://0.0.0.0:4000/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
-        <title>Centralized Authorization with JWT using Spring Boot 2</title>
+        <title>Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2</title>
+        <description>
+          
+          If you are looking for JWT implementation please follow this link OAuth2 Centralized Authorization with Opaque Tokens using Spring Boot 2 This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, a demo resource server will also be provided. If you’re not...
+        </description>
+        <pubDate>Sun, 27 Jan 2019 00:00:00 +0100</pubDate>
+        <link>
+          http://0.0.0.0:4000/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/
+        </link>
+        <guid isPermaLink="true">
+          http://0.0.0.0:4000/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/
+        </guid>
+      </item>
+    
+      <item>
+        <title>Centralized Authorization with OAuth2 + JWT using Spring Boot 2</title>
         <description>
           
           This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, a demo resource server will also be provided. If you’re not familiar with OAuth2 I recommend this read. Pre-req JDK 1.8 Text editor or your favorite IDE Maven 3.0+ Implementation Overview For...
