@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <meta http-equiv="Content-Language" content="pt_BR">
+<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/password-encoder-migration-spring-security-5/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/password-encoder-migration-spring-security-5/"/>
+
+
+  <title>Password Encoder Migration with Spring Security 5</title>
+
+  <script>
+  </script>
+
+  <meta name="author" content="Marcos Barbero" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Marcos Barbero's Blog - Eu crio coisas e escrevo sobre isso... às vezes." href="/pt_BR/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+      <link rel="stylesheet" href="/css/flags.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Password Encoder Migration with Spring Security 5" />
+  
+
+   
+  <meta property="og:description" content="Recently I was working in a project that used a custom PasswordEncoder and there was a requirement to migrate it to bcrypt. The current passwords were stored all as hash which means it was not possible to reserve it to the original String - at least not in an easy...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://blog.marcosbarbero.com/password-encoder-migration-spring-security-5/" />
+  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/password-encoder-migration-spring-security-5/" />
+  
+
+  
+  <meta property="og:image" content="/img/password-encoder-migration.jpg" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Password Encoder Migration with Spring Security 5" />
+  
+
+  
+  <meta name="twitter:description" content="Recently I was working in a project that used a custom PasswordEncoder and there was a requirement to migrate it to bcrypt. The current passwords were stored all as hash which means it was not possible to reserve it to the original String - at least not in an easy...">
+  
+
+  
+  <meta name="twitter:image" content="/img/password-encoder-migration.jpg" />
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+
+      
+        
+        
+        
+        
+          
+        
+      
+        
+        
+          
+            
+              <li>
+                <a href="/pt_BR/about/">Sobre mim</a>
+              </li>
+            
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+          
+        
+      
+
+
+      
+
+        
+        <li>
+          <a href=" /password-encoder-migration-spring-security-5/ ">
+            <img src="/img/blank.gif" class="flag  flag-us " />
+          </a>
+        </li>
+        
+        <li>
+          <a href=" /pt_BR/password-encoder-migration-spring-security-5/ ">
+            <img src="/img/blank.gif" class="flag  flag-br " />
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://blog.marcosbarbero.com/pt_BR/">
+	      <img class="avatar-img" src="/img/avatar.jpeg" />
+		  </a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+  <div id="header-big-imgs" data-num-img=1
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/password-encoder-migration.jpg"
+		
+	  
+    
+  ></div>
+
+
+
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Password Encoder Migration with Spring Security 5</h1>          
+
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 2, 2019</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Password Encoder Migration with Spring Security 5</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 2, 2019</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+        
+        
+        
+
+        <div id="header-gh-btns">
+          
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-boot-n-cloud-playground&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-boot-n-cloud-playground&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+              
+            
+          
+        </div>
+      
+
+      <article role="main" class="blog-post">
+        <p>Recently I was working in a project that used a custom <code class="highlighter-rouge">PasswordEncoder</code> and there was a requirement to migrate it to 
+<a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>. The current passwords were stored all as <code class="highlighter-rouge">hash</code> which means it was not
+possible to reserve it to the original <code class="highlighter-rouge">String</code> - at least not in an easy way.</p>
+
+<p>The challenge here was how to support both implementations, the old hash solution along with the new <code class="highlighter-rouge">bcrypt</code> 
+implementation. After a little research I could find <a href="https://spring.io/projects/spring-security">Spring Security 5’s</a> 
+<code class="highlighter-rouge">DelegatingPasswordEncoder</code>.</p>
+
+<h2 id="meet-delegatingpasswordencoder">Meet DelegatingPasswordEncoder</h2>
+
+<p>The <code class="highlighter-rouge">DelegatingPasswordEncoder</code> class makes it possible to support multiple <code class="highlighter-rouge">password encoders</code> based on a <em>prefix</em>. The
+password is stored like this:</p>
+
+<div class="language-text highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{bcrypt}$2a$10$vCXMWCn7fDZWOcLnIEhmK.74dvK1Eh8ae2WrWlhr2ETPLoxQctN4.
+{noop}plaintextpassword
+</code></pre></div></div>
+
+<p><a href="https://spring.io/projects/spring-security">Spring Security 5</a> brings the handy <code class="highlighter-rouge">PasswordEncoderFactories</code> class,
+currently this class supports the following encoders:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="n">PasswordEncoder</span> <span class="nf">createDelegatingPasswordEncoder</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">encodingId</span> <span class="o">=</span> <span class="s">"bcrypt"</span><span class="o">;</span>
+    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">PasswordEncoder</span><span class="o">&gt;</span> <span class="n">encoders</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">encodingId</span><span class="o">,</span> <span class="k">new</span> <span class="n">BCryptPasswordEncoder</span><span class="o">());</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"ldap"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">LdapShaPasswordEncoder</span><span class="o">());</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"MD4"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">Md4PasswordEncoder</span><span class="o">());</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"MD5"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"MD5"</span><span class="o">));</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"noop"</span><span class="o">,</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">NoOpPasswordEncoder</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"pbkdf2"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Pbkdf2PasswordEncoder</span><span class="o">());</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"scrypt"</span><span class="o">,</span> <span class="k">new</span> <span class="n">SCryptPasswordEncoder</span><span class="o">());</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"SHA-1"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"SHA-1"</span><span class="o">));</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"SHA-256"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"SHA-256"</span><span class="o">));</span>
+    <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"sha256"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">StandardPasswordEncoder</span><span class="o">());</span>
+
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">DelegatingPasswordEncoder</span><span class="o">(</span><span class="n">encodingId</span><span class="o">,</span> <span class="n">encoders</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now instead of declaring a single <code class="highlighter-rouge">PasswordEncoder</code> we can use the <code class="highlighter-rouge">PasswordEncoderFactories</code>, like this snippet of code:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">PasswordEncoder</span> <span class="nf">passwordEncoder</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">PasswordEncoderFactories</span><span class="o">.</span><span class="na">createDelegatingPasswordEncoder</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="adding-a-custom-encoder">Adding a Custom Encoder</h2>
+
+<p>Now, getting back to my initial problem, for legacy reasons there is a homegrown <code class="highlighter-rouge">password encoding</code> solution, and the
+handy <code class="highlighter-rouge">PasswordEncoderFactories</code> knows nothing about it, to solve that I’ve created a class similar to the 
+<code class="highlighter-rouge">PasswordEncoderFactories</code> and I’ve added all the built-in encoders along with my custom one, here’s a sample implementation:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.DelegatingPasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.PasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.Pbkdf2PasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.scrypt.SCryptPasswordEncoder</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">DefaultPasswordEncoderFactories</span> <span class="o">{</span>
+
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"deprecation"</span><span class="o">)</span>
+    <span class="kd">static</span> <span class="n">PasswordEncoder</span> <span class="nf">createDelegatingPasswordEncoder</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">encodingId</span> <span class="o">=</span> <span class="s">"bcrypt"</span><span class="o">;</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">PasswordEncoder</span><span class="o">&gt;</span> <span class="n">encoders</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">encodingId</span><span class="o">,</span> <span class="k">new</span> <span class="n">BCryptPasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"ldap"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">LdapShaPasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"MD4"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">Md4PasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"MD5"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"MD5"</span><span class="o">));</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"noop"</span><span class="o">,</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">NoOpPasswordEncoder</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"pbkdf2"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Pbkdf2PasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"scrypt"</span><span class="o">,</span> <span class="k">new</span> <span class="n">SCryptPasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"SHA-1"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"SHA-1"</span><span class="o">));</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"SHA-256"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"SHA-256"</span><span class="o">));</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"sha256"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">StandardPasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"custom"</span><span class="o">,</span> <span class="k">new</span> <span class="n">CustomPasswordEncoder</span><span class="o">());</span>
+
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">DelegatingPasswordEncoder</span><span class="o">(</span><span class="n">encodingId</span><span class="o">,</span> <span class="n">encoders</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>And then I declared my <code class="highlighter-rouge">@Bean</code> using the <code class="highlighter-rouge">DefaultPasswordEncoderFactories</code> instead.</p>
+
+<p>After my first run I realized another problem, I would have to run a <code class="highlighter-rouge">SQL</code> script to update all the existing passwords 
+adding the <code class="highlighter-rouge">{custom}</code> prefix so the framework could properly bind the prefix with the right <code class="highlighter-rouge">PasswordEncoder</code>, 
+don’t get me wrong it’s an fine solution but I really did not want to mess around with existing passwords in the 
+database and luckily for us the <code class="highlighter-rouge">DelegatingPasswordEncoder</code> class allows us to set a <em>default</em> <code class="highlighter-rouge">PasswordEncoder</code>, it means
+whenever the framework tries doesn’t find a prefix in the stored password it will fallback to the <code class="highlighter-rouge">default</code> one to try
+to decode it.</p>
+
+<p>Then I changed my implementation to the following:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.DelegatingPasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.PasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.Pbkdf2PasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.scrypt.SCryptPasswordEncoder</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">DefaultPasswordEncoderFactories</span> <span class="o">{</span>
+
+    <span class="nd">@SuppressWarnings</span><span class="o">(</span><span class="s">"deprecation"</span><span class="o">)</span>
+    <span class="kd">static</span> <span class="n">PasswordEncoder</span> <span class="nf">createDelegatingPasswordEncoder</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">encodingId</span> <span class="o">=</span> <span class="s">"bcrypt"</span><span class="o">;</span>
+        <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">PasswordEncoder</span><span class="o">&gt;</span> <span class="n">encoders</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">encodingId</span><span class="o">,</span> <span class="k">new</span> <span class="n">BCryptPasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"ldap"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">LdapShaPasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"MD4"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">Md4PasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"MD5"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"MD5"</span><span class="o">));</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"noop"</span><span class="o">,</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">NoOpPasswordEncoder</span><span class="o">.</span><span class="na">getInstance</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"pbkdf2"</span><span class="o">,</span> <span class="k">new</span> <span class="n">Pbkdf2PasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"scrypt"</span><span class="o">,</span> <span class="k">new</span> <span class="n">SCryptPasswordEncoder</span><span class="o">());</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"SHA-1"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"SHA-1"</span><span class="o">));</span>
+        <span class="n">encoders</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"SHA-256"</span><span class="o">,</span> <span class="k">new</span> <span class="n">org</span><span class="o">.</span><span class="na">springframework</span><span class="o">.</span><span class="na">security</span><span class="o">.</span><span class="na">crypto</span><span class="o">.</span><span class="na">password</span><span class="o">.</span><span class="na">MessageDigestPasswordEncoder</span><span class="o">(</span><span class="s">"SHA-256"</span><span class="o">));</span>
+
+        <span class="n">DelegatingPasswordEncoder</span> <span class="n">delegatingPasswordEncoder</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DelegatingPasswordEncoder</span><span class="o">(</span><span class="n">encodingId</span><span class="o">,</span> <span class="n">encoders</span><span class="o">);</span>
+        <span class="n">delegatingPasswordEncoder</span><span class="o">.</span><span class="na">setDefaultPasswordEncoderForMatches</span><span class="o">(</span><span class="k">new</span> <span class="n">CustomPasswordEncoder</span><span class="o">());</span>
+        <span class="k">return</span> <span class="n">delegatingPasswordEncoder</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>And the <code class="highlighter-rouge">@Bean</code> declaration is now:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">PasswordEncoder</span> <span class="nf">passwordEncoder</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">DefaultPasswordEncoderFactories</span><span class="o">.</span><span class="na">createDelegatingPasswordEncoder</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Migration password encoders is a real life problem and <a href="https://spring.io/projects/spring-security">Spring Security 5</a> 
+gives a quite handy way to easily handle it by supporting multiple <code class="highlighter-rouge">PasswordEncoder</code>s at once.</p>
+
+<h2 id="footnote">Footnote</h2>
+<ul>
+  <li>The code used for this tutorial can be found on <a href="https://github.com/marcosbarbero/spring-boot-n-cloud-playground/tree/master/security">GitHub</a>.</li>
+  <li><a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#pe-dpe">DelegatingPasswordEncoder - Spring Docs</a></li>
+</ul>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+          
+            <a href="/tags#spring-framework">spring-framework</a>
+          
+            <a href="/tags#spring-security">spring-security</a>
+          
+            <a href="/tags#security">security</a>
+          
+            <a href="/tags#java">java</a>
+          
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Password+Encoder+Migration+with+Spring+Security+5+http://blog.marcosbarbero.com/password-encoder-migration-spring-security-5/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/password-encoder-migration-spring-security-5/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+  <!--- Share on Google Plus -->
+    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/password-encoder-migration-spring-security-5/"
+      class="btn btn-social-icon btn-google" title="Share on Google+">
+      <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
+      <span class="sr-only">Google+</span>
+    </a>
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/password-encoder-migration-spring-security-5/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/pt_BR/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/" data-toggle="tooltip" data-placement="top" title="Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'marcosbarbero';
+        /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/pt_BR/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:marcos.hgb@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/marcosbarbero" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/marcosgbarbero" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/marcosbarbero" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Marcos Barbero
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-54888300-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  
+  </body>
+</html>
