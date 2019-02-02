@@ -7,10 +7,25 @@
     <atom:link href="http://blog.marcosbarbero.com/feed.xml" rel="self" type="application/rss+xml" />
     
       <item>
+        <title>Password Encoder Migration with Spring Security 5</title>
+        <description>
+          
+          Recently I was working in a project that used a custom PasswordEncoder and there was a requirement to migrate it to bcrypt. The current passwords were stored all as hash which means it was not possible to reserve it to the original String - at least not in an easy...
+        </description>
+        <pubDate>Sat, 02 Feb 2019 00:00:00 +0100</pubDate>
+        <link>
+          http://blog.marcosbarbero.com/password-encoder-migration-spring-security-5/
+        </link>
+        <guid isPermaLink="true">
+          http://blog.marcosbarbero.com/password-encoder-migration-spring-security-5/
+        </guid>
+      </item>
+    
+      <item>
         <title>Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2</title>
         <description>
           
-          If you are looking for JWT implementation please follow this link OAuth2 Centralized Authorization with Opaque Tokens using Spring Boot 2 This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, a demo resource server will also be provided. If you’re not...
+          If you are looking for JWT implementation please follow this link This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, a demo resource server will also be provided. If you’re not familiar with OAuth2 I recommend this read. Pre-req JDK 1.8...
         </description>
         <pubDate>Sun, 27 Jan 2019 00:00:00 +0100</pubDate>
         <link>
