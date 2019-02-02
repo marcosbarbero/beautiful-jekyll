@@ -5,7 +5,7 @@ bigimg: /img/centralized-authorization-jwt.jpg
 share-img: /img/centralized-authorization-jwt.jpg
 gh-repo: marcosbarbero/spring-boot-n-cloud-playground/tree/master/security
 gh-badge: [star, fork, follow]
-tags: [spring-framework, spring-boot, jwt, security, oauth2, java]
+tags: [spring-framework, spring-boot, jwt, spring-security, security, oauth2, java]
 permalink: /centralized-authorization-jwt-spring-boot2/
 lang: en
 ---

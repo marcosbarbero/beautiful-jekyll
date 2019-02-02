@@ -5,7 +5,7 @@ bigimg: /img/centralized-authorization-opaque.jpg
 share-img: /img/centralized-authorization-opaque.jpg
 gh-repo: marcosbarbero/spring-boot-n-cloud-playground/tree/master/security
 gh-badge: [star, fork, follow]
-tags: [spring-framework, spring-boot, security, oauth2, jdbc, java]
+tags: [spring-framework, spring-boot, spring-security, security, oauth2, jdbc, java]
 permalink: /oauth2-centralized-authorization-opaque-jdbc-spring-boot2/
 lang: en
 ---
