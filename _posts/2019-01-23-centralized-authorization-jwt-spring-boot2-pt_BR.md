@@ -762,7 +762,7 @@ curl localhost:9100/me -H "Authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6Ikp
 ```
  
 # Footnote
- - O código desse tutorial pode ser encontrado no [GitHub](https://github.com/marcosbarbero/spring-boot2-oauth2-jwt).
+ - O código desse tutorial pode ser encontrado no [GitHub](https://github.com/marcosbarbero/spring-boot2-oauth2-jwt)
  - [OAuth 2.0](https://www.oauth.com/) 
  - [Spring Security Java Config Preview](https://spring.io/blog/2013/07/03/spring-security-java-config-preview-web-security)
  - [Spring Boot 2 - Guia de migração](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide#authenticationmanager-bean)
