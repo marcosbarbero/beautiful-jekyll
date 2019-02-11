@@ -3,7 +3,7 @@ layout: post
 title: Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2
 bigimg: /img/centralized-authorization-opaque.jpg
 share-img: /img/centralized-authorization-opaque.jpg
-gh-repo: marcosbarbero/spring-boot-n-cloud-playground/tree/master/security
+gh-repo: marcosbarbero/spring-boot2-oauth2-opaque-token
 gh-badge: [star, fork, follow]
 tags: [spring-framework, spring-boot, spring-security, security, oauth2, jdbc, java]
 permalink: /oauth2-centralized-authorization-opaque-jdbc-spring-boot2/
@@ -609,7 +609,7 @@ $ curl -i localhost:9101/me -H "Authorization: Bearer c06a4137-fa07-4d9a-97f9-85
 ```
  
 # Footnote
- - The code used for this guide can be found on [GitHub](https://github.com/marcosbarbero/spring-boot-n-cloud-playground/tree/master/security).
+ - The code used for this guide can be found on [GitHub](https://github.com/marcosbarbero/spring-boot2-oauth2-opaque-token)
  - [OAuth 2.0](https://www.oauth.com/) 
  - [Spring Security Java Config Preview](https://spring.io/blog/2013/07/03/spring-security-java-config-preview-web-security)
  - [Spring Boot 2 - Migration Guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide#authenticationmanager-bean)
