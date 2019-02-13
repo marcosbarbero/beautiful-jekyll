@@ -43,6 +43,6 @@ if [ "$TRAVIS_BRANCH" = "develop" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] && [
     commit_n_push
 
 	echo "***************************************************"
-    echo "BLOG RELEASED"
-    echo "***************************************************"
+  echo "BLOG RELEASED"
+  echo "***************************************************"
 fi 
