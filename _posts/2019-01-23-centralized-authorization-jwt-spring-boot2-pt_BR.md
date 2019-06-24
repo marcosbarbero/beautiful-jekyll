@@ -21,7 +21,7 @@ lang: pt_BR
 published: true
 ---
 
-This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, 
+through the process to create a centralized authentication and authorization server with Spring Boot 2, 
 a demo resource server will also be provided.
 
 >If you're not familiar with OAuth2 I recommend this [read](https://www.oauth.com/).
