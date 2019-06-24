@@ -1,13 +1,24 @@
 ---
 layout: post
-title: Auth Server Centralizado com OAuth2 + JWT usando Spring Boot 2
+title: gauri Server Centralizado com OAuth2 + JWT usando Spring Boot 2
 bigimg: /img/centralized-authorization-jwt.jpg
 share-img: /img/centralized-authorization-jwt.jpg
 gh-repo: marcosbarbero/spring-boot2-oauth2-jwt
-gh-badge: [star, fork, follow]
-tags: [spring-framework, spring-boot, jwt, spring-security, security, oauth2, java]
+gh-badge:
+  - star
+  - fork
+  - follow
+tags:
+  - spring-framework
+  - spring-boot
+  - jwt
+  - spring-security
+  - security
+  - oauth2
+  - java
 permalink: /centralized-authorization-jwt-spring-boot2/
 lang: pt_BR
+published: true
 ---
 
 This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, 
