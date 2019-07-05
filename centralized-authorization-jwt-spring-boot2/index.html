@@ -282,11 +282,11 @@
           
             
               
-                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-boot-n-cloud-playground&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-boot2-oauth2-jwt&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
                 
             
               
-                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-boot-n-cloud-playground&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-boot2-oauth2-jwt&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
                 
             
               
@@ -672,16 +672,19 @@ Spring Configuration let’s create a <code class="highlighter-rouge">@Configura
     <span class="kd">private</span> <span class="kd">final</span> <span class="n">PasswordEncoder</span> <span class="n">passwordEncoder</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kd">final</span> <span class="n">AuthenticationManager</span> <span class="n">authenticationManager</span><span class="o">;</span>
     <span class="kd">private</span> <span class="kd">final</span> <span class="n">SecurityProperties</span> <span class="n">securityProperties</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">;</span>
 
     <span class="kd">private</span> <span class="n">JwtAccessTokenConverter</span> <span class="n">jwtAccessTokenConverter</span><span class="o">;</span>
     <span class="kd">private</span> <span class="n">TokenStore</span> <span class="n">tokenStore</span><span class="o">;</span>
 
     <span class="kd">public</span> <span class="nf">AuthorizationServerConfiguration</span><span class="o">(</span><span class="kd">final</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">,</span> <span class="kd">final</span> <span class="n">PasswordEncoder</span> <span class="n">passwordEncoder</span><span class="o">,</span>
-                                            <span class="kd">final</span> <span class="n">AuthenticationManager</span> <span class="n">authenticationManager</span><span class="o">,</span> <span class="kd">final</span> <span class="n">SecurityProperties</span> <span class="n">securityProperties</span><span class="o">)</span> <span class="o">{</span>
+                                            <span class="kd">final</span> <span class="n">AuthenticationManager</span> <span class="n">authenticationManager</span><span class="o">,</span> <span class="kd">final</span> <span class="n">SecurityProperties</span> <span class="n">securityProperties</span><span class="o">,</span>
+                                            <span class="kd">final</span> <span class="n">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">)</span> <span class="o">{</span>
         <span class="k">this</span><span class="o">.</span><span class="na">dataSource</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">;</span>
         <span class="k">this</span><span class="o">.</span><span class="na">passwordEncoder</span> <span class="o">=</span> <span class="n">passwordEncoder</span><span class="o">;</span>
         <span class="k">this</span><span class="o">.</span><span class="na">authenticationManager</span> <span class="o">=</span> <span class="n">authenticationManager</span><span class="o">;</span>
         <span class="k">this</span><span class="o">.</span><span class="na">securityProperties</span> <span class="o">=</span> <span class="n">securityProperties</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">userDetailsService</span> <span class="o">=</span> <span class="n">userDetailsService</span><span class="o">;</span>
     <span class="o">}</span>
 
     <span class="nd">@Bean</span>
@@ -726,6 +729,7 @@ Spring Configuration let’s create a <code class="highlighter-rouge">@Configura
     <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="kd">final</span> <span class="n">AuthorizationServerEndpointsConfigurer</span> <span class="n">endpoints</span><span class="o">)</span> <span class="o">{</span>
         <span class="n">endpoints</span><span class="o">.</span><span class="na">authenticationManager</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">authenticationManager</span><span class="o">)</span>
                 <span class="o">.</span><span class="na">accessTokenConverter</span><span class="o">(</span><span class="n">jwtAccessTokenConverter</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">userDetailsService</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">userDetailsService</span><span class="o">)</span>
                 <span class="o">.</span><span class="na">tokenStore</span><span class="o">(</span><span class="n">tokenStore</span><span class="o">());</span>
     <span class="o">}</span>
 
@@ -1071,12 +1075,13 @@ HTTP Header, e.g:</p>
 
 <h1 id="footnote">Footnote</h1>
 <ul>
-  <li>The code used for this tutorial can be found on <a href="https://github.com/marcosbarbero/spring-boot-n-cloud-playground/tree/master/security">GitHub</a>.</li>
+  <li>The code used for this tutorial can be found on <a href="https://github.com/marcosbarbero/spring-boot2-oauth2-jwt">GitHub</a></li>
   <li><a href="https://www.oauth.com/">OAuth 2.0</a></li>
   <li><a href="https://spring.io/blog/2013/07/03/spring-security-java-config-preview-web-security">Spring Security Java Config Preview</a></li>
   <li><a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide#authenticationmanager-bean">Spring Boot 2 - Migration Guide</a></li>
   <li><a href="https://projects.spring.io/spring-security-oauth/docs/oauth2.html">Spring - OAuth2 Developers Guide</a></li>
 </ul>
+
 
       </article>
 

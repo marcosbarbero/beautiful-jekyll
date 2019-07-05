@@ -66,7 +66,7 @@
   
 
    
-  <meta property="og:description" content="Recently I was working in a project that used a custom PasswordEncoder and there was a requirement to migrate it to bcrypt. The current passwords were stored all as hash which means it was not possible to reserve it to the original String - at least not in an easy...">
+  <meta property="og:description" content="Recently I was working in a project that used a custom PasswordEncoder and there was a requirement to migrate it to bcrypt. The current passwords are stored as hash which means it’s not possible to revert it to the original String - at least not in an easy way. The...">
   
 
 
@@ -92,7 +92,7 @@
   
 
   
-  <meta name="twitter:description" content="Recently I was working in a project that used a custom PasswordEncoder and there was a requirement to migrate it to bcrypt. The current passwords were stored all as hash which means it was not possible to reserve it to the original String - at least not in an easy...">
+  <meta name="twitter:description" content="Recently I was working in a project that used a custom PasswordEncoder and there was a requirement to migrate it to bcrypt. The current passwords are stored as hash which means it’s not possible to revert it to the original String - at least not in an easy way. The...">
   
 
   
@@ -299,8 +299,8 @@
 
       <article role="main" class="blog-post">
         <p>Recently I was working in a project that used a custom <code class="highlighter-rouge">PasswordEncoder</code> and there was a requirement to migrate it to 
-<a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>. The current passwords were stored all as <code class="highlighter-rouge">hash</code> which means it was not
-possible to reserve it to the original <code class="highlighter-rouge">String</code> - at least not in an easy way.</p>
+<a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>. The current passwords are stored as <code class="highlighter-rouge">hash</code> which means it’s not
+possible to revert it to the original <code class="highlighter-rouge">String</code> - at least not in an easy way.</p>
 
 <p>The challenge here was how to support both implementations, the old hash solution along with the new <code class="highlighter-rouge">bcrypt</code> 
 implementation. After a little research I could find <a href="https://spring.io/projects/spring-security">Spring Security 5’s</a> 
