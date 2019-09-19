@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <meta http-equiv="Content-Language" content="pt_BR">
+<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/"/>
+
+
+  <title>Conectando multiplos MongoDBs usando Spring Boot</title>
+
+  <script>
+  </script>
+
+  <meta name="author" content="Marcos Barbero" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Marcos Barbero's Blog - Eu crio coisas e escrevo sobre isso... às vezes." href="/pt_BR/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+      <link rel="stylesheet" href="/css/flags.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Conectando multiplos MongoDBs usando Spring Boot" />
+  
+
+   
+  <meta property="og:description" content="Esse tutorial te guiará no processo de conectar uma aplicação com multiplos MongoDBs. O que você construirá Você construirá uma aplicação que se conecta à multiplos MongoDBs. Pre-req JDK 1.8 Editor de texto ou sua IDE favorita Maven 3.0+ MongoDB O projeto de examplo usa Project Lombok para gerar getters,...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/" />
+  <link rel="canonical" href="http://blog.marcosbarbero.com/pt_BR/multiple-mongodb-connectors-in-spring-boot/" />
+  
+
+  
+  <meta property="og:image" content="/img/mongodb-leaf.jpeg" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Conectando multiplos MongoDBs usando Spring Boot" />
+  
+
+  
+  <meta name="twitter:description" content="Esse tutorial te guiará no processo de conectar uma aplicação com multiplos MongoDBs. O que você construirá Você construirá uma aplicação que se conecta à multiplos MongoDBs. Pre-req JDK 1.8 Editor de texto ou sua IDE favorita Maven 3.0+ MongoDB O projeto de examplo usa Project Lombok para gerar getters,...">
+  
+
+  
+  <meta name="twitter:image" content="/img/mongodb-leaf.jpeg" />
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://blog.marcosbarbero.com/pt_BR/">Marcos Barbero's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+
+      
+        
+        
+        
+        
+          
+        
+      
+        
+        
+          
+            
+              <li>
+                <a href="/pt_BR/about/">Sobre mim</a>
+              </li>
+            
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+          
+        
+      
+
+
+      
+
+        
+        <li>
+          <a href=" /multiple-mongodb-connectors-in-spring-boot/ ">
+            <img src="/img/blank.gif" class="flag  flag-us " />
+          </a>
+        </li>
+        
+        <li>
+          <a href=" /pt_BR/multiple-mongodb-connectors-in-spring-boot/ ">
+            <img src="/img/blank.gif" class="flag  flag-br " />
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://blog.marcosbarbero.com/pt_BR/">
+	      <img class="avatar-img" src="/img/avatar.jpeg" />
+		  </a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+  <div id="header-big-imgs" data-num-img=1
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/mongodb-leaf.jpeg"
+		
+	  
+    
+  ></div>
+
+
+
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Conectando multiplos MongoDBs usando Spring Boot</h1>          
+
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 17, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Conectando multiplos MongoDBs usando Spring Boot</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on February 17, 2018</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+        
+        
+        
+
+        <div id="header-gh-btns">
+          
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&repo=spring-boot-multi-mongo&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&repo=spring-boot-multi-mongo&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=weekly-drafts&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+              
+            
+          
+        </div>
+      
+
+      <article role="main" class="blog-post">
+        <p>Esse tutorial te guiará no processo de conectar uma aplicação com multiplos <a href="https://www.mongodb.com/"><code class="highlighter-rouge">MongoDBs</code></a>.</p>
+
+<h3 id="o-que-você-construirá">O que você construirá</h3>
+<p>Você construirá uma aplicação que se conecta à multiplos <code class="highlighter-rouge">MongoDB</code>s.</p>
+
+<h3 id="pre-req">Pre-req</h3>
+
+<ul>
+  <li><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">JDK 1.8</a></li>
+  <li>Editor de texto ou sua IDE favorita</li>
+  <li><a href="https://maven.apache.org/download.cgi">Maven 3.0+</a></li>
+  <li><a href="https://www.mongodb.com/">MongoDB</a></li>
+</ul>
+
+<blockquote>
+  <p>O projeto de examplo usa <a href="https://projectlombok.org/">Project Lombok</a> para gerar getters, setters, contructors, etc.</p>
+</blockquote>
+
+<h3 id="spring-boot---conexão-com-mongodb">Spring Boot - Conexão com MongoDB</h3>
+<p>Para criar uma instância do <code class="highlighter-rouge">MongoTemplate</code> através do Spring Boot nós só precisamos adicionar algumas propriedades específicas
+que o <code class="highlighter-rouge">AutoConfiguration</code> do Spring Boot se encarregará de criar tudo automaticamente.</p>
+
+<p>Abaixo estão as propriedades básicas obrigatórias para criação de um <code class="highlighter-rouge">MongoTemplate</code>.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="s">data.mongodb</span><span class="pi">:</span>
+    <span class="na">host</span><span class="pi">:</span> <span class="c1"># hostname</span>
+    <span class="na">port</span><span class="pi">:</span> <span class="c1"># port</span>
+    <span class="na">uri</span><span class="pi">:</span> <span class="c1">#uri</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="c1">#db</span>
+</code></pre></div></div>
+
+<p>Spring Boot tem uma classe chamada <code class="highlighter-rouge">MongoProperties.java</code> que define os campos obrigatórios com o prefixo <code class="highlighter-rouge">spring.data.mongodb</code>. (acima). A classe <code class="highlighter-rouge">MongoProperties.java</code> armazena todas as propriedades que nós escrevemos no <code class="highlighter-rouge">application.yml</code>. Então, exist outra classe chamada <code class="highlighter-rouge">MongoDataAutoConfiguration.java</code> que usa a anterior para criar um <code class="highlighter-rouge">MongoTemplate</code>.</p>
+
+<p>Para conectar em dois diferentes servidores de <code class="highlighter-rouge">MongoDB</code> é necessário sobreescrever todas essas classes e comportamento.</p>
+
+<h3 id="desligando-spring-boot-autoconfig">Desligando Spring Boot AutoConfig</h3>
+<p>Para criar multiplos <code class="highlighter-rouge">MongoTemplate</code>s é necessário desabilitar a auto-configuração provida pelo Spring Boot. Isso pode ser
+conseguido adicionando a seguinte propriedade no arquivo <code class="highlighter-rouge">application.yml</code>.</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">autoconfigure</span><span class="pi">:</span>
+    <span class="na">exclude</span><span class="pi">:</span> <span class="s">org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration</span>
+</code></pre></div></div>
+
+<h3 id="configurando-multiplos-mongotemplates">Configurando multiplos MongoTemplates</h3>
+<p>Primeiro crie a seguinte <code class="highlighter-rouge">@ConfigurationProperties</code> classe.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/config/MultipleMongoProperties</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.mongo.MongoProperties</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.context.properties.ConfigurationProperties</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+
+<span class="nd">@Data</span>
+<span class="nd">@ConfigurationProperties</span><span class="o">(</span><span class="n">prefix</span> <span class="o">=</span> <span class="s">"mongodb"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MultipleMongoProperties</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="n">MongoProperties</span> <span class="n">primary</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MongoProperties</span><span class="o">();</span>
+    <span class="kd">private</span> <span class="n">MongoProperties</span> <span class="n">secondary</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MongoProperties</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>E então adicione as seguintes propriedades no <code class="highlighter-rouge">application.yml</code></p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">mongodb</span><span class="pi">:</span>
+  <span class="na">primary</span><span class="pi">:</span>
+    <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>
+    <span class="na">port</span><span class="pi">:</span> <span class="s">27017</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">second</span>
+  <span class="na">secondary</span><span class="pi">:</span>
+    <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>
+    <span class="na">port</span><span class="pi">:</span> <span class="s">27017</span>
+    <span class="na">database</span><span class="pi">:</span> <span class="s">second</span>
+</code></pre></div></div>
+
+<p>Agora é necessário criar o <code class="highlighter-rouge">MongoTemplate</code>s para ligar as configurações dadas no passo anterior.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/config/MultipleMongoConfig</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.mongodb.MongoClient</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Qualifier</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.mongo.MongoProperties</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.context.properties.EnableConfigurationProperties</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Primary</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.MongoDbFactory</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.core.MongoTemplate</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.core.SimpleMongoDbFactory</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.RequiredArgsConstructor</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="nd">@EnableConfigurationProperties</span><span class="o">(</span><span class="n">MultipleMongoProperties</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">MultipleMongoConfig</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">MultipleMongoProperties</span> <span class="n">mongoProperties</span><span class="o">;</span>
+
+    <span class="nd">@Primary</span>
+    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"primaryMongoTemplate"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">MongoTemplate</span> <span class="nf">primaryMongoTemplate</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MongoTemplate</span><span class="o">(</span><span class="n">primaryFactory</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">mongoProperties</span><span class="o">.</span><span class="na">getPrimary</span><span class="o">()));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"secondaryMongoTemplate"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">MongoTemplate</span> <span class="nf">secondaryMongoTemplate</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">MongoTemplate</span><span class="o">(</span><span class="n">secondaryFactory</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">mongoProperties</span><span class="o">.</span><span class="na">getSecondary</span><span class="o">()));</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="nd">@Primary</span>
+    <span class="kd">public</span> <span class="n">MongoDbFactory</span> <span class="nf">primaryFactory</span><span class="o">(</span><span class="kd">final</span> <span class="n">MongoProperties</span> <span class="n">mongo</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">SimpleMongoDbFactory</span><span class="o">(</span><span class="k">new</span> <span class="n">MongoClient</span><span class="o">(</span><span class="n">mongo</span><span class="o">.</span><span class="na">getHost</span><span class="o">(),</span> <span class="n">mongo</span><span class="o">.</span><span class="na">getPort</span><span class="o">()),</span>
+                <span class="n">mongo</span><span class="o">.</span><span class="na">getDatabase</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">MongoDbFactory</span> <span class="nf">secondaryFactory</span><span class="o">(</span><span class="kd">final</span> <span class="n">MongoProperties</span> <span class="n">mongo</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">SimpleMongoDbFactory</span><span class="o">(</span><span class="k">new</span> <span class="n">MongoClient</span><span class="o">(</span><span class="n">mongo</span><span class="o">.</span><span class="na">getHost</span><span class="o">(),</span> <span class="n">mongo</span><span class="o">.</span><span class="na">getPort</span><span class="o">()),</span>
+                <span class="n">mongo</span><span class="o">.</span><span class="na">getDatabase</span><span class="o">());</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Com a configuração acima você terá dois diferentes <code class="highlighter-rouge">MongoTemplate</code>s baseados nas configurações personalizadas que criamos
+anteriormente.</p>
+
+<h3 id="usando-multiplos-templates">Usando multiplos templates</h3>
+<p>No passo anterior nós criamos dois <code class="highlighter-rouge">MongoTemplate</code>s, <code class="highlighter-rouge">primaryMongoTemplate</code> e <code class="highlighter-rouge">secondaryMongoTemplate</code>. Nessa sessão nós
+criaremos alguns modelos de dados e faremos tudo funcionar.</p>
+
+<h3 id="criando-os-modelos-de-dados-e-os-repositórios">Criando os modelos de dados e os repositórios</h3>
+<p>Primeiro nós precisamos criar dois modelos de dados para acessar duas <code class="highlighter-rouge">collections</code> diferentes.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/repository/primary/PrimaryModel</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">primary</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.NoArgsConstructor</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.annotation.Id</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.core.mapping.Document</span><span class="o">;</span>
+
+<span class="nd">@Data</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@Document</span><span class="o">(</span><span class="n">collection</span> <span class="o">=</span> <span class="s">"first_mongo"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PrimaryModel</span> <span class="o">{</span>
+
+	<span class="nd">@Id</span>
+	<span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+
+	<span class="kd">private</span> <span class="n">String</span> <span class="n">value</span><span class="o">;</span>
+
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"PrimaryModel{"</span> <span class="o">+</span> <span class="s">"id='"</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span> <span class="s">", value='"</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="sc">'\''</span>
+				<span class="o">+</span> <span class="sc">'}'</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/repository/secondary/SecondaryModel</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">secondary</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.annotation.Id</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.core.mapping.Document</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.AllArgsConstructor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.Data</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">lombok.NoArgsConstructor</span><span class="o">;</span>
+
+<span class="nd">@Data</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="nd">@NoArgsConstructor</span>
+<span class="nd">@Document</span><span class="o">(</span><span class="n">collection</span> <span class="o">=</span> <span class="s">"second_mongo"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecondaryModel</span> <span class="o">{</span>
+
+    <span class="nd">@Id</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toString</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="s">"SecondaryModel{"</span> <span class="o">+</span> <span class="s">"id='"</span> <span class="o">+</span> <span class="n">id</span> <span class="o">+</span> <span class="sc">'\''</span> <span class="o">+</span> <span class="s">", value='"</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="sc">'\''</span>
+                <span class="o">+</span> <span class="sc">'}'</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>Agora nós precisamos criar um repositório par cada modelo de dados.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/repository/primary/PrimaryRepository</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">primary</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.repository.MongoRepository</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">PrimaryRepository</span> <span class="kd">extends</span> <span class="n">MongoRepository</span><span class="o">&lt;</span><span class="n">PrimaryModel</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/repository/secondary/SecondaryRepository</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">.</span><span class="na">repository</span><span class="o">.</span><span class="na">secondary</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.repository.MongoRepository</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">SecondaryRepository</span> <span class="kd">extends</span> <span class="n">MongoRepository</span><span class="o">&lt;</span><span class="n">SecondaryModel</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="habilitando-os-repositórios-mongo">Habilitando os repositórios Mongo</h3>
+<p>Agora nós já temos as classes para configuração das propriedades e os modelos de dados, nós precisamos configurar qual
+<code class="highlighter-rouge">MongoTemplate</code> será responsável para cada <code class="highlighter-rouge">repository</code> definido.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/config/PrimaryMongoConfig</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.repository.config.EnableMongoRepositories</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableMongoRepositories</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="s">"com.marcosbarbero.wd.multiplemongo.repository.primary"</span><span class="o">,</span>
+        <span class="n">mongoTemplateRef</span> <span class="o">=</span> <span class="s">"primaryMongoTemplate"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PrimaryMongoConfig</span> <span class="o">{</span>
+
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/config/SecondaryMongoConfig</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.mongodb.repository.config.EnableMongoRepositories</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableMongoRepositories</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="s">"com.marcosbarbero.wd.multiplemongo.repository.secondary"</span><span class="o">,</span>
+        <span class="n">mongoTemplateRef</span> <span class="o">=</span> <span class="s">"secondaryMongoTemplate"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SecondaryMongoConfig</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="executando">Executando</h3>
+<p>Para testar a aplicação eu adicionei o seguinte código na classe principal do projeto.</p>
+
+<p><code class="highlighter-rouge">src/main/java/com/marcosbarbero/wd/multiplemongo/Application</code></p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">marcosbarbero</span><span class="o">.</span><span class="na">wd</span><span class="o">.</span><span class="na">multiplemongo</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.multiplemongo.repository.primary.PrimaryModel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.multiplemongo.repository.primary.PrimaryRepository</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.multiplemongo.repository.secondary.SecondaryModel</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.marcosbarbero.wd.multiplemongo.repository.secondary.SecondaryRepository</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.CommandLineRunner</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">lombok.extern.slf4j.Slf4j</span><span class="o">;</span>
+
+<span class="nd">@Slf4j</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Application</span> <span class="kd">implements</span> <span class="n">CommandLineRunner</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">PrimaryRepository</span> <span class="n">primaryRepository</span><span class="o">;</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">SecondaryRepository</span> <span class="n">secondaryRepository</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">Application</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">(</span><span class="n">String</span><span class="o">...</span> <span class="n">args</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"************************************************************"</span><span class="o">);</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Start printing mongo objects"</span><span class="o">);</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"************************************************************"</span><span class="o">);</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">primaryRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="k">new</span> <span class="n">PrimaryModel</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">"Primary database plain object"</span><span class="o">));</span>
+
+        <span class="k">this</span><span class="o">.</span><span class="na">secondaryRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="k">new</span> <span class="n">SecondaryModel</span><span class="o">(</span><span class="kc">null</span><span class="o">,</span> <span class="s">"Secondary database plain object"</span><span class="o">));</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">PrimaryModel</span><span class="o">&gt;</span> <span class="n">primaries</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">primaryRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">PrimaryModel</span> <span class="n">primary</span> <span class="o">:</span> <span class="n">primaries</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">primary</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">SecondaryModel</span><span class="o">&gt;</span> <span class="n">secondaries</span> <span class="o">=</span> <span class="k">this</span><span class="o">.</span><span class="na">secondaryRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+
+        <span class="k">for</span> <span class="o">(</span><span class="n">SecondaryModel</span> <span class="n">secondary</span> <span class="o">:</span> <span class="n">secondaries</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">secondary</span><span class="o">.</span><span class="na">toString</span><span class="o">());</span>
+        <span class="o">}</span>
+
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"************************************************************"</span><span class="o">);</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Ended printing mongo objects"</span><span class="o">);</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"************************************************************"</span><span class="o">);</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Como esse projeto foi construído usando <a href="https://projects.spring.io/spring-boot/">Spring Boot</a>, para executá-lo basta apenas
+executar os seguintes comandos:</p>
+
+<p><code class="highlighter-rouge">Build</code></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>./mvnw clean package
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">Run</code></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>java <span class="nt">-jar</span> target/multiple-mongo-connectors-0.0.1-SNAPSHOT.jar
+</code></pre></div></div>
+
+<p>O processo imprimá a seguinte saída:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">************************************************************</span>
+Start printing mongo objects
+<span class="k">************************************************************</span>
+Opened connection <span class="o">[</span>connectionId<span class="o">{</span>localValue:3, serverValue:11<span class="o">}]</span> to localhost:27017
+Opened connection <span class="o">[</span>connectionId<span class="o">{</span>localValue:4, serverValue:12<span class="o">}]</span> to localhost:27017
+PrimaryModel<span class="o">{</span><span class="nv">id</span><span class="o">=</span><span class="s1">'5a8834ee536b1d604345da4e'</span>, <span class="nv">value</span><span class="o">=</span><span class="s1">'Primary database plain object'</span><span class="o">}</span>
+SecondaryModel<span class="o">{</span><span class="nv">id</span><span class="o">=</span><span class="s1">'5a884cc8536b1da4468466a7'</span>, <span class="nv">value</span><span class="o">=</span><span class="s1">'Secondary database plain object'</span><span class="o">}</span>
+<span class="k">************************************************************</span>
+Ended printing mongo objects
+<span class="k">************************************************************</span>
+</code></pre></div></div>
+
+<p class="box-note">Para executar esse tutorial é necessário uma instancias de <code class="highlighter-rouge">MongoDB</code> rodando em <code class="highlighter-rouge">localhost</code> e na porta <code class="highlighter-rouge">27017</code>.</p>
+
+<h3 id="sumário">Sumário</h3>
+<p>Parabéns! Você acabou de criar uma aplicação com spring-boot que conecta à múltiplas instâncias de <code class="highlighter-rouge">MongoDB</code>.</p>
+
+<h4 id="nota-de-rodapé">Nota de rodapé</h4>
+<ul>
+  <li>O código usado para esse tutorial pode ser encontrado no <a href="https://github.com/weekly-drafts/spring-boot-multi-mongo">github</a></li>
+</ul>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+          
+            <a href="/tags#spring-framework">spring-framework</a>
+          
+            <a href="/tags#spring-boot">spring-boot</a>
+          
+            <a href="/tags#spring-data">spring-data</a>
+          
+            <a href="/tags#spring-data-mongodb">spring-data-mongodb</a>
+          
+            <a href="/tags#java">java</a>
+          
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Conectando+multiplos+MongoDBs+usando+Spring+Boot+http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+  <!--- Share on Google Plus -->
+    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+      class="btn btn-social-icon btn-google" title="Share on Google+">
+      <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
+      <span class="sr-only">Google+</span>
+    </a>
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/multiple-mongodb-connectors-in-spring-boot/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/pt_BR/creating-a-batch-service/" data-toggle="tooltip" data-placement="top" title="Criando um serviço batch">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/pt_BR/setup-multiple-datasources-with-spring-boot-spring-data-in-pcf/" data-toggle="tooltip" data-placement="top" title="Configurando mutiplos DataSources com Spring Boot e Spring Data - PCF">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'marcosbarbero';
+        /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/pt_BR/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:marcos.hgb@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/marcosbarbero" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/marcosgbarbero" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/marcosbarbero" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Marcos Barbero
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://blog.marcosbarbero.com/pt_BR/">blog.marcosbarbero.com</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-54888300-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  
+  </body>
+</html>
