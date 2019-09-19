@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Beautiful Jekyll | MIT license | Copyright Dean Attali 2016 -->
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <meta http-equiv="Content-Language" content="en">
+<link rel="alternate" hreflang="en" href=" http://blog.marcosbarbero.com/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/"/>
+<link rel="alternate" hreflang="pt_BR" href="http://blog.marcosbarbero.com/pt_BR/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/"/>
+
+
+  <title>Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2</title>
+
+  <script>
+  </script>
+
+  <meta name="author" content="Marcos Barbero" />
+
+  
+
+  <link rel="alternate" type="application/rss+xml" title="Marcos Barbero's Blog - I create things and I blog about it... sometimes." href="/feed.xml" />
+
+  
+
+  
+    
+      
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css" />
+
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    
+      <link rel="stylesheet" href="/css/bootstrap-social.css" />
+    
+      <link rel="stylesheet" href="/css/main.css" />
+    
+      <link rel="stylesheet" href="/css/flags.min.css" />
+    
+  
+
+  
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+    
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+    
+  
+
+  
+
+  
+
+  
+
+    <!-- Facebook OpenGraph tags -->
+  
+
+  
+  <meta property="og:title" content="Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2" />
+  
+
+   
+  <meta property="og:description" content="If you are looking for JWT implementation please follow this link This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, a demo resource server will also be provided. If you’re not familiar with OAuth2 I recommend this read. Pre-req JDK 1.8...">
+  
+
+
+  <meta property="og:type" content="website" />
+
+  
+  <meta property="og:url" content="http://blog.marcosbarbero.com/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/" />
+  <link rel="canonical" href="http://blog.marcosbarbero.com/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/" />
+  
+
+  
+  <meta property="og:image" content="/img/centralized-authorization-opaque.jpg" />
+  
+
+
+  <!-- Twitter summary cards -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:site" content="@" />
+  <meta name="twitter:creator" content="@" />
+
+  
+  <meta name="twitter:title" content="Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2" />
+  
+
+  
+  <meta name="twitter:description" content="If you are looking for JWT implementation please follow this link This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, a demo resource server will also be provided. If you’re not familiar with OAuth2 I recommend this read. Pre-req JDK 1.8...">
+  
+
+  
+  <meta name="twitter:image" content="/img/centralized-authorization-opaque.jpg" />
+  
+
+  
+
+</head>
+
+
+  <body>
+
+    
+  
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+        <a class="navbar-brand" href="http://blog.marcosbarbero.com">Marcos Barbero's Blog</a>
+      
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+
+      
+        
+        
+        
+        
+          
+        
+      
+        
+        
+          
+            
+              <li>
+                <a href="/about/">About me</a>
+              </li>
+            
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+      
+        
+        
+          
+        
+      
+        
+        
+          
+        
+      
+
+
+      
+
+        
+        <li>
+          <a href=" /oauth2-centralized-authorization-opaque-jdbc-spring-boot2/ ">
+            <img src="/img/blank.gif" class="flag  flag-us " />
+          </a>
+        </li>
+        
+        <li>
+          <a href=" /pt_BR/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/ ">
+            <img src="/img/blank.gif" class="flag  flag-br " />
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+
+	
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+	    <a href="http://blog.marcosbarbero.com">
+	      <img class="avatar-img" src="/img/avatar.jpeg" />
+		  </a>
+	  </div>
+	</div>
+	
+
+  </div>
+</nav>
+
+
+    <!-- TODO this file has become a mess, refactor it -->
+
+
+
+
+  <div id="header-big-imgs" data-num-img=1
+    
+	  
+	  
+	    
+		  data-img-src-1="/img/centralized-authorization-opaque.jpg"
+		
+	  
+    
+  ></div>
+
+
+
+
+
+<header class="header-section has-img">
+
+<div class="big-img intro-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2</h1>          
+
+		  
+		  
+		  
+		  <span class="post-meta">Posted on January 27, 2019</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class='img-desc'></span>
+</div>
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Centralized Authorization with OAuth2 + Opaque Tokens using Spring Boot 2</h1>
+		  
+		  
+		  
+		  <span class="post-meta">Posted on January 27, 2019</span>
+		  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+      
+        
+        
+        
+
+        <div id="header-gh-btns">
+          
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-boot2-oauth2-opaque-token&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&repo=spring-boot2-oauth2-opaque-token&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                
+            
+              
+                  <iframe src="https://ghbtns.com/github-btn.html?user=marcosbarbero&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+              
+            
+          
+        </div>
+      
+
+      <article role="main" class="blog-post">
+        <p class="box-note">If you are looking for JWT implementation please follow this <a href="http://blog.marcosbarbero.com/centralized-authorization-jwt-spring-boot2/">link</a></p>
+
+<p>This guide walks through the process to create a centralized authentication and authorization server with Spring Boot 2, 
+a demo resource server will also be provided.</p>
+
+<blockquote>
+  <p>If you’re not familiar with OAuth2 I recommend this <a href="https://www.oauth.com/">read</a>.</p>
+</blockquote>
+
+<h2 id="pre-req">Pre-req</h2>
+
+<ul>
+  <li><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html">JDK 1.8</a></li>
+  <li>Text editor or your favorite IDE</li>
+  <li><a href="https://maven.apache.org/download.cgi">Maven 3.0+</a></li>
+</ul>
+
+<h2 id="implementation-overview">Implementation Overview</h2>
+
+<p>For this project we’ll be using <a href="https://spring.io/projects/spring-security">Spring Security 5</a> through Spring Boot.
+If you’re familiar with the earlier versions this <a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide#oauth2">Spring Boot Migration Guide</a>
+might be useful.</p>
+
+<h2 id="oauth2-terminology">OAuth2 Terminology</h2>
+
+<ul>
+  <li><strong>Resource Owner</strong>
+    <ul>
+      <li>The user who authorizes an application to access his account. The access is limited to the <code class="highlighter-rouge">scope</code>.</li>
+    </ul>
+  </li>
+  <li><strong>Resource Server</strong>:
+    <ul>
+      <li>A server that handles authenticated requests after the <code class="highlighter-rouge">client</code> has obtained an <code class="highlighter-rouge">access token</code>.</li>
+    </ul>
+  </li>
+  <li><strong>Client</strong>
+    <ul>
+      <li>An application that access protected resources on behalf of the resource owner.</li>
+    </ul>
+  </li>
+  <li><strong>Authorization Server</strong>
+    <ul>
+      <li>A server which issues access tokens after successfully authenticating a <code class="highlighter-rouge">client</code> and <code class="highlighter-rouge">resource owner</code>, and authorizing the request.</li>
+    </ul>
+  </li>
+  <li><strong>Access Token</strong>
+    <ul>
+      <li>A unique token used to access protected resources</li>
+    </ul>
+  </li>
+  <li><strong>Scope</strong>
+    <ul>
+      <li>A Permission</li>
+    </ul>
+  </li>
+  <li><strong>Grant type</strong>
+    <ul>
+      <li>A <code class="highlighter-rouge">grant</code> is a method of acquiring an access token.</li>
+      <li><a href="https://oauth.net/2/grant-types/">Read more about grant types here</a></li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="authorization-server">Authorization Server</h3>
+
+<p>To build our <code class="highlighter-rouge">Authorization Server</code> we’ll be using <a href="https://spring.io/projects/spring-security">Spring Security 5.x</a> through 
+<a href="https://spring.io/projects/spring-boot">Spring Boot 2.0.x</a>.</p>
+
+<h4 id="dependencies">Dependencies</h4>
+
+<p>You can go to <a href="https://start.spring.io/">start.spring.io</a> and generate a new project and then add the following dependencies:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+    
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.security.oauth.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-security-oauth2-autoconfigure<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>2.1.2.RELEASE<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-jdbc<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-configuration-processor<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;optional&gt;</span>true<span class="nt">&lt;/optional&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>com.h2database<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>h2<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;scope&gt;</span>runtime<span class="nt">&lt;/scope&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>   
+    <span class="nt">&lt;/dependencies&gt;</span>
+</code></pre></div></div>
+
+<h4 id="database">Database</h4>
+
+<p>For the sake of this guide we’ll be using <a href="http://www.h2database.com/html/main.html">H2 Database</a>.<br />
+Here you can find a reference OAuth2 SQL schema required by Spring Security.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">oauth_client_details</span> <span class="p">(</span>
+  <span class="n">client_id</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">resource_ids</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">client_secret</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">scope</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">authorized_grant_types</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">web_server_redirect_uri</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">authorities</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">access_token_validity</span> <span class="n">INTEGER</span><span class="p">,</span>
+  <span class="n">refresh_token_validity</span> <span class="n">INTEGER</span><span class="p">,</span>
+  <span class="n">additional_information</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">4000</span><span class="p">),</span>
+  <span class="n">autoapprove</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">oauth_client_token</span> <span class="p">(</span>
+  <span class="n">token_id</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">token</span> <span class="n">BLOB</span><span class="p">,</span>
+  <span class="n">authentication_id</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">user_name</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">client_id</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">oauth_access_token</span> <span class="p">(</span>
+  <span class="n">token_id</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">token</span> <span class="n">BLOB</span><span class="p">,</span>
+  <span class="n">authentication_id</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">user_name</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">client_id</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">authentication</span> <span class="n">BLOB</span><span class="p">,</span>
+  <span class="n">refresh_token</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">oauth_refresh_token</span> <span class="p">(</span>
+  <span class="n">token_id</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span>
+  <span class="n">token</span> <span class="n">BLOB</span><span class="p">,</span>
+  <span class="n">authentication</span> <span class="n">BLOB</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">oauth_code</span> <span class="p">(</span>
+  <span class="n">code</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">),</span> <span class="n">authentication</span> <span class="n">BLOB</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>And then add the following entry</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- The encrypted client_secret it `secret`</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">oauth_client_details</span> <span class="p">(</span><span class="n">client_id</span><span class="p">,</span> <span class="n">client_secret</span><span class="p">,</span> <span class="k">scope</span><span class="p">,</span> <span class="n">authorized_grant_types</span><span class="p">,</span> <span class="n">authorities</span><span class="p">,</span> <span class="n">access_token_validity</span><span class="p">)</span>
+  <span class="k">VALUES</span> <span class="p">(</span><span class="s1">'clientId'</span><span class="p">,</span> <span class="s1">'{bcrypt}$2a$10$vCXMWCn7fDZWOcLnIEhmK.74dvK1Eh8ae2WrWlhr2ETPLoxQctN4.'</span><span class="p">,</span> <span class="s1">'read,write'</span><span class="p">,</span> <span class="s1">'password,refresh_token,client_credentials'</span><span class="p">,</span> <span class="s1">'ROLE_CLIENT'</span><span class="p">,</span> <span class="mi">300</span><span class="p">);</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>The <code class="highlighter-rouge">client_secret</code> above was generated using <a href="https://en.wikipedia.org/wiki/Bcrypt">bcrypt</a>.<br />
+The prefix <code class="highlighter-rouge">{bcrypt}</code> is required because we’ll using Spring Security 5.x’s new feature of <a href="https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#pe-dpe">DelegatingPasswordEncoder</a>.</p>
+</blockquote>
+
+<p>Bellow here you can find the <code class="highlighter-rouge">User</code> and <code class="highlighter-rouge">Authority</code> reference SQL schema used by Spring’s <code class="highlighter-rouge">org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl</code>.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">users</span> <span class="p">(</span>
+  <span class="n">id</span> <span class="n">INT</span> <span class="n">AUTO_INCREMENT</span> <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">,</span>
+  <span class="n">username</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">password</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">enabled</span> <span class="n">TINYINT</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
+  <span class="k">UNIQUE</span> <span class="k">KEY</span> <span class="n">unique_username</span><span class="p">(</span><span class="n">username</span><span class="p">)</span>
+<span class="p">);</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">IF</span> <span class="k">NOT</span> <span class="k">EXISTS</span> <span class="n">authorities</span> <span class="p">(</span>
+  <span class="n">username</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="n">authority</span> <span class="n">VARCHAR</span><span class="p">(</span><span class="mi">256</span><span class="p">)</span> <span class="k">NOT</span> <span class="k">NULL</span><span class="p">,</span>
+  <span class="k">PRIMARY</span> <span class="k">KEY</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">authority</span><span class="p">)</span>
+<span class="p">);</span>
+</code></pre></div></div>
+
+<p>Same as before add the following entries for the user and its authority.</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- The encrypted password is `pass`</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">users</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">,</span> <span class="n">enabled</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'user'</span><span class="p">,</span> <span class="s1">'{bcrypt}$2a$10$cyf5NfobcruKQ8XGjUJkEegr9ZWFqaea6vjpXWEaSqTa2xL9wjgQC'</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="n">authorities</span> <span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">authority</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="s1">'user'</span><span class="p">,</span> <span class="s1">'ROLE_USER'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h4 id="spring-security-configuration">Spring Security Configuration</h4>
+
+<p>Add the following Spring configuration class.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.EnableWebSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.UserDetailsService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.factory.PasswordEncoderFactories</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.PasswordEncoder</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="nd">@EnableWebSecurity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSecurityConfiguration</span> <span class="kd">extends</span> <span class="n">WebSecurityConfigurerAdapter</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">PasswordEncoder</span> <span class="n">passwordEncoder</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">UserDetailsService</span> <span class="n">userDetailsService</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">WebSecurityConfiguration</span><span class="o">(</span><span class="kd">final</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">dataSource</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="kd">final</span> <span class="n">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">auth</span><span class="o">.</span><span class="na">userDetailsService</span><span class="o">(</span><span class="n">userDetailsService</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">passwordEncoder</span><span class="o">(</span><span class="n">passwordEncoder</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">AuthenticationManager</span> <span class="nf">authenticationManagerBean</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kd">super</span><span class="o">.</span><span class="na">authenticationManagerBean</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">PasswordEncoder</span> <span class="nf">passwordEncoder</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">passwordEncoder</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">passwordEncoder</span> <span class="o">=</span> <span class="n">PasswordEncoderFactories</span><span class="o">.</span><span class="na">createDelegatingPasswordEncoder</span><span class="o">();</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">passwordEncoder</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">UserDetailsService</span> <span class="nf">userDetailsService</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">userDetailsService</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">userDetailsService</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JdbcDaoImpl</span><span class="o">();</span>
+            <span class="o">((</span><span class="n">JdbcDaoImpl</span><span class="o">)</span> <span class="n">userDetailsService</span><span class="o">).</span><span class="na">setDataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">userDetailsService</span><span class="o">;</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Quoting from <a href="https://spring.io/blog/2013/07/03/spring-security-java-config-preview-web-security#websecurityconfigureradapter">Spring Blog</a>:</p>
+
+<blockquote>
+  <p>The @EnableWebSecurity annotation and WebSecurityConfigurerAdapter work together to provide web based security.</p>
+</blockquote>
+
+<p>If you are using Spring Boot the <code class="highlighter-rouge">DataSource</code> object will be auto-configured and you can just inject it to the class instead of defining it yourself.
+it needs to be injected to the <code class="highlighter-rouge">UserDetailsService</code> in which will be using the provided <code class="highlighter-rouge">JdbcDaoImpl</code> provided by Spring Security, if necessary 
+you can replace this with your own implementation.</p>
+
+<p>As the Spring Security’s <code class="highlighter-rouge">AuthenticationManager</code> is required by some auto-configured Spring <code class="highlighter-rouge">@Bean</code>s it’s necessary to
+override the <code class="highlighter-rouge">authenticationManagerBean</code> method and annotate is as a <code class="highlighter-rouge">@Bean</code>.</p>
+
+<p>The <code class="highlighter-rouge">PasswordEncoder</code> will be handled by <code class="highlighter-rouge">PasswordEncoderFactories.createDelegatingPasswordEncoder()</code> in which handles a
+few of password encoders and delegates based on a prefix, in our example we are prefixing the passwords with <code class="highlighter-rouge">{bcrypt}</code>.</p>
+
+<h3 id="authorization-server-configuration">Authorization Server Configuration</h3>
+
+<p>The authorization server validates the <code class="highlighter-rouge">client</code> and <code class="highlighter-rouge">user</code> credentials and provides the tokens.</p>
+
+<p>Add the following Spring configuration class.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.authentication.AuthenticationManager</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.PasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.ClientDetailsService</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.token.DefaultTokenServices</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.token.TokenStore</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.provider.token.store.JdbcTokenStore</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">javax.sql.DataSource</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableAuthorizationServer</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">AuthorizationServerConfiguration</span> <span class="kd">extends</span> <span class="n">AuthorizationServerConfigurerAdapter</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">PasswordEncoder</span> <span class="n">passwordEncoder</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">AuthenticationManager</span> <span class="n">authenticationManager</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="n">TokenStore</span> <span class="n">tokenStore</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">AuthorizationServerConfiguration</span><span class="o">(</span><span class="kd">final</span> <span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">,</span> <span class="kd">final</span> <span class="n">PasswordEncoder</span> <span class="n">passwordEncoder</span><span class="o">,</span>
+                                            <span class="kd">final</span> <span class="n">AuthenticationManager</span> <span class="n">authenticationManager</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">dataSource</span> <span class="o">=</span> <span class="n">dataSource</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">passwordEncoder</span> <span class="o">=</span> <span class="n">passwordEncoder</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">authenticationManager</span> <span class="o">=</span> <span class="n">authenticationManager</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">TokenStore</span> <span class="nf">tokenStore</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">tokenStore</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">tokenStore</span> <span class="o">=</span> <span class="k">new</span> <span class="n">JdbcTokenStore</span><span class="o">(</span><span class="n">dataSource</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">tokenStore</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DefaultTokenServices</span> <span class="nf">tokenServices</span><span class="o">(</span><span class="kd">final</span> <span class="n">ClientDetailsService</span> <span class="n">clientDetailsService</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">DefaultTokenServices</span> <span class="n">tokenServices</span> <span class="o">=</span> <span class="k">new</span> <span class="n">DefaultTokenServices</span><span class="o">();</span>
+        <span class="n">tokenServices</span><span class="o">.</span><span class="na">setSupportRefreshToken</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+        <span class="n">tokenServices</span><span class="o">.</span><span class="na">setTokenStore</span><span class="o">(</span><span class="n">tokenStore</span><span class="o">());</span>
+        <span class="n">tokenServices</span><span class="o">.</span><span class="na">setClientDetailsService</span><span class="o">(</span><span class="n">clientDetailsService</span><span class="o">);</span>
+        <span class="n">tokenServices</span><span class="o">.</span><span class="na">setAuthenticationManager</span><span class="o">(</span><span class="n">authenticationManager</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">tokenServices</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="kd">final</span> <span class="n">ClientDetailsServiceConfigurer</span> <span class="n">clients</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">clients</span><span class="o">.</span><span class="na">jdbc</span><span class="o">(</span><span class="n">dataSource</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="kd">final</span> <span class="n">AuthorizationServerEndpointsConfigurer</span> <span class="n">endpoints</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">endpoints</span><span class="o">.</span><span class="na">authenticationManager</span><span class="o">(</span><span class="n">authenticationManager</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">tokenStore</span><span class="o">(</span><span class="n">tokenStore</span><span class="o">());</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="kd">final</span> <span class="n">AuthorizationServerSecurityConfigurer</span> <span class="n">oauthServer</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">oauthServer</span><span class="o">.</span><span class="na">passwordEncoder</span><span class="o">(</span><span class="n">passwordEncoder</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">tokenKeyAccess</span><span class="o">(</span><span class="s">"permitAll()"</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">checkTokenAccess</span><span class="o">(</span><span class="s">"isAuthenticated()"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="user-info-endpoint">User Info Endpoint</h3>
+
+<p>Now we need to define an endpoint where the authorization token can be decoded into an <code class="highlighter-rouge">Authorization</code> object, to do so
+add the following class.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.security.Principal</span><span class="o">;</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/profile"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+
+    <span class="nd">@GetMapping</span><span class="o">(</span><span class="s">"/me"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Principal</span><span class="o">&gt;</span> <span class="nf">get</span><span class="o">(</span><span class="kd">final</span> <span class="n">Principal</span> <span class="n">principal</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">principal</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="resource-server-configuration">Resource Server Configuration</h3>
+
+<p>The resource server hosts the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Identifying_resources_on_the_Web">HTTP resources</a> 
+in which can be a document a photo or something else, in our case it will be a REST API protected by OAuth2.</p>
+
+<h4 id="dependencies-1">Dependencies</h4>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="nt">&lt;dependencies&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+           
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.security.oauth.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-security-oauth2-autoconfigure<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;version&gt;</span>2.1.2.RELEASE<span class="nt">&lt;/version&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>
+
+        <span class="nt">&lt;dependency&gt;</span>
+            <span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+            <span class="nt">&lt;artifactId&gt;</span>spring-boot-configuration-processor<span class="nt">&lt;/artifactId&gt;</span>
+            <span class="nt">&lt;optional&gt;</span>true<span class="nt">&lt;/optional&gt;</span>
+        <span class="nt">&lt;/dependency&gt;</span>                
+   <span class="nt">&lt;/dependencies&gt;</span>
+</code></pre></div></div>
+
+<h4 id="defining-our-protected-api">Defining our protected API</h4>
+
+<p>The code bellow defines the endpoint <code class="highlighter-rouge">/me</code> and returns the <code class="highlighter-rouge">Principal</code> object and it requires the authenticated 
+user to have the <code class="highlighter-rouge">ROLE_USER</code> to access.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.http.ResponseEntity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.access.prepost.PreAuthorize</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.security.Principal</span><span class="o">;</span>
+
+<span class="nd">@RestController</span>
+<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/me"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UserController</span> <span class="o">{</span>
+
+    <span class="nd">@GetMapping</span>
+    <span class="nd">@PreAuthorize</span><span class="o">(</span><span class="s">"hasRole('ROLE_USER')"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">ResponseEntity</span><span class="o">&lt;</span><span class="n">Principal</span><span class="o">&gt;</span> <span class="nf">get</span><span class="o">(</span><span class="kd">final</span> <span class="n">Principal</span> <span class="n">principal</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">ResponseEntity</span><span class="o">.</span><span class="na">ok</span><span class="o">(</span><span class="n">principal</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">@PreAuthorize</code> annotation validates whether the user has the given role prior to execute the code, to make it work
+it’s necessary to enable the <code class="highlighter-rouge">prePost</code> annotations, to do so add the following class:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity</span><span class="o">;</span>
+
+<span class="nd">@EnableGlobalMethodSecurity</span><span class="o">(</span><span class="n">prePostEnabled</span> <span class="o">=</span> <span class="kc">true</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSecurityConfiguration</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The important part here is the <code class="highlighter-rouge">@EnableGlobalMethodSecurity(prePostEnabled = true)</code> annotation, the <code class="highlighter-rouge">prePostEnabled</code> flag
+is set to <code class="highlighter-rouge">false</code> by default, turning it to <code class="highlighter-rouge">true</code> makes the <code class="highlighter-rouge">@PreAuthorize</code> annotation to work.</p>
+
+<h4 id="resource-server-configuration-1">Resource Server Configuration</h4>
+
+<p>Now let’s add the Spring’s configuration for the resource server.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.http.HttpMethod</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.builders.HttpSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableResourceServer</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ResourceServerConfiguration</span> <span class="kd">extends</span> <span class="n">ResourceServerConfigurerAdapter</span> <span class="o">{</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">@EnableResourceServer</code> annotation, from the javadoc:</p>
+
+<blockquote>
+  <p>Convenient annotation for OAuth2 Resource Servers, enabling a Spring Security filter that authenticates requests via
+an incoming OAuth2 token. Users should add this annotation and provide a <code>@Bean</code> of type
+{@link ResourceServerConfigurer} (e.g. via {@link ResourceServerConfigurerAdapter}) that specifies the details of the
+resource (URL paths and resource id). In order to use this filter you must {@link EnableWebSecurity}
+somewhere in your application, either in the same place as you use this annotation, or somewhere else.</p>
+</blockquote>
+
+<p>Now that we have all the necessary code in place we need to configure a <a href="https://docs.spring.io/spring-security/oauth/apidocs/org/springframework/security/oauth2/provider/token/RemoteTokenServices.html">RemoteTokenServices</a>,
+lucky for us Spring provides a configuration property where we can set the url where the tokens can be translated to
+an <code class="highlighter-rouge">Authentication</code> object.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">security</span><span class="pi">:</span>
+  <span class="na">oauth2</span><span class="pi">:</span>
+    <span class="na">resource</span><span class="pi">:</span>
+      <span class="na">user-info-uri</span><span class="pi">:</span> <span class="s">http://localhost:9001/profile/me</span>
+</code></pre></div></div>
+
+<h3 id="testing-all-together">Testing all together</h3>
+
+<p>To test all together we need to spin up the <code class="highlighter-rouge">Authorization Server</code> and the <code class="highlighter-rouge">Resource Server</code> as well, in my setup it will be
+running on port <code class="highlighter-rouge">9001</code> and <code class="highlighter-rouge">9101</code> accordingly.</p>
+
+<h4 id="generating-the-token">Generating the token</h4>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-u</span> clientId:secret <span class="nt">-X</span> POST localhost:9001/oauth/token<span class="se">\?</span><span class="nv">grant_type</span><span class="o">=</span>password<span class="se">\&amp;</span><span class="nv">username</span><span class="o">=</span>user<span class="se">\&amp;</span><span class="nv">password</span><span class="o">=</span>pass
+
+<span class="o">{</span>
+  <span class="s2">"access_token"</span> : <span class="s2">"e47876b0-9962-41f1-ace3-e3381250ccea"</span>,
+  <span class="s2">"token_type"</span> : <span class="s2">"bearer"</span>,
+  <span class="s2">"refresh_token"</span> : <span class="s2">"8e17a71c-cb39-4904-8205-4d9f8c71aeef"</span>,
+  <span class="s2">"expires_in"</span> : 299,
+  <span class="s2">"scope"</span> : <span class="s2">"read write"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="accessing-the-resource">Accessing the resource</h4>
+
+<p>Now that you have generated the token copy the <code class="highlighter-rouge">access_token</code> and add it to the request on the <code class="highlighter-rouge">Authorization</code> 
+HTTP Header, e.g:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>curl <span class="nt">-i</span> localhost:9101/me <span class="nt">-H</span> <span class="s2">"Authorization: Bearer c06a4137-fa07-4d9a-97f9-85d1ba820d3a"</span>
+
+<span class="o">{</span>
+  <span class="s2">"authorities"</span> : <span class="o">[</span> <span class="o">{</span>
+    <span class="s2">"authority"</span> : <span class="s2">"ROLE_USER"</span>
+  <span class="o">}</span> <span class="o">]</span>,
+  <span class="s2">"details"</span> : <span class="o">{</span>
+    <span class="s2">"remoteAddress"</span> : <span class="s2">"127.0.0.1"</span>,
+    <span class="s2">"sessionId"</span> : null,
+    <span class="s2">"tokenValue"</span> : <span class="s2">"c06a4137-fa07-4d9a-97f9-85d1ba820d3a"</span>,
+    <span class="s2">"tokenType"</span> : <span class="s2">"Bearer"</span>,
+    <span class="s2">"decodedDetails"</span> : null
+  <span class="o">}</span>,
+  <span class="s2">"authenticated"</span> : <span class="nb">true</span>,
+  <span class="s2">"userAuthentication"</span> : <span class="o">{</span>
+    <span class="s2">"authorities"</span> : <span class="o">[</span> <span class="o">{</span>
+      <span class="s2">"authority"</span> : <span class="s2">"ROLE_USER"</span>
+    <span class="o">}</span> <span class="o">]</span>,
+    <span class="s2">"details"</span> : <span class="o">{</span>
+      <span class="s2">"authorities"</span> : <span class="o">[</span> <span class="o">{</span>
+        <span class="s2">"authority"</span> : <span class="s2">"ROLE_USER"</span>
+      <span class="o">}</span> <span class="o">]</span>,
+      <span class="s2">"details"</span> : <span class="o">{</span>
+        <span class="s2">"remoteAddress"</span> : <span class="s2">"127.0.0.1"</span>,
+        <span class="s2">"sessionId"</span> : null,
+        <span class="s2">"tokenValue"</span> : <span class="s2">"c06a4137-fa07-4d9a-97f9-85d1ba820d3a"</span>,
+        <span class="s2">"tokenType"</span> : <span class="s2">"Bearer"</span>,
+        <span class="s2">"decodedDetails"</span> : null
+      <span class="o">}</span>,
+      <span class="s2">"authenticated"</span> : <span class="nb">true</span>,
+      <span class="s2">"userAuthentication"</span> : <span class="o">{</span>
+        <span class="s2">"authorities"</span> : <span class="o">[</span> <span class="o">{</span>
+          <span class="s2">"authority"</span> : <span class="s2">"ROLE_USER"</span>
+        <span class="o">}</span> <span class="o">]</span>,
+        <span class="s2">"details"</span> : <span class="o">{</span>
+          <span class="s2">"grant_type"</span> : <span class="s2">"password"</span>,
+          <span class="s2">"username"</span> : <span class="s2">"user"</span>
+        <span class="o">}</span>,
+        <span class="s2">"authenticated"</span> : <span class="nb">true</span>,
+        <span class="s2">"principal"</span> : <span class="o">{</span>
+          <span class="s2">"password"</span> : null,
+          <span class="s2">"username"</span> : <span class="s2">"user"</span>,
+          <span class="s2">"authorities"</span> : <span class="o">[</span> <span class="o">{</span>
+            <span class="s2">"authority"</span> : <span class="s2">"ROLE_USER"</span>
+          <span class="o">}</span> <span class="o">]</span>,
+          <span class="s2">"accountNonExpired"</span> : <span class="nb">true</span>,
+          <span class="s2">"accountNonLocked"</span> : <span class="nb">true</span>,
+          <span class="s2">"credentialsNonExpired"</span> : <span class="nb">true</span>,
+          <span class="s2">"enabled"</span> : <span class="nb">true</span>
+        <span class="o">}</span>,
+        <span class="s2">"credentials"</span> : null,
+        <span class="s2">"name"</span> : <span class="s2">"user"</span>
+      <span class="o">}</span>,
+      <span class="s2">"clientOnly"</span> : <span class="nb">false</span>,
+      <span class="s2">"oauth2Request"</span> : <span class="o">{</span>
+        <span class="s2">"clientId"</span> : <span class="s2">"clientId"</span>,
+        <span class="s2">"scope"</span> : <span class="o">[</span> <span class="s2">"read"</span>, <span class="s2">"write"</span> <span class="o">]</span>,
+        <span class="s2">"requestParameters"</span> : <span class="o">{</span>
+          <span class="s2">"grant_type"</span> : <span class="s2">"password"</span>,
+          <span class="s2">"username"</span> : <span class="s2">"user"</span>
+        <span class="o">}</span>,
+        <span class="s2">"resourceIds"</span> : <span class="o">[</span> <span class="o">]</span>,
+        <span class="s2">"authorities"</span> : <span class="o">[</span> <span class="o">{</span>
+          <span class="s2">"authority"</span> : <span class="s2">"ROLE_CLIENT"</span>
+        <span class="o">}</span> <span class="o">]</span>,
+        <span class="s2">"approved"</span> : <span class="nb">true</span>,
+        <span class="s2">"refresh"</span> : <span class="nb">false</span>,
+        <span class="s2">"redirectUri"</span> : null,
+        <span class="s2">"responseTypes"</span> : <span class="o">[</span> <span class="o">]</span>,
+        <span class="s2">"extensions"</span> : <span class="o">{</span> <span class="o">}</span>,
+        <span class="s2">"grantType"</span> : <span class="s2">"password"</span>,
+        <span class="s2">"refreshTokenRequest"</span> : null
+      <span class="o">}</span>,
+      <span class="s2">"credentials"</span> : <span class="s2">""</span>,
+      <span class="s2">"principal"</span> : <span class="o">{</span>
+        <span class="s2">"password"</span> : null,
+        <span class="s2">"username"</span> : <span class="s2">"user"</span>,
+        <span class="s2">"authorities"</span> : <span class="o">[</span> <span class="o">{</span>
+          <span class="s2">"authority"</span> : <span class="s2">"ROLE_USER"</span>
+        <span class="o">}</span> <span class="o">]</span>,
+        <span class="s2">"accountNonExpired"</span> : <span class="nb">true</span>,
+        <span class="s2">"accountNonLocked"</span> : <span class="nb">true</span>,
+        <span class="s2">"credentialsNonExpired"</span> : <span class="nb">true</span>,
+        <span class="s2">"enabled"</span> : <span class="nb">true</span>
+      <span class="o">}</span>,
+      <span class="s2">"name"</span> : <span class="s2">"user"</span>
+    <span class="o">}</span>,
+    <span class="s2">"authenticated"</span> : <span class="nb">true</span>,
+    <span class="s2">"principal"</span> : <span class="s2">"user"</span>,
+    <span class="s2">"credentials"</span> : <span class="s2">"N/A"</span>,
+    <span class="s2">"name"</span> : <span class="s2">"user"</span>
+  <span class="o">}</span>,
+  <span class="s2">"principal"</span> : <span class="s2">"user"</span>,
+  <span class="s2">"credentials"</span> : <span class="s2">""</span>,
+  <span class="s2">"clientOnly"</span> : <span class="nb">false</span>,
+  <span class="s2">"oauth2Request"</span> : <span class="o">{</span>
+    <span class="s2">"clientId"</span> : null,
+    <span class="s2">"scope"</span> : <span class="o">[</span> <span class="o">]</span>,
+    <span class="s2">"requestParameters"</span> : <span class="o">{</span> <span class="o">}</span>,
+    <span class="s2">"resourceIds"</span> : <span class="o">[</span> <span class="o">]</span>,
+    <span class="s2">"authorities"</span> : <span class="o">[</span> <span class="o">]</span>,
+    <span class="s2">"approved"</span> : <span class="nb">true</span>,
+    <span class="s2">"refresh"</span> : <span class="nb">false</span>,
+    <span class="s2">"redirectUri"</span> : null,
+    <span class="s2">"responseTypes"</span> : <span class="o">[</span> <span class="o">]</span>,
+    <span class="s2">"extensions"</span> : <span class="o">{</span> <span class="o">}</span>,
+    <span class="s2">"grantType"</span> : null,
+    <span class="s2">"refreshTokenRequest"</span> : null
+  <span class="o">}</span>,
+  <span class="s2">"name"</span> : <span class="s2">"user"</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h1 id="footnote">Footnote</h1>
+<ul>
+  <li>The code used for this guide can be found on <a href="https://github.com/marcosbarbero/spring-boot2-oauth2-opaque-token">GitHub</a></li>
+  <li><a href="https://www.oauth.com/">OAuth 2.0</a></li>
+  <li><a href="https://spring.io/blog/2013/07/03/spring-security-java-config-preview-web-security">Spring Security Java Config Preview</a></li>
+  <li><a href="https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide#authenticationmanager-bean">Spring Boot 2 - Migration Guide</a></li>
+  <li><a href="https://projects.spring.io/spring-security-oauth/docs/oauth2.html">Spring - OAuth2 Developers Guide</a></li>
+</ul>
+
+      </article>
+
+      
+        <div class="blog-tags">
+          Tags:
+          
+          
+            <a href="/tags#spring-framework">spring-framework</a>
+          
+            <a href="/tags#spring-boot">spring-boot</a>
+          
+            <a href="/tags#spring-security">spring-security</a>
+          
+            <a href="/tags#security">security</a>
+          
+            <a href="/tags#oauth2">oauth2</a>
+          
+            <a href="/tags#jdbc">jdbc</a>
+          
+            <a href="/tags#java">java</a>
+          
+          
+        </div>
+      
+
+      
+        <!-- Check if any share-links are active -->
+
+
+
+
+<section id = "social-share-section">
+  <span class="sr-only">Share: </span>
+
+  
+  <!--- Share on Twitter -->
+    <a href="https://twitter.com/intent/tweet?text=Centralized+Authorization+with+OAuth2+%2B+Opaque+Tokens+using+Spring+Boot+2+http://blog.marcosbarbero.com/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/"
+      class="btn btn-social-icon btn-twitter" title="Share on Twitter">
+      <span class="fa fa-fw fa-twitter" aria-hidden="true"></span>
+      <span class="sr-only">Twitter</span>
+    </a>
+  
+
+  
+  <!--- Share on Facebook -->
+    <a href="https://www.facebook.com/sharer/sharer.php?u=http://blog.marcosbarbero.com/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/"
+      class="btn btn-social-icon btn-facebook" title="Share on Facebook">
+      <span class="fa fa-fw fa-facebook" aria-hidden="true"></span>
+      <span class="sr-only">Facebook</span>
+    </a>
+  
+
+  
+  <!--- Share on Google Plus -->
+    <a href="https://plus.google.com/share?url=http://blog.marcosbarbero.com/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/"
+      class="btn btn-social-icon btn-google" title="Share on Google+">
+      <span class="fa fa-fw fa-google-plus" aria-hidden="true"></span>
+      <span class="sr-only">Google+</span>
+    </a>
+  
+
+  
+  <!--- Share on LinkedIn -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://blog.marcosbarbero.com/oauth2-centralized-authorization-opaque-jdbc-spring-boot2/"
+      class="btn btn-social-icon btn-linkedin" title="Share on LinkedIn">
+      <span class="fa fa-fw fa-linkedin" aria-hidden="true"></span>
+      <span class="sr-only">LinkedIn</span>
+    </a>
+  
+
+</section>
+
+
+
+      
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="/centralized-authorization-jwt-spring-boot2/" data-toggle="tooltip" data-placement="top" title="Centralized Authorization with OAuth2 + JWT using Spring Boot 2">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="/password-encoder-migration-spring-security-5/" data-toggle="tooltip" data-placement="top" title="Password Encoder Migration with Spring Security 5">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+        <div class="disqus-comments">
+          <div class="comments">
+    <div id="disqus_thread"></div>
+    <script type="text/javascript">
+        var disqus_shortname = 'marcosbarbero';
+        /* ensure that pages with query string get the same discussion */
+            var url_parts = window.location.href.split("?");
+            var disqus_url = url_parts[0];
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+        </div>
+      
+    </div>
+  </div>
+</div>
+
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links"><li><a href="/feed.xml" title="RSS"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">RSS</span>
+              </a>
+            </li><li><a href="mailto:marcos.hgb@gmail.com" title="Email me"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Email me</span>
+              </a>
+            </li><li><a href="https://github.com/marcosbarbero" title="GitHub"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">GitHub</span>
+              </a>
+            </li><li><a href="https://twitter.com/marcosgbarbero" title="Twitter"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">Twitter</span>
+              </a>
+            </li><li><a href="https://linkedin.com/in/marcosbarbero" title="LinkedIn"><span class="fa-stack fa-lg" aria-hidden="true">
+                  <i class="fa fa-circle fa-stack-2x"></i>
+                  <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="sr-only">LinkedIn</span>
+              </a>
+            </li></ul>
+      <p class="copyright text-muted">
+      Marcos Barbero
+      &nbsp;&bull;&nbsp;
+      2019
+
+      
+      &nbsp;&bull;&nbsp;
+      <a href="http://blog.marcosbarbero.com">blog.marcosbarbero.com</a>
+      
+
+      
+      </p>
+          <!-- Please don't remove this, keep my open source work credited :) -->
+    <p class="theme-by text-muted">
+      Theme by
+      <a href="http://deanattali.com/beautiful-jekyll/">beautiful-jekyll</a>
+    </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  
+    
+
+
+
+
+
+
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+      <script>
+      	if (typeof jQuery == 'undefined') {
+      	  document.write('<script src="/js/jquery-1.11.2.min.js"></scr' + 'ipt>');
+      	}
+      </script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/bootstrap.min.js"></script>
+    
+  
+    <!-- doing something a bit funky here because I want to be careful not to include JQuery twice! -->
+    
+	<script src="/js/main.js"></script>
+    
+  
+
+
+
+	<!-- Google Analytics -->
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-54888300-2', 'auto');
+		ga('send', 'pageview');
+	</script>
+	<!-- End Google Analytics -->
+
+
+  
+  </body>
+</html>
