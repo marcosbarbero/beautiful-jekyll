@@ -72,7 +72,7 @@ Taking the ownership also means you're responsible for the project, and this res
 Nobody wants to be called during the night or weekend because one application stopped working. However, let's face it if you were involved in the planning and development of a project; you probably know better how it works than anybody else. So it's your responsibility to act upon a failure.
 
 #### Choose the right words
-It's quite easy for the daily stress to take over, and we can be critizing everything. It affects not only you but your whole team can slowly get affected.
+It's quite easy for the daily stress to take over, and we can be criticizing everything. It affects not only you but your whole team can slowly get affected.
 
 I would suggest everyone not to criticize at all (I know it's hard), but nobody should criticize, especially without a suggestion to make the situation better. I know that sometimes we still need to talk about some unpleasant topics but do that with the right people. Don't spend your energy and stress everyone because of something that won't bring any value to them.
 
