@@ -42,7 +42,7 @@ Learning more than one programming language can help you to choose the right pro
 Before rushing to build a solution, you should understand what you are building and why you are building. Understanding the overall solution also helps to make the right decision while developing.
 The understanding of the overall product sometimes also leads us to realize that a different team should do the actual solution.
 
-#### Learn about different the layers of an application
+#### Learn about the different layers of an application
 An application has many layers, and sometimes we stick to one of them, and it's essential to understand the other parts of the application and how it all works together. It helps you to troubleshoot your application whenever something goes wrong.
 
 #### Document everything
@@ -89,7 +89,7 @@ And here some essential things that I think are important:
 Get to know what you need to do and document what you have done.
 
 #### Find what bright your eyes
-Some people love databases, and other people love to write frameworks, some other love to write business logic for a given project. Once you find what you like the most, it's a lot easier to put your passion on your day to day work.
+Some people love databases, and other people love to write frameworks, some other love to write business logic for a given project. Once you find out what you like the most, it's a lot easier to put your passion on your day to day work.
 
 #### Find a mentor
 It can be someone from your company or someone sharing content online. Having a mentor helps you to get to the next level, as I mentioned previously learn from other's people mistakes.
