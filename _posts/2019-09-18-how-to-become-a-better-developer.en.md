@@ -97,3 +97,7 @@ It can be someone from your company or someone sharing content online. Having a 
 #### Be bold
 That's my last piece of advice and maybe the one I consider the most important. Doesn't matter your role within a company, make bold decisions even if it ends to be the wrong one. Take the ownership and responsibility, bring new ideas, be the kind of person you would like to have in your team.
 
+Read More
+---
+
+  - [How to Hire a Great Software Engineer](https://www.toptal.com/software#hiring-guide)
